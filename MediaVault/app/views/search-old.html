@@ -1,0 +1,360 @@
+<!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> -->
+<div id="search" ng-controller='searchCtrl'>
+    <div id="search-pages" ng-show="searchpage" class="rows align-left">
+        <div class="row align-left align-top">
+            <p> set as many items below as you can to help Searching</p>
+            <hr class="horizontal-line"/>
+        </div>	
+        <div class="rows align-left">            
+            <!--form starting in search  -->
+            <div class="row align-left">
+                <form role="form">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="vault-id">Vault id</label>
+                                    <input type="text" class="form-control" id="vault-id"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="form-group">
+                        <label for="areas">Area</label>
+
+                        <select class="form-control" ng-model="searchAreaSelect" id="areas" ng-change="searchjobsFilter()"
+                                ng-options="areaCode for areaCode in areacode">
+                            <option value="" selected="selected"></option>
+                        </select>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="jobs-list">Job:</label>
+                                <select class="form-control" id="jobs-list" ng-model="searchJob" ng-change="searchphaseFilter()"  ng-options="jobs.0 as jobs.1 for jobs in jobsearch">
+                                    <option>Software Engineer</option>
+                                    <option>Tester</option>
+                                    <option>Admin</option>
+                                    <option>Database developer</option>
+                                    <option>Designer</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="work-dates">WorkDate</label>
+                                <div class="input-group">
+                                    <input id="work-dates" type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="model.secondCal"
+                                           min-date="minDate" name="secondCal"  datepicker-options="dateOptions"
+                                           date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
+                                    <p class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open($event, 'secondCal')"><i
+                                                class="glyphicon glyphicon-calendar"></i></button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="row align-bottom">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="phases">Phase</label>
+                                <select class="form-control" ng-model="searchPhase" id="phases"
+                                        ng-options="phase.0 as phase.0 for phase in  phasesSearch">
+                                    <option value="" selected="selected"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="ext-dpr-num">Ext Dpr #</label>
+                                <input type="text" class="form-control" id="ext-dpr-num"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="street-name">Street</label>
+                        <input type="text" class="form-control" id="street-name"/>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="row align-bottom">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="zip-code">Zip code </label>
+                                <input type="text" class="form-control" id="zip-code"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="cities">City</label>
+                                <select class="form-control" id="cities">
+                                    <option>hyderabad</option>
+                                    <option>Karimnagar</option>
+                                    <option>Adilabad</option>
+                                    <option>Rangareddy</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="form-group ">
+                        <label for="ext-notes">Notes</label>
+                        <textarea class="form-control" rows="3" id="ext-notes"></textarea>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="form-group">
+                        <div ng-include="'views/modelExample.html'"></div>
+                        <button type="button" class="btn btn-primary select-text "   data-toggle="modal" data-target="#myModal">Select KeyWord</button>
+                        <textarea class="form-control align-top" rows="3" ng-model="keywordsUpload"> </textarea>
+                        {{keywordsUpload}}
+                    </div>  
+
+                    <div class="row align-top align-bottom">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <button type="button" class="btn btn-primary button-width">clear</button>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <button type="button" class="btn btn-primary button-width"
+                                    ng-click="searchbutton()"><i class="fa fa-search"> </i> Search
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>        
+    </div>
+    <!-- page one end here -->   
+    <div id="search-results" ng-show="searchpageresults" class="rows align-left">
+        <div class="row searchpage2">
+            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4 ">
+                <div>
+                    <button type="button" ng-click="searchback()" class="btn btn-info ">
+                        <i class="fa fa-arrow-left fa-3x"></i>
+                    </button>
+                </div>
+                <div class="align-left"><p>back</p></div>
+            </div>
+            <div class="col-xs-10 col-sm-10">
+                <div><p class="search-heading">Maximum of 100 reached narrow your search </p></div>
+                <div class="search-subheading"><p>Search reads 100 images
+                        <i class="fa fa-arrow-left fa-1x"> </i>
+                        page 1 to 10
+                        <i class="fa fa-arrow-right fa-1x"> </i></p>
+                </div>
+            </div>
+        </div>
+        <div id="individual-row" ng-click="elementclick()">
+            <div class="row searchpage2">
+                <div class="col-xs-12 col-sm-10 col-lg-5 col-md-6">
+                    <i class="fa fa-folder-open-o fa-5x"></i>
+                </div>
+                <div class="col-sm-2 col-xs-12 col-lg-7 col-md-6">
+                    <div>Date 14/06/2015</div>
+                    <div>Size 119 MB</div>
+                    <div>Submitted John Doe</div>
+                </div>
+            </div>
+            <div class="row searchpage2">
+                <div class="col-xs-12 col-sm-10 col-lg-5 col-md-6 ">
+                    <i class="fa fa-folder-open-o fa-5x"></i>
+                </div>
+                <div class="col-sm-2 col-xs-12 col-lg-7 col-md-6">
+                    <div>Date 14/06/2015</div>
+                    <div>Size 119 MB</div>
+                    <div>Charless babbage</div>
+                </div>
+
+            </div>
+            <div class="row searchpage2">
+                <div class="col-xs-12 col-sm-10 col-lg-5 col-md-6">
+                    <i class="fa fa-folder-open-o fa-5x"></i>
+                </div>
+                <div class="col-sm-2 col-xs-12 col-lg-7 col-md-6">
+                    <div>Date 14/06/2015</div>
+                    <div>Size 119 MB</div>
+                    <div>Submitted payten manning</div>
+                </div>
+
+            </div>
+            <div class="row searchpage2">
+                <div class="col-xs-12 col-sm-10 col-lg-5 col-md-6">
+                    <i class="fa fa-folder-open-o fa-5x"></i>
+                </div>
+                <div class="col-sm-2 col-xs-12 col-lg-7 col-md-6">
+                    <div>Date 14/06/2015</div>
+                    <div>Size 119 MB</div>
+                    <div>Submitted John Doe</div>
+                </div>
+
+            </div>
+            <div class="row searchpage2">
+                <div class="col-xs-12 col-sm-10 col-lg-5 col-md-6">
+                    <i class="fa fa-folder-open-o fa-5x"></i>
+                </div>
+                <div class="col-sm-2 col-xs-12 col-lg-7 col-md-6">
+                    <div>Date 14/06/2015</div>
+                    <div>Size 119 MB</div>
+                    <div>Submitted Thim smith</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end of page two -->
+    <div id="search-details" ng-show="searchdetails" class="rows align-left">
+        <div class="row searchpage2">
+            <div class=" col-md-3 col-lg-2 col-sm-3 ">
+                <div>
+                    <button type="button" class="btn btn-info btn-md" ng-click="searchback2()">
+                        <i class="fa fa-arrow-left fa-5x"></i>
+                    </button>
+                </div>
+                <div class="searchpage2"><p>back</p></div>
+            </div>
+            <div class=" col-md-3 col-lg-2 col-sm-3">
+                <div>
+                    <button type="button" class="btn btn-info btn-md" ><i
+                            class="fa fa-envelope-o fa-5x"></i>
+                    </button>
+                </div>
+                <div class="searchpage2"><p>Mail</p></div>
+            </div>
+            <div class=" col-md-3 col-lg-2 col-sm-3">
+                <div>
+                    <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#my-remove"><i class="fa fa-download fa-5x"></i>
+                    </button>
+                </div>
+                <div class="align-left"><p>Download</p></div>
+            </div>
+            <div class=" col-md-3 col-lg-2 col-sm-3">
+                <div>
+                    <button type="button" class="btn btn-info btn-md" ng-click="email_dialog()" data-target="#my-remove"><i class="fa fa-remove fa-5x"></i></button>
+                </div>
+                <div class="align-left"><p>Remove</p></div>
+            </div>
+        </div>
+        <hr class="horizontal-line"/>
+        <!--sub panel-->
+        <button ng-click="searchImage()" class="btn btn-primary" type="button">image</button>
+        <button ng-click="searchDetails()" class="btn btn-primary" type="button">Details</button>
+        <div class="row align-top align-bottom" id="imag" ng-show="searchmediaimg">
+            <div class="col-sm-6 col-lg-6">
+                <i class="fa fa-folder-open-o fa-5x"></i>
+            </div>
+        </div>
+        <!--Form-->
+        <div id="detform" ng-show="searchmediadtl" class="rows align-left align-top">               
+            <form role="form">
+                <div class="form-group">
+                    <label for="search-details-area">Area</label>
+                    <select class="form-control" ng-model="searchAreaSelect" id="search-details-area" ng-change="searchjobsFilter()" ng-options="areaCode for areaCode in areacode">
+                            <option value="" selected="selected"></option>
+                    </select>
+                </div>
+                <div class="clear"></div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="search-details-job">Job:</label>
+                            <select class="form-control" id="search-details-job" ng-model="searchJob" ng-change="searchphaseFilter()"  ng-options="jobs.0 as jobs.1 for jobs in jobsearch">																					
+                                <option>Software Engineer</option>
+                                <option>Tester</option>
+                                <option>Admin</option>
+                                <option>Database developer</option>
+                                <option>Designer</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="work-dates">WorkDate</label>
+                            <div class="input-group">
+                                <input id="work-dates" type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="model.secondCal"
+                                       min-date="minDate" name="secondCal"  datepicker-options="dateOptions"
+                                       date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
+                                <p class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open($event, 'secondCal')"><i
+                                            class="glyphicon glyphicon-calendar"></i></button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>										
+                </div>
+                <div class="clear"></div>
+                <div class="row align-bottom">
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="search-details-phase">Phase</label>
+                            <select class="form-control" id="search-details-phase" ng-model="searchPhase" id="phases"
+                                    ng-options="phase.0 as phase.0 for phase in  phasesSearch">
+                                <option value="" selected="selected"></option>
+                            </select>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="dpr-second">Ext Dpr #</label>
+                            <input type="text" class="form-control" id="dpr-second"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="search-details-street">Street</label>
+                    <input type="text" class="form-control" id="search-details-street"/>
+                </div>
+                <div class="clear"></div>
+                <div class="row align-bottom">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="search-details-zip">Zipcode </label>
+                            <input type="text" class="form-control" id="search-details-zip"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="search-details-city">City</label>
+                            <select class="form-control" id="search-details-city">
+                                <option>hyderabad</option>
+                                <option>Karimnagar</option>
+                                <option>Adilabad</option>
+                                <option>Rangareddy</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="form-group ">
+                    <label for="search-details-notes">Notes</label>
+                    <textarea class="form-control" rows="3" id="search-details-notes"></textarea>
+                </div>
+                <div class="clear"></div>
+                <div class="form-group">
+
+                    <button type="button" class="btn btn-primary select-text "   data-toggle="modal" data-target="#myModal">Select KeyWord</button>
+                    <textarea class="form-control align-top" rows="3" ng-model="keywordsUpload"> </textarea>
+                    {{keywordsUpload}}
+                </div> 
+                <div class="row align-bottom align-top">
+                    <div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <button type="button" ng-click="" class="btn btn-primary button-width">Cancel</button>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <button type="button" class="btn btn-primary button-width"><i
+                                    class="fa fa-floppy-o"></i>Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>								   
+    </div>	   
+    <!--End of id ="Search" the pages -->
+</div>
+

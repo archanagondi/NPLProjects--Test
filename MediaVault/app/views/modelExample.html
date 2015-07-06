@@ -1,0 +1,35 @@
+ <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body" ng-controller='MainCtrl'>
+		
+        <table class = "keyword-modal" ng-repeat="event in keywordToFilter() | filter:filterCategory">
+        <tr>
+		<th>{{event.Category}}
+		</th>
+		</tr>
+      <tr ng-repeat="e in kewordsdata | filter: {Category: event.Category}">
+        <td>
+		  <label  class="checkbox-inline">
+            <input type="checkbox"  value="{{e.KeyWord}}" ng-checked="selection.indexOf(e.KeyWord) > -1" ng-click="toggleSelection(e.KeyWord)">
+			{{e.KeyWord}}
+          </label>
+		</td>
+      </tr>
+    </table>
+        </div>
+		 {{selectedKeywords}}
+        <div class="modal-footer">
+         <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="selectedKeys()">Save</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>

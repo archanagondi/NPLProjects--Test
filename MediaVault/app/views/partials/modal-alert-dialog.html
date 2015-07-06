@@ -1,0 +1,14 @@
+<div id="modal-modal">
+    <div class="modal-header">
+        <h3>{{title}}</h3>
+    </div>
+
+    <div ng-if="!pre" class="modal-body">
+        {{message}}
+    </div>
+    <div ng-if="pre" class="modal-body keep-new-lines">{{message}}</div>
+
+    <div class="modal-footer">
+        <button class="btn" ng-if="buttonText.length > 0" ng-click="close()">{{buttonText}}</button>
+    </div>
+</div>

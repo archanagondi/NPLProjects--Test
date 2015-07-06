@@ -1,0 +1,52 @@
+.alert {
+    background: $alertErrorPrimaryBackgroundColor;
+    color: $alertErrorPrimaryTextColor;
+    font-weight: 300;
+    line-height: 44px;
+    margin-bottom: 0;
+    padding: 0;
+
+    > div {
+        padding-right: 30px;
+
+        span {
+            padding: 0 17px;
+        }
+    }
+
+    button.close {
+        background-color: transparent;
+        background-image: url(../images/close.png);
+        background-position: center;
+        background-repeat: no-repeat;  
+        background-size: 22px;
+        border: none;
+        cursor: pointer;
+        float: right;
+        height: 22px;
+        margin: 0;
+        opacity: 1;
+        padding: 22px 12px;
+        position: relative;
+        right: 0;
+        text-indent: -9999px;
+        top: 0;
+        width: 44px;
+    }
+}
+
+.alert-success {
+    background-color: $alertSuccessPrimaryBackgroundColor;
+    color: $alertSuccessPrimaryTextColor;
+}
+
+.alert-count {
+    background-color: $tertiaryColorDark;
+    border-radius: 12px;
+    font-size: 12px;
+    margin-top: 10px;
+    padding: 4.5px 12px;
+    position: absolute;
+    right: 48px; 
+    top: 0;
+}

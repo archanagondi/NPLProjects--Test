@@ -1,0 +1,24 @@
+<loading ng-if="loggingIn" label="'Logging In'"></loading>
+
+<div id="login">
+    <div id="login-cell">
+        <div id="login-content">
+            <h1>Media Vault</h1>
+
+            <h2>Version {{currentEnvironment.version}}</h2>
+
+            <h3 ng-if="currentEnvironment.name !== 'production'">Test Build</h3>
+
+            <span ng-bind="error" ng-if="error" class="error fa-warning fa"></span>
+
+            <form ng-submit="login()" class="clear">
+                <input id="username" placeholder="Username or Employee ID" autocapitalize="off" autocorrect="off"
+                       autocomplete="on" ng-model="username">
+
+                <input type="password" id="password" autocorrect="off" placeholder="Password" ng-model="password">
+
+                <input id="submit" type="submit" value="Log In">
+            </form>
+        </div>
+    </div>
+</div>

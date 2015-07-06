@@ -1,0 +1,39 @@
+/*
+* Should only need primary, secondary, tertiary colors 
+* but as needed the following can be used
+*  primary, secondary, tertiary, quaternary, 
+*  quinary, senary, septenary, octonary, 
+*  nonary, and denary as needed.
+*/
+
+/*** Colors ***/
+$primaryColorDevelopment: #2ECC71;              //vivid green  headers/accents for development
+$primaryColor: #EE3A43;                         //Red headers/accents 
+
+$secondaryColor: #363636;                       //charcoal grey text/boarders/box-shadows
+$secondaryColorDark : #000000;                  //black boarders on secondary backgrounds
+$tertiaryColorLight: #FFFFFF;                   //white text on primary color, feedback text
+$tertiaryColor: #FEFEFE;                        //very light grey main background/secondary text
+$tertiaryColorDark: #EEEEEE;                    //light grey boarders/secondary backgrounds
+$quaternaryColorDark: #282828;                  //very dark grey navigation menu background
+$quaternaryColorLight: #C1C1C1;                 //grey dark grey navigation menu text/footer background
+
+/*** Subtle Monochromatic Variants ***/
+$monochromaticSecondaryColor: #FAFAFA;	        //very light grey
+// monochromaticTertiaryBackgroundColor
+
+/*** Other Element Colors ***/
+$otherPrimaryBackgroundColor: #34495E;			//dark blue
+
+/*** Alert Theme ***/
+$alertErrorPrimaryBackgroundColor: #F2DEDE;		//very light red
+$alertErrorPrimaryTextColor: #C0392B;			//dark red
+$alertSuccessPrimaryBackgroundColor: #DFF0D8;	//very light green
+$alertSuccessSecondaryBackgroundColor:#2ECC71;	//vivid green
+$alertSuccessPrimaryTextColor: #3C763D;			//dark green
+$alertWarningPrimaryBackgroundColor: #FFF0A5;   //yellow
+$alertErrorMessageColor: #EE3A43;               //NPL Red
+
+/*** Buttons ***/
+$primaryButtonColor: #428BCA;                   //blue
+$primaryButtonHoverColor: #285E8E;              //dark blue

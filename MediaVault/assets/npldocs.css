@@ -1,0 +1,11 @@
+.type-hint-node {
+  background-color: #e67e22;
+}
+
+.type-hint-leaf {
+  background-color: #2ecc71;
+}
+
+.type-hint-filter {
+  background-color: #E26A6A;
+}

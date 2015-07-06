@@ -1,0 +1,17 @@
+<div id="navigation" ng-controller="NavigationCtrl" ng-class="{'navigation-open': navigation.active}">
+    <div id="navigation-header" ng-class="{'development': development}">
+        <span>Menu</span>
+
+        <a class="fa fa-close" ng-click="navigation.close()"></a>
+    </div>
+
+    <ul>
+        <li><a ng-click="logout()">Logout</a></li>
+        <li><a ng-click="showReleaseNotes()">What's New</a></li>
+        <li><a ng-click="showFeedbackForm()">Feedback</a></li>
+    </ul>
+
+    <div id="navigation-footer">
+        <div>Version {{version}}</div>
+    </div>
+</div>

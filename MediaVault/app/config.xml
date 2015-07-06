@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.nplcc.appname" version="1.0.0" >
+    <name>App Name</name>
+
+    <description>
+        App Description
+    </description>
+
+    <author email="FSADevSupport@gonpl.com" href="http://gonpl.com">
+        NPL Field Automation Team
+    </author>
+
+    <access origin="*" />
+    <preference name="phonegap-version" value="3.7.0" />
+    <preference name="fullscreen" value="true" />
+    <preference name="webviewbounce" value="false" />
+    <preference name="HideKeyboardFormAccessoryBar" value="true" />
+    <preference name="KeyboardShrinksView" value="false" />
+    <preference name="orientation" value="landscape" />
+    
+    <gap:splash src="screen-iphone-portrait.png" gap:platform="ios" width="320" height="480" />
+    <gap:splash src="screen-iphone-portrait-2x.png" gap:platform="ios" width="640" height="960" />
+    <gap:splash src="screen-iphone-portrait-568h-2x.png" gap:platform="ios" width="640" height="1136" />
+    <gap:splash src="screen-ipad-portrait.png" gap:platform="ios" width="768" height="1024" />
+    <gap:splash src="screen-ipad-landscape.png" gap:platform="ios" width="1024" height="768" />
+    
+    <icon src="qa-icon.png" />
+</widget>

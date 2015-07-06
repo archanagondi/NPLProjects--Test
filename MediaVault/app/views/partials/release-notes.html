@@ -1,0 +1,21 @@
+<div id="release-notes">
+    <div cg-busy="{promise: releaseNotesPromise, message: 'Loading'}"></div>
+
+    <div class="modal-header">
+        <h3 class="modal-title">Release Notes</h3>
+
+        <a ng-click="ok()" class="fa fa-close no-print"></a>
+    </div>
+
+    <div class="modal-body">
+        <div ng-repeat="versionNotes in releaseNotes">
+            <h3>{{versionNotes.version}}</h3>
+
+            <ul>
+                <li ng-repeat="note in versionNotes.notes">{{note}}</li>
+            </ul>
+
+            <hr>
+        </div>
+    </div>
+</div>

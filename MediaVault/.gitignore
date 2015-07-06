@@ -1,0 +1,17 @@
+node_modules
+
+dist
+
+.tmp
+
+.sass-cache
+
+bower_components
+
+/test/spec/controllers
+/app/styles/*.css
+/docs
+platforms/**/
+www
+!www/config.xml
+!www/res
