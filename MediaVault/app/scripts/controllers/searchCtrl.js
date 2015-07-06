@@ -51,21 +51,70 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $scope, 
     };
 	  $scope.jobsearch=[];
 	  $scope.phasesSearch=[];
-	  
-	  
+	
+	$scope.searchVaultId='';
 	$scope.searchAreaSelect='';
 	$scope.searchJob='';
 	$scope.searchPhase='';
+	$scope.searchDate='';
+	$scope.searchExtNo='';
+	$scope.searchStreetName='';
+	$scope.searchZipCode='';
+	$scope.searchCity='';
+	$scope.searchNotes='';
+	$rootScope.keywordsUpload='';
+	
+	//search details 
+	$scope.searchDetailsdate='';
+	$scope.searchDetailsExt='';
+	$scope.searchDetailsZip='';
+	$scope.searchDetailsCity='';
+	$scope.searchDetailsNotes='';
+	$scope.searchdetailsStreet='';
+	
+	
+	$scope.serDetailCancel = function()
+	{
+		
+	$scope.searchDetailsdate='';
+	$scope.searchDetailsExt='';
+	$scope.searchDetailsZip='';
+	$scope.searchDetailsCity='';
+	$scope.searchDetailsNotes='';
+	$rootScope.keywordsUpload='';	
+	$scope.searchAreaSelect='';
+	$scope.searchJob='';
+	$scope.searchPhase='';
+    $scope.searchdetailsStreet='';	
+	
+	};
+	
+	
+	
+	$scope.searchClear=function()
+  {
+	$scope.searchVaultId='';
+	$scope.searchAreaSelect='';
+	$scope.searchJob='';
+	$scope.searchPhase='';
+	$scope.searchDate='';
+	$scope.searchExtNo='';
+	$scope.searchStreetName='';
+	$scope.searchZipCode='';
+	$scope.searchCity='';
+	$scope.searchNotes='';
+	$rootScope.keywordsUpload='';	
+	};
+	
+	
+	
 	
   $scope.searchjobsFilter = function()
 		 { 
 			   $scope.jobsearch=[];
-			   $scope.phasesSearch=[];
-			   
+			   $scope.phasesSearch=[];			   
 			   angular.forEach($rootScope.jandp, function(value) {
-				
-				
-				 if(value.Area === $scope.searchAreaSelect)
+				 if(value.Area == $scope.searchAreaSelect)
 				 {
 							 $scope.jobOptions = [];
 							 $scope.jobOptions.push(value.JobNum); 
@@ -73,9 +122,9 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $scope, 
 							 $scope.jobsearch.push($scope.jobOptions); 
 				 }
 			 });
-			 if($scope.jobsearch.length === 0)
+			 if($scope.jobsearch.length == 0)
 			 {
-				 
+				 alert('No jobs in this area ');  
 			 }
 			};
 
@@ -84,12 +133,11 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $scope, 
 	  $scope.phasesSearch=[];
 	    angular.forEach($rootScope.jandp, function(value) {
 		  //console.log(value);
-		 if(value.JobNum === $scope.searchJob)
+		 if(value.JobNum == $scope.searchJob)
 		 {
 			 
 			 angular.forEach(value.Phases, function(value1) {
 				  $scope.jobOptions = [];
-				 
 				 $scope.jobOptions.push(value1.Phase); 
 				 $scope.jobOptions.push(value1.Desc); 
 				 $scope.phasesSearch.push($scope.jobOptions); 
@@ -98,16 +146,6 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $scope, 
 			 }	
 	 });
 	};
-	
-	
-	
-	
-	
-	
-	
-
-	
-	
 	
 	
 	

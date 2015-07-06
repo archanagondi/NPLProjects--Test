@@ -41,7 +41,7 @@ angular.module('MediaVault').controller('MainCtrl', function (LABELS, $scope, $s
         }
        return  $scope.newCategory;
     };
-	
+
     // selected fruits
     $scope.selection = [];
 	$rootScope.selectedKeywords=[];
@@ -59,7 +59,6 @@ angular.module('MediaVault').controller('MainCtrl', function (LABELS, $scope, $s
         $scope.selection.push(keyword);
       }
 	  $rootScope.selectedKeywords=$scope.selection;
-   
      };
 	
     $scope.selectedKeys = function()

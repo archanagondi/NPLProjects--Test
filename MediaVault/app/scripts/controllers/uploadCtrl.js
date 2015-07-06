@@ -10,12 +10,9 @@
 
 angular.module('MediaVault').controller('uploadCtrl', function(LABELS, $scope, $state, localRecord, access, $rootScope) {
 
-
-
-
-
     $scope.job = [];
     $scope.phases = [];
+	
     $scope.areaSelect = '';
     $scope.phaseUpload = '';
     $scope.dateUpload = '';
@@ -26,6 +23,8 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS, $scope, $
     $scope.cityUpload = '';
     $scope.NotesUpload = '';
     $scope.dt = '';
+	
+	
     $scope.uploadpage = true;
     $scope.uploaddtl = false;
 
@@ -73,15 +72,26 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS, $scope, $
     //form validations in upload html 	
     $scope.clears = function()
     {
+	$scope.areaSelect = '';
+    $scope.phaseUpload = '';
+    $scope.dateUpload = '';
+    $scope.jobUpload = '';
+    $scope.dprUpload = '';
+    $scope.streetUpload = '';
+    $scope.zipUpload = '';
+    $scope.cityUpload = '';
+    $scope.NotesUpload = '';
+    
+    $rootScope.keywordsUpload = '';
+	expect(element(by.className('checkboxStatus')).getAttribute('checked')).toBeFalsy();	
     };
-
-
+	
     $scope.jobsFilter = function()
     {
         $scope.job = [];
         $scope.phases = [];
         angular.forEach($rootScope.jandp, function(value) {
-            if (value.Area === $scope.areaSelect)
+            if (value.Area == $scope.areaSelect)
             {
                 $scope.jobOptions = [];
                 $scope.jobOptions.push(value.JobNum);
@@ -90,9 +100,9 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS, $scope, $
             }
 
         });
-        if ($scope.job.length === 0)
+        if ($scope.job.length == 0)
         {
-            
+           alert('No jobs in this area ');  
         }
     };
 
@@ -101,7 +111,7 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS, $scope, $
         $scope.phases = [];
         angular.forEach($rootScope.jandp, function(value) {
 
-            if (value.JobNum === $scope.jobUpload)
+            if (value.JobNum == $scope.jobUpload)
             {
                 angular.forEach(value.Phases, function(value1)
                 {
@@ -114,4 +124,28 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS, $scope, $
         });
     };
 
+	
+	
+	$scope.uploadData= function()
+	{	
+	$scope.areaSelect ;
+    $scope.phaseUpload;
+    $scope.dateUpload ;
+    $scope.jobUpload ;
+    $scope.dprUpload ;
+    $scope.streetUpload ;
+    $scope.zipUpload ;
+    $scope.cityUpload ;
+    $scope.NotesUpload ;
+    
+    $rootScope.keywordsUpload ;
+		
+		
+		
+		
+		alert('uploaded data is  '+ $scope.dateUpload);
+		
+	};
+	
+	
 });

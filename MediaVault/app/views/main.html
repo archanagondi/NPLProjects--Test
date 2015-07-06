@@ -1,22 +1,29 @@
 <loading ng-if="loading" label="'Loading...'"></loading>
-<header></header>
+<header>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+</header>
 <navigation></navigation>
 <div ng-controller="MainCtrl" id="maintabs">
-  <tabset id="tabs"> <tab id="1">
+<div ng-include="'views/keyword-select.html'"></div>
+  <tabset id="tabs">
+   <tab id="1">
     <tab-heading><i class="fa fa-upload"></i> Upload</tab-heading>
     <div class="container">
       <upload></upload>
     </div>
-    </tab> <tab>
+    </tab>
+	<tab>
     <tab-heading><i class="fa fa-search"></i> Search</tab-heading>
     <div class="container">
       <search></search>
     </div>
-    </tab> <tab>
+    </tab> 
+	<tab>
     <tab-heading><i class="fa fa-list-ul"></i> Queue</tab-heading>
-    <div class="container">
+    <div class="container" >
       <queue></queue>
     </div>
-    </tab> </tabset>
+    </tab> 
+	</tabset>
 </div>
 <footer></footer>

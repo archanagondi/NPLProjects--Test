@@ -1,129 +1,32 @@
-<div id="keywords">
-		        <h3 class="upper-case text-center">Keyword  Select</h3>
-			    <h4 class="text-center">set as many items below as you can to help Searching,</h4>		   
-				<div class="row">
-					<div class="col-lg-4 col-md-4">
-						<label for="structures"><span class="underline">Structures</span></label>			
-						<div>
-						<input type="checkbox" name="structures" id="side-walk-structure"  value="side walk" /> 
-						<label for="side-walk-structure">side Walk</label>
-						</div>
-						<div>
-						<input type="checkbox" name="structures" id="street-structure"  value="street" /> 
-						<label for="street-structure">street</label>
-						</div>
-						<div>
-						<input type="checkbox" name="structures" id="trench-structure"  value="trench" /> 
-						<label for="trench-structure">trench</label>
-						</div>
-						<div>
-						<input type="checkbox" name="structures" id="pipe-structure"  value="pipe" /> 
-						<label for="pipe-structure">pipe</label>
-						</div>			
-						<div>
-						<input type="checkbox" name="structures" id="House-structure"  value="House" /> 
-						<label for="House-structure">house</label>
-						</div>			
-						<div>
-						<input type="checkbox" name="structures" id="building-structure"  value="building" /> 
-						<label for="building-structure">building</label>
-						</div>
-						<div>
-						<input type="checkbox" name="structures" id="fence-structure"  value="fence" /> 
-						<label for="fence-structure">fence</label>
-						</div>			
-						<div>
-						<input type="checkbox" name="structures" id="sign-structure"  value="sign" /> 
-						<label for="sign-structure">sign</label>
-						</div>			
-						<div>
-						<input type="checkbox" name="structures" id="guard rail-structure"  value="guard rail" /> 
-						<label for="guard rail-structure">guard rail</label>
-						</div>
-						<div>
-						<input type="checkbox" name="structures" id="Hydrant-structure"  value="Hydrant" /> 
-						<label for="Hydrant-structure">hydrant</label>
-						</div>
-					</div>
-					<div class="col-md-4 col-lg-4">
-					   <label for="condition"><span class="underline" id="condition">Condition</span></label>
-						<div>
-						<input type="checkbox" name="condition" id="New-condition"  value="New" /> 
-						<label for="New-condition">new</label>
-						</div>			
-						<div>
-						<input type="checkbox" name="condition" id="cracked-condition"  value="cracked" /> 
-						<label for="cracked-condition">cracked</label>
-						</div>
-						<div>
-						<input type="checkbox" name="condition" id="Broken-condition"  value="Broken" /> 
-						<label for="Broken-condition">Broken</label>
-						</div>
-						<div>
-						<input type="checkbox" name="condition" id="leaking-condition"  value="leaking" /> 
-						<label for="leaking-condition">leaking</label>
-						</div>
-						<div>
-						<input type="checkbox" name="condition" id="Scratched-condition"  value="Scratched" /> 
-						<label for="Scratched-condition">Scratched</label>
-						</div>
-						<div>
-						<input type="checkbox" name="condition" id="lost-condition"  value="lost" /> 
-						<label for="lost-condition">lost</label>
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-4">
-					<label for="entities"><span class="underline" id="entities">Entities</span></label>				
-						<div>
-						<input type="checkbox" name="entities" id="lost-entities"  value="HomeOwner" /> 
-						<label for="HomeOwner-entities">homeOwner</label>
-						</div>
-						<div>
-						<input type="checkbox" name="entities" id="Neighbour-entities"  value="Neighbour" /> 
-						<label for="Neighbour-entities">neighbour</label>
-						</div>
-						<div>
-						<input type="checkbox" name="entities" id="Customer-entities"  value="Customer" /> 
-						<label for="Customer-entities">customer</label>
-						</div>
-						<div>
-						<input type="checkbox" name="entities" id="Crew-entities"  value="Crew" /> 
-						<label for="Crew-entities">crew</label>
-						</div>			
-						<div>
-						<input type="checkbox" name="entities" id="foreman-entities"  value="foreman" /> 
-						<label for="foreman-entities">foreman</label>
-						</div>
-						<div>
-						<input type="checkbox" name="entities" id="Supervisor-entities"  value="Supervisor" /> 
-						<label for="Supervisor-entities">supervisor</label>
-						</div>
-						<div>
-						<input type="checkbox" name="entities" id="general foreman-entities"  value="general foreman" /> 
-						<label for="general foreman-entities">general foreman</label>
-						</div>
-						<div>			
-						<input type="checkbox" name="entities" id="superintendent-entities"  value="superintendent" /> 
-						<label for="superintendent-entities">superintendent</label>
-						</div>			
-						<div>
-						<input type="checkbox" name="entities" id="area manager-entities"  value="area manager" /> 
-						<label for="area manager-entities">area manager</label>
-						</div>			
-						<div>
-						<input type="checkbox" name="entities" id="vendor-entities"  value="vendor" /> 
-						<label for="vendor-entities">vendor</label>
-						</div>
-					 </div>
-				</div>
-				<hr class="horizontal-line"/>
-	<div class="row align-bottom">
-        <div class="col-sm-4"></div>
-        <div class="col-sm-2">
-            <button type="button" class="btn btn-primary">Cancel</button>
+ <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Select Keyword</h4>
         </div>
-        <div class="col-sm-2">
-            <button type="button" class="btn btn-primary">Save</button>
+        <div class="modal-body" ng-controller='MainCtrl'>		
+        <table class = "keyword-modal" ng-repeat="event in keywordToFilter() | filter:filterCategory">
+        <tr>
+		<th>{{event.Category}}
+		</th>
+		</tr>
+      <tr ng-repeat="e in kewordsdata | filter: {Category: event.Category}">
+        <td>
+		  <label  class="checkbox-inline">
+            <input type="checkbox" class="checkboxStatus"  value="{{e.KeyWord}}" ng-checked="selection.indexOf(e.KeyWord) > -1" ng-click="toggleSelection(e.KeyWord)">
+			{{e.KeyWord}}
+          </label>
+		</td>
+      </tr>
+    </table>
+        </div>		 
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="selectedKeys()">Save</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
+      </div>      
     </div>
-</div>
+  </div>
