@@ -8,11 +8,18 @@
  * Controller
  */
 angular.module('MediaVault').controller('MainCtrl', function (LABELS, $scope, $state, localRecord, access,$rootScope) {
-     $scope.areacode = localRecord.get('area').areaCode.split(',');
+     
+	 
+$scope.areacode ='';
+     
+	 if(localRecord.get('area').areaCode){
+		$scope.areacode =localRecord.get('area').areaCode.split(',');
+	 }
+	 
 	 $scope.phaseCode = localRecord.get('phase').phaseCode;
 	 $rootScope.category = angular.fromJson(localRecord.get('categories').categoriesCode);
 	 $rootScope.kewordsdata = angular.fromJson(localRecord.get('keywords').keywordsCode);
-	 $rootScope.jandp=angular.fromJson($scope.phaseCode);
+	 $rootScope.jobsandphases=angular.fromJson($scope.phaseCode);
 	 $rootScope.keywordsUpload='';
 	
  //end of date functionality 
@@ -80,17 +87,8 @@ angular.module('MediaVault').controller('MainCtrl', function (LABELS, $scope, $s
 	$scope.dateOptions =
 	{
     formatYear: 'yy',
-    startingDay: 1,
-	max: '2030-07-22'
+    startingDay: 1
 	};
-	
-	
-	
-	
-	
-	
-	
-	
 	
 });
 

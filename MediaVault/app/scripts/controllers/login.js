@@ -66,10 +66,10 @@ angular.module('MediaVault').controller('LoginCtrl', function (ENV, ERRORS, $sco
 				{
 					
 				});
-				loadAppData.getCategorie().success(
+				loadAppData.getCategory().success(
                     function (categoryresponse)
 					{
-					  console.log(categoryresponse);
+					  
 					  $scope.categories =angular.toJson(categoryresponse);
 					  localRecord.save('categories',$scope.categories );
 					}
@@ -81,7 +81,7 @@ angular.module('MediaVault').controller('LoginCtrl', function (ENV, ERRORS, $sco
 				loadAppData.getKeywords().success(
                     function (keywordresponse)
 					{
-						 console.log(keywordresponse);
+						
 						 $scope.keys =angular.toJson(keywordresponse);
 					  localRecord.save('keywords', $scope.keys);
 					}

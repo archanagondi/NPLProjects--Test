@@ -18,14 +18,13 @@
                 </div>
                 <div class="form-group">
                     <label for="jobs-list">Job:</label>
-                    <select class="form-control" id="jobs-list" ng-model="searchJob" ng-change="searchphaseFilter()" ng-options='jobs.0 as jobs.1 for jobs in jobsearch'>
+                    <select class="form-control" id="jobs-list" ng-model="searchJob" ng-change="searchphaseFilter()" ng-options='jobs.jobNum as jobs.jobName for jobs in jobsearch'>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="phases">Phase</label>
-                    <select class="form-control" ng-model="searchPhase" id="phases"
-                            ng-options="phase.0 as phase.0 for phase in  phasesSearch">
+                    <select class="form-control" ng-model="searchPhase" id="phases" ng-options="phases.Phase as phases.Phase for phases in  phasesSearch">
                         <option value="" selected="selected"></option>
                     </select>
                 </div>
@@ -83,7 +82,7 @@
                 </div>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-left mt-25">
-                <button type="button" class="btn btn-success button-width" ng-click='searchClear()'><i class="fa fa-times"></i> clear</button>
+                <button type="button" class="btn btn-success button-width" ng-click='searchclear()'><i class="fa fa-times"></i> clear</button>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-right mt-25">
                 <button type="button" class="btn btn-success button-width" ng-click="searchbutton()"><i class="fa fa-search"> </i> Search </button>
@@ -97,14 +96,11 @@
             <button type="button" ng-click="searchback()" class="btn btn-icon green">
                 <i class="fa fa-arrow-left"></i>
             </button>
-
         </div>    
         <div class="col-lg-8 col-md-8 mt-15"> <p class="search-heading">Maximum of 100 reached narrow your search </p> </div>   
     </div>             
     <div class="clearfix"></div>
     <div id="individual-row" ng-click="elementclick()">
-
-
         <ul class="search-result-list">
             <li class="row">
                 <div class="col-lg-3 col-md-3 col-xs-3"><img src="images/thumbnail.gif" class="thumbnail"/></div>
@@ -156,15 +152,13 @@
 <div id="search-details" ng-show="searchdetails" class="rows">
     <div class="icon-strip row">
         <div class="col-lg-3 col-md-3">
-            <button type="button" class="btn btn-icon green" ng-click="searchback2()">
+            <button type="button" class="btn btn-icon green" ng-click="searchdetailsback()">
 			<i class="fa fa-arrow-left"></i></button>
         </div>
         <div class="col-lg-9 col-md-9">
             <button type="button" class="btn btn-icon" >
                 <i class="fa fa-envelope"></i>
             </button>
-
-
             <button type="button" class="btn btn-icon" data-toggle="modal" data-target="#my-remove"> 
                 <i class="fa fa-download"></i>
             </button>
@@ -174,8 +168,8 @@
         </div>
     </div>
     <!--sub panel-->
-    <button ng-click="searchImage()" class="btn btn-primary" type="button">image</button>
-    <button ng-click="searchDetails()" class="btn btn-primary" type="button">Details</button>
+    <button ng-click="searchdetailsimage()" class="btn btn-primary" type="button">image</button>
+    <button ng-click="searchdetailsinformation()" class="btn btn-primary" type="button">Details</button>
     <div class="row" id="imag" ng-show="searchmediaimg">						
         <div class="col-sm-6 col-lg-6 mt-25">
             <img src="images/photos.png"/>
@@ -195,13 +189,13 @@
                 </div>
                 <div class="form-group">
                     <label for="search-details-job">Job:</label>
-                    <select class="form-control" id="search-details-job" ng-model="searchJob" ng-change="searchphaseFilter()" ng-options='jobs.0 as jobs.1 for jobs in jobsearch'>
+                    <select class="form-control" id="search-details-job" ng-model="searchJob" ng-change="searchphaseFilter()" ng-options='jobs.jobNum as jobs.jobName for jobs in jobsearch'>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="search-details-phase">Phase</label>
                     <select class="form-control" ng-model="searchPhase" id="search-details-phase"
-                            ng-options="phase.0 as phase.0 for phase in  phasesSearch">
+                            ng-options="phases.Phase as phases.Phase for phases in  phasesSearch">
                         <option value="" selected="selected"></option>
                     </select>
                 </div>
@@ -264,12 +258,12 @@
             </div>
 
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-left mt-25">
-			<button type="button"  class="btn btn-primary button-width" ng-click='serDetailCancel()'>Cancel</button>                
+			<button type="button"  class="btn btn-primary button-width" ng-click='searchdetailscancel()'>Cancel</button>                
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-right mt-25">
 				<button type="button" class="btn btn-primary button-width"><i
                                 class="fa fa-floppy-o"></i>Save
-                        </button>                
+                </button>                
             </div>
         </form>		
     </div>

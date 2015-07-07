@@ -1,12 +1,13 @@
 <loading ng-if="loading" label="'Loading...'"></loading>
 <header>
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 </header>
 <navigation></navigation>
 <div ng-controller="MainCtrl" id="maintabs">
-<div ng-include="'views/keyword-select.html'"></div>
-  <tabset id="tabs">
-   <tab id="1">
+<div ng-include="'views/keyword-select.html'"></div> 
+<!-- <keyword-select></keyword-select> -->
+
+    <tabset id="tabs">
+    <tab id="upload">
     <tab-heading><i class="fa fa-upload"></i> Upload</tab-heading>
     <div class="container">
       <upload></upload>

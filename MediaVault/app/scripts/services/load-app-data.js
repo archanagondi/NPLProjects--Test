@@ -15,11 +15,11 @@ angular.module('MediaVault').service('loadAppData', function (ENV, ENDPOINTS, ER
     service.getJobsAndPhases = function () {
         return nplApi.get(ENDPOINTS.jobsandphases, {version: ENV.version});
     };
-	service.getCategorie = function () 
+	service.getCategory = function () 
 	{
 		
         return nplApi.get1(ENDPOINTS.getcategories, {version: ENV.version});
-        //return nplApi.get(ENDPOINTS.getcategories, {version: ENV.version});
+       
     };
 	
 	service.getKeywords = function () 
