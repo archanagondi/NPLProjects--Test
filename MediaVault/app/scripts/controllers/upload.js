@@ -8,7 +8,7 @@
  * Controller to handle the feedback form
  */
 
-angular.module('MediaVault').controller('uploadCtrl', function(LABELS, $window, $scope, $state, localRecord, access, $rootScope) {
+angular.module('MediaVault').controller('uploadCtrl', function(LABELS, $scope, $state, localRecord, access, $rootScope) {
 
     $scope.job = [];
     $scope.phases = [];
@@ -32,17 +32,17 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS, $window, 
     var destinationType = '';
 
     $scope.camera = function() {
-        
+        // alert("Note camera");
         navigator.camera.getPicture(onPhotoFromlibraryDataSuccess, onFail, {quality: 4, allowEdit: true, destinationType: Camera.DestinationType.FILE_URI});
     };
 
-    $scope.gallery = function() {
-      
+    $scope.gallary = function() {
+        // alert("Note gallary section ");
         navigator.camera.getPicture(onPhotoFromlibraryDataSuccess, onFail, {quality: 4, destinationType: destinationType.FILE_URI, allowEdit: true});
     };
 
     function onPhotoFromlibraryDataSuccess(imageURI) {
-        
+        // alert("Photo upload success");
         $scope.imagePath = imageURI;
     }
 
@@ -57,7 +57,8 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS, $window, 
 
     $scope.clear = function()
     {
-      $scope.imagePath = '';
+        //alert("Note clear");
+        $scope.imagePath = '';
     };
     $scope.continuee = function()
     {
@@ -68,9 +69,8 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS, $window, 
         $scope.uploadpage = true;
         $scope.uploaddtl = false;
     };
-   
-   //form validations in upload html 	
-    $scope.uploadformclear = function()
+    //form validations in upload html 	
+    $scope.clears = function()
     {
 	$scope.areaSelect = '';
     $scope.phaseUpload = '';
@@ -83,49 +83,50 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS, $window, 
     $scope.NotesUpload = '';
     
     $rootScope.keywordsUpload = '';
-		
+	expect(element(by.className('checkboxStatus')).getAttribute('checked')).toBeFalsy();	
     };
 	
     $scope.jobsFilter = function()
     {
         $scope.job = [];
         $scope.phases = [];
-		
-        angular.forEach($rootScope.jobsandphases, function(value) {
-            if (value.Area === parseInt($scope.areaSelect))
+        angular.forEach($rootScope.jandp, function(value) {
+            if (value.Area == $scope.areaSelect)
             {
                 $scope.jobOptions = [];
-                $scope.jobOptions.jobName = value.JobName;
-                $scope.jobOptions.jobNum = value.JobNum;
+                $scope.jobOptions.push(value.JobNum);
+                $scope.jobOptions.push(value.JobName);
                 $scope.job.push($scope.jobOptions);
-				
             }
+
         });
-	    if ($scope.job.length === parseInt(0))
-        { 
-           $window.alert('No jobs in this area ');  
+        if ($scope.job.length == 0)
+        {
+           alert('No jobs in this area ');  
         }
     };
 
     $scope.phaseFilter = function()
     {
-	     $scope.phases = [];
-        angular.forEach($rootScope.jobsandphases, function(value) {
+        $scope.phases = [];
+        angular.forEach($rootScope.jandp, function(value) {
 
-            if (value.JobNum === parseInt($scope.jobUpload))
+            if (value.JobNum == $scope.jobUpload)
             {
                 angular.forEach(value.Phases, function(value1)
                 {
-                    $scope.jobOptions = [];           
-                    $scope.jobOptions.Desc = value1.Desc;
-                    $scope.jobOptions.Phase = value1.Phase;
+                    $scope.jobOptions = [];
+                    $scope.jobOptions.push(value1.Phase);
+                    $scope.jobOptions.push(value1.Desc);
                     $scope.phases.push($scope.jobOptions);
                 });
             }
         });
     };
 
-$scope.uploadData= function()
+	
+	
+	$scope.uploadData= function()
 	{	
 	$scope.areaSelect ;
     $scope.phaseUpload;
@@ -136,7 +137,15 @@ $scope.uploadData= function()
     $scope.zipUpload ;
     $scope.cityUpload ;
     $scope.NotesUpload ;
+    
     $rootScope.keywordsUpload ;
+		
+		
+		
+		
+		alert('uploaded data is  '+ $scope.dateUpload);
+		
 	};
+	
 	
 });

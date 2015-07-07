@@ -8,7 +8,7 @@
  * Controller to handle the feedback form
  */
 
-angular.module('MediaVault').controller('searchCtrl', function (LABELS, $scope, $state, localRecord, access,$rootScope) 
+angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window, $scope, $state, localRecord, access,$rootScope) 
 {
 	
     $scope.searchpage = true;
@@ -34,23 +34,25 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $scope, 
         $scope.searchdetails = true;
     };
 
-    $scope.searchImage = function () {
+    $scope.searchdetailsimage = function () {
         $scope.searchmediaimg = true;
         $scope.searchmediadtl = false;
 
     };
-    $scope.searchDetails = function () {
+    $scope.searchdetailsinformation = function () {
         $scope.searchmediaimg = false;
         $scope.searchmediadtl = true;
     };
 
-    $scope.searchback2 = function () 
+    $scope.searchdetailsback = function () 
 	{
         $scope.searchpageresults = true;
         $scope.searchdetails = false;
     };
+	
 	  $scope.jobsearch=[];
 	  $scope.phasesSearch=[];
+	
 	
 	$scope.searchVaultId='';
 	$scope.searchAreaSelect='';
@@ -73,7 +75,7 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $scope, 
 	$scope.searchdetailsStreet='';
 	
 	
-	$scope.serDetailCancel = function()
+	$scope.searchdetailscancel = function()
 	{
 		
 	$scope.searchDetailsdate='';
@@ -86,64 +88,58 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $scope, 
 	$scope.searchJob='';
 	$scope.searchPhase='';
     $scope.searchdetailsStreet='';	
-	
 	};
 	
 	
-	
-	$scope.searchClear=function()
-  {
-	$scope.searchVaultId='';
-	$scope.searchAreaSelect='';
-	$scope.searchJob='';
-	$scope.searchPhase='';
-	$scope.searchDate='';
-	$scope.searchExtNo='';
-	$scope.searchStreetName='';
-	$scope.searchZipCode='';
-	$scope.searchCity='';
-	$scope.searchNotes='';
-	$rootScope.keywordsUpload='';	
+	$scope.searchclear=function()
+    {
+		$scope.searchVaultId='';
+		$scope.searchAreaSelect='';
+		$scope.searchJob='';
+		$scope.searchPhase='';
+		$scope.searchDate='';
+		$scope.searchExtNo='';
+		$scope.searchStreetName='';
+		$scope.searchZipCode='';
+		$scope.searchCity='';
+		$scope.searchNotes='';
+		$rootScope.keywordsUpload='';	
 	};
-	
-	
-	
 	
   $scope.searchjobsFilter = function()
 		 { 
 			   $scope.jobsearch=[];
 			   $scope.phasesSearch=[];			   
-			   angular.forEach($rootScope.jandp, function(value) {
-				 if(value.Area == $scope.searchAreaSelect)
+			   angular.forEach($rootScope.jobsandphases, function(value) {
+				 if(value.Area === parseInt($scope.searchAreaSelect))
 				 {
 							 $scope.jobOptions = [];
-							 $scope.jobOptions.push(value.JobNum); 
-							 $scope.jobOptions.push(value.JobName); 
+							 $scope.jobOptions.jobName = value.JobName;
+                             $scope.jobOptions.jobNum = value.JobNum;
 							 $scope.jobsearch.push($scope.jobOptions); 
 				 }
 			 });
-			 if($scope.jobsearch.length == 0)
+			 if($scope.jobsearch.length === parseInt(0))
 			 {
-				 alert('No jobs in this area ');  
+				 $window.alert('No jobs in this area ');  
 			 }
 			};
 
    $scope.searchphaseFilter = function()
 	{ 
 	  $scope.phasesSearch=[];
-	    angular.forEach($rootScope.jandp, function(value) {
-		  //console.log(value);
-		 if(value.JobNum == $scope.searchJob)
+	    angular.forEach($rootScope.jobsandphases, function(value) {
+		 
+		 if(value.JobNum === parseInt($scope.searchJob))
 		 {
-			 
-			 angular.forEach(value.Phases, function(value1) {
+			     angular.forEach(value.Phases, function(value1) {
 				  $scope.jobOptions = [];
-				 $scope.jobOptions.push(value1.Phase); 
-				 $scope.jobOptions.push(value1.Desc); 
+				  $scope.jobOptions.Desc = value1.Desc;
+                  $scope.jobOptions.Phase = value1.Phase; 
 				 $scope.phasesSearch.push($scope.jobOptions); 
 				 
 			 });
-			 }	
+		}	
 	 });
 	};
 	
