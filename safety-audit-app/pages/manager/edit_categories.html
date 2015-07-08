@@ -1,0 +1,37 @@
+	<div id="header" ng-class="isIOS7 == 1 ? 'ios7' : '';" ng-include="src='pages/auditor/breadcrumbs.html'" ></div>
+	<div class="title">
+		<!--<h1>{{audit_type}} Audit</h1>
+		<span class="h-26x">|</span>
+		<h3 class="font-light">Categories</h3>-->
+		<h1>Categories</h1>
+	</div>
+	<hr class="m-b0" />
+	
+	<div class="list-category">
+		<ul>
+			<!--<li ng-repeat="category in categories" id="{{category.PKAuditCategoryID}}" ng-class="getCategoryIndex(category) != -1 ? 'active' : 'inactive';"  ng-click="select_category();">-->
+			<li ng-repeat="category in categories" id="{{category.PKAuditCategoryID}}" ng-class="getCategoryIndex(category);"  ng-click="select_category();">
+				<i ng-if="getCategoryIndex(category) != 'inComplete'" ng-class="getCategoryIndex(category) == 'active' ? 'fa fa-check-circle' : (getCategoryIndex(category) == 'inactive' ? 'fa fa-minus-circle' : 'fa fa-ban')"></i> {{category.Description}}
+				
+			</li>
+			
+		</ul>
+	</div>
+	<footer id="footer">
+		
+		<div class="row">
+			<div class="medium-2 columns">
+				<a href="#/edit_audit" class="button medium gray">Back</a>
+			</div>
+			<div class="medium-6 columns">&nbsp;</div>
+			<div class="medium-2 columns">
+				<!--<a href="javascript:void(0);" ng-click="sub_categories()" class="button medium">Next</a>
+				<a href="javascript:void(0);" ng-click="saveProgress();" class="button medium">Save Progress</a>-->
+				&nbsp;
+			</div>
+			<div class="medium-2 columns">
+				<a  ng-click="moveToSummary()"  class="button medium" ng-class="showSubmitButton == 0 ? 'button medium gray' : 'button medium'" >Review</a>
+			</div>
+		</div>
+                
+	</footer>

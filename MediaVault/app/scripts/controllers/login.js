@@ -73,8 +73,13 @@ angular.module('MediaVault').controller('LoginCtrl', function (ENV, ERRORS, $sco
                     });
 
                 loadAppData.getKeywords().success(
+<<<<<<< HEAD
                     function (keywordresponse) 
 					{
+=======
+                    function (keywordresponse) {
+
+>>>>>>> ebb1f9f2b724c5333475a4ed0b7d7207bc10b3dd
                         $scope.keys = angular.toJson(keywordresponse);
                         localRecord.save('keywords', $scope.keys);
                     }

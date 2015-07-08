@@ -1,0 +1,42 @@
+<div id="header" ng-class="isIOS7 == 1 ? 'ios7' : '';" ng-include="src='pages/auditor/breadcrumbs.html'" ></div>
+
+    <div class="title">
+      <h1>Audit Management</h1>   
+      <div class="row">
+                 <div class="medium-4 columns">
+                         <select class="style m-t15"  ng-model="filter_options"  ng-change="filter_audit_list()">
+                                 <option value="" >Show All</option>
+                                 <option value="Awaiting Safety Manager">Awaiting Safety Manager</option>
+                                 <option value="Awaiting Corrective Action">Awaiting Correction Action</option>
+                                 <option value="Completed" >Completed</option>
+                         </select>
+                 </div>
+                 <div class="medium-4 columns">
+                 <select class="style m-t15" name = "area_master"  ng-change="filter_audit_list()"  ng-model="area_master" ng-options="master.AreaNum as master.AreaNum for master in areaMaster">
+                    <option value=''>None</option>
+                 </select> 
+                 </div>
+      </div>
+    </div>
+    <hr class="m-b0" />
+   <div class="list-plain">
+            <div class="row" ng-repeat="audit in audit_list | orderBy: '-AuditDateTime'" ng-click="readOnlyAudit(audit.PKAuditID,audit.AuditStatus);">
+                    <div class="medium-3 columns"><span class="title">{{ audit.AuditStatus }}</span></div>
+                    <div class="medium-2 columns"><span>{{ audit.AuditDateTime | date:'MM/dd/yyyy' }}</span></div>
+                    <div class="medium-3 columns"><span>{{ audit.WorkLocation }}</span></div>
+                    <div class="medium-2 columns"><span><a class="button medium" ng-if="audit.AuditStatus == 'Awaiting Safety Manager'" ng-click="editAudit(audit.PKAuditID)">Edit</a></span></div>
+                    <div class="medium-2 columns"><span><a href="#/audit_summary/{{ audit.PKAuditID }}" ng-if="audit.AuditStatus == 'Awaiting Safety Manager'" class="button medium">Approve</a></span></div>
+            </div>
+    </div>
+
+    <!--<footer>
+            <div class="row">
+                    <div class="medium-2 columns">
+                            <a href="#" class="button medium gray">Back</a>
+                    </div>
+                    <div class="medium-7 columns">&nbsp;</div>
+                    <div class="medium-3 columns">
+                            <a href="#" class="button medium">Next</a>
+                    </div>
+            </div>	
+    </footer>-->

@@ -1,0 +1,139 @@
+<style>
+.modal-backdrop {width: 100%;height: 100%;top: 0px;position: fixed;}
+</style>
+
+	<div id="header" ng-class="isIOS7 == 1 ? 'ios7' : '';" ng-include="src='pages/auditor/breadcrumbs.html'" ></div>
+	<div class="title">
+		<h1>Photos </></h1>
+	</div>
+	<hr />
+	<div class="pad-rl40 photo-container" >
+		<h3 class="text-red">General Jobsite ({{totaljobSitePhotos}})</h3>
+		<div class="photo-thumb">
+			<div class="row">
+				<div class="medium-3 columns" ng-repeat="photos in jobsitePhotos">
+				    <div class="item">
+						<div class="image" ng-if="showLocalFile(photos);">
+							<img src="file://{{photos}}" ng-click="enLargeImage(photos)" />
+						</div>
+						<div class="image" ng-if="showLiveFile(photos);">
+							<img pinchZoom src="{{photos}}" ng-click="enLargeImage(photos)" />
+						</div>
+						<div class="icons">
+						<a href="javascript:void(0);" ng-click="enLargeImage(photos);"  title="Expand Image"><i class="fa fa-expand"></i></a>
+						<a href="javascript:void(0);" ng-if="!isApprove"  ng-click="deletePhoto(photos,'','','','','','');"  title="Delete Image"><i class="fa fa-trash-o"></i></a>
+						<a href="javascript:void(0);" ng-if="isApprove" title=""></i></a>
+					    </div>
+				    </div>
+				</div>
+			</div>
+		</div>
+			
+		<hr />
+		<h3 ng-if="showPhotoPage == ''" class="text-red m-b0 m-t40">Deficiencies ({{totalDeficiencyPhotos}})</h3>
+        <h3 ng-if="showPhotoPage != ''" class="text-red m-b0 m-t40">Deficiencies </h3>
+
+        <!--<h3  class="text-red m-b0 m-t40">Deficiencies ({{totalDeficiencyPhotos + currentDefPhotos }})</h3>-->
+		
+        <div ng-repeat="deficiencyPhoto in deficiencyPhotos">
+			<h4 class="m-t0">Reference {{deficiencyPhoto.refNum}}  |  {{deficiencyPhoto.employee}}</h4>
+			<div class="photo-thumb">
+				<div class="row">
+					<div class="medium-3 columns" ng-repeat="photo in deficiencyPhoto.photos">
+						<div class="item"  id="photo_{{deficiencyPhoto.mainCategoryID}}_{{deficiencyPhoto.subCategoryID}}_{{deficiencyPhoto.questionID}}_{{deficiencyPhoto.deficiencyID}}_{{$index}}">
+							<div class="image" ng-if="showLocalFile(photo.src)">
+								<img src="file://{{photo.src}}" ng-click="enLargeImage(photo.src)" />
+							</div>
+							<div class="image" ng-if="showLiveFile(photo.src)">
+								<img src="{{photo.src}}" ng-click="enLargeImage(photo.src)" />
+							</div>
+							<div class="icons">
+							    <a href="javascript:void(0);" ng-click="enLargeImage(photo.src);"  title="Expand Image"><i class="fa fa-expand"></i></a>
+							    <a href="javascript:void(0);" ng-if="isApprove" title=""></i></a>
+							    <a ng-if="!isApprove" href="javascript:void(0);" ng-click="deletePhoto(photo.src,deficiencyPhoto.questionID, deficiencyPhoto.deficiencyID, deficiencyPhoto.subCategoryID, deficiencyPhoto.mainCategoryID,photo.photoID,$index);"  title="Delete Image"><i class="fa fa-trash-o"></i></a>
+							</div>
+						</div>
+					</div>
+					<div class="medium-3 columns">&nbsp;</div>	
+				</div>
+			</div>
+			
+			<hr />
+		</div>
+		
+		<div ng-if="showPhotoPage != '' && deficiencyPhotos.length == 0" ng-repeat="deficiencyPhoto in currentQuestionPhotos">
+			<h4 class="m-t0">Reference {{deficiencyPhoto.refNum}}  |  {{deficiencyPhoto.employee}}</h4>
+			<div class="photo-thumb">
+				<div class="row">
+					<div class="medium-3 columns" ng-repeat="photo in deficiencyPhoto.photos">
+						<div class="item">
+							<div class="image"><img src="file://{{photo.src}}" ng-click="enLargeImage(photo.src)" /></div>
+							<div class="icons">
+							    <a href="javascript:void(0);" ng-click="enLargeImage(photo.src);"  title="Expand Image"><i class="fa fa-expand"></i></a>
+							    <a href="javascript:void(0);" ng-click="deleteCurrentPhoto(photo.src,deficiencyPhoto.questionID, deficiencyPhoto.index,photo.photoID);"  title="Delete Image"><i class="fa fa-trash-o"></i></a>
+							</div>
+						</div>
+					</div>
+					<div class="medium-3 columns">&nbsp;</div>	
+				</div>
+			</div>
+			
+			<hr />
+		</div>
+		
+		
+		<div ng-if="showPhotoPage != '' && inProgressDeficiency.length > 0" >
+			<h4 class="m-t0">In Progress</h4>
+			<div class="photo-thumb" >
+				<div class="row">
+					<div class="medium-3 columns" ng-repeat="deficiencyPhoto in inProgressDeficiency">
+						<div class="item" id="imageIP_{{$index}}">
+							<div class="image"><img src="file://{{deficiencyPhoto}}" ng-click="enLargeImage(deficiencyPhoto)" /></div>
+							<div class="icons">
+							    <a href="javascript:void(0);" ng-click="enLargeImage(deficiencyPhoto);"  title="Expand Image"><i class="fa fa-expand"></i></a>
+							    <a href="javascript:void(0);" ng-click="deleteInProgressPhoto(deficiencyPhoto, $index);"  title="Delete Image"><i class="fa fa-trash-o"></i></a>
+							</div>
+						</div>
+					</div>
+					<div class="medium-3 columns">&nbsp;</div>	
+				</div>
+			</div>
+			
+			<hr />
+		</div>
+	</div>
+<button type="button" class="btn btn-lg btn-primary" data-animation="am-fade-and-scale" data-placement="center" bs-modal="modal" id="triggerImage" data-template="largeImage.html" style="width: 0px;height: 0px;padding: 0px;opacity: 0;"></button>
+<script type="text/ng-template" id="largeImage.html">
+     <div class="photo-thumb popup big-img" style="padding:7px;width:100%;left:0%;background:#2222;">
+       <div class="item" >
+           <img pinch-zoom src="{{LargeImage}}" />
+           <div class="icons" style="float;right;">
+               <a href="javascript:void(0);" ng-click="$hide();"  title="Expand Image"><i class="fa fa-expand"></i></a>
+               <a href="javascript:void(0);" ng-click="$hide();"  title="Close"><i class="fa fa-times-o"></i></a>
+           </div>
+       </div>
+     </div>
+</script>
+
+	<footer id="footer">
+		<div class="row">
+			<div class="medium-2 columns">
+				<a ng-if="showPhotoPage == ''" href="{{back_page}}" class="button medium gray">Back</a>
+				<a ng-if="showPhotoPage != ''" href="javascript:void(0);" ng-click="hidePhotoPage();" class="button medium gray">Back</a>
+			</div>
+			<div class="medium-7 columns">&nbsp;</div>
+			<div class="medium-3 columns">
+				<!--<a href="#" class="button medium">Next</a>-->
+			</div>
+		</div>	
+	</footer>
+<div ng-if="showPhotoPage != ''" ng-show="showEnlargePhoto != ''" class="photo-thumb popup big-img" style="padding:7px;width:100%;left:0%;background:#2222;">
+       <div class="item" >
+           <img pinch-zoom src="{{LargeImage}}" />
+           <div class="icons" style="float;right;">
+               <a href="javascript:void(0);" ng-click="hideEnlargePhoto();"  title="Expand Image"><i class="fa fa-expand"></i></a>
+               <a href="javascript:void(0);" ng-click="hideEnlargePhoto();"  title="Close"><i class="fa fa-times-o"></i></a>
+           </div>
+	</div>
+</div>       
+<div class="overlay" ng-show="showEnlargePhoto  != ''" ng-click="hideEnlargePhoto();"></div>

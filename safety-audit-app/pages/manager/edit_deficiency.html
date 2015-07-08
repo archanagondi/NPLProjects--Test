@@ -1,0 +1,115 @@
+<div class="aside-container"  style="z-index:999999;background: #fff; height:920px;">
+<form id="dificiencyForm" name="dificiencyForm" method="POST" rc-submit="deficiencyComplete(deficiency);"  novalidate  >
+<div class="title">
+		<!--<h1>Gas Audit</h1>
+		<span class="h-26x">|</span>
+		<h3 class="font-light">Deficiencies</h3>-->
+		<h1>Deficiencies for</h1> <h3 class="h-20x text-red">{{questionName}}</h3>
+</div>
+<hr />
+	
+<div class="pad-rl40">
+	
+	<div class="list-row" ng-if="!summaryPage">
+		<div class="title">Name</div>
+		<ul ng-if="addedDeficiencyData != ''" class="deficiencies">
+			<li ng-repeat="addedDeficiency in addedDeficiencyData track by $index" style="height:45px;">
+				<div class="medium-10 columns" >{{addedDeficiency.employee_name}} {{addedDeficiency.vendor_name}} </div>
+				<div class="medium-1 columns"><a href="javascript:void(0);" ng-model="editDeficiency" ng-click="editDeficiency();"><i class="fa fa-pencil"></i></a></div>
+				<div class="medium-1 columns"><a href="javascript:void(0);" ng-model="editDeficiency" ng-click="removeDeficiency();"><i class="fa fa-times"></i></a></div>
+			</li>
+			
+		</ul>
+	</div>
+	<div class="row" ng-if="!summaryPage">
+		<div class="medium-10 columns">&nbsp;</div>
+		<div class="medium-2 columns"><button ng-disabled="!toggleState" ng-click="toggleDeficiencyForm()" class="button medium blue">Add Deficiency</button></div>
+	</div>
+	<input type="hidden" id="deficiencyID" name="deficiencyID" ng-model="deficiency.deficiencyID" value="{{addedDeficiency.deficiencyID}}" />
+	<hr class="m-t0" ng-if="!summaryPage" />
+	<div ng-hide="toggleState">
+		<div class="row">
+			<div class="medium-3 columns">
+				<label>Reference Number</label>
+			</div>
+			<div class="medium-5 columns  minus-ml-50" ng-class="{'has-error': rc.dificiencyForm.needsAttention(deficiency.refNum)}">
+				<input type="text" id="refNum" name="refNum" ng-model="deficiency.refNum" required maxlength="50" ng-blur="doThisOnBlurInputs();" pattern="\d*" />
+			</div>
+			<div class="medium-4 columns fl">
+				<div class="checkbox">
+					<input type="checkbox" id="jobSiteCorrection" value="jobSiteCorrection" name="jobSiteCorrection" ng-model="deficiency.jobSiteCorrection" />
+					<label for="jobSiteCorrection">Job Site Correction</label>
+				</div>	
+			</div>
+		</div>
+		
+		
+		<div class="row">
+			<div class="medium-5 columns">
+				<label class="m-b0">NPL Employee</label>
+				<select class="style" id="nplEmployee" name="nplEmployee"  ng-model="deficiency.nplEmployee" ng-options="employee.name for employee in nplEmployeesData track by employee.EmpNum" ng-change="makeVendorDisable();" ng-disabled="disableEmployee != ''">
+						<option value="">Area Employee</option>
+				</select>
+			</div>
+			<div class="medium-1 columns"><div class="vline" style="border-right: 1px solid #AAA;height: 135px;margin: auto;width: 0;">&nbsp;</div></div>
+			<div class="medium-5 columns" >
+				<label class="m-b0">Vendor</label>
+				<input type="text" name="vendor" id="vendor" class="form-control" ng-model="deficiency.vendor"  data-min-length="0" data-html="1" ng-options="vendor as vendor.VendorName for vendor in vendors" placeholder="Enter Vendor" bs-typeahead="typeahead" ng-blur="makeEmployeeDisable();" maxlength="50" ng-disabled="disableVendor != ''" >
+			</div>
+			<div class="medium-6 columns" ng-class="{'has-error' : rc.dificiencyForm.needsAttention(deficiency.vendorEmployee) && deficiency.vendor != ''}">
+				<label class="m-b0">Vendor Employee</label>
+				<input type="text" name="vendorEmployee" id="vendorEmployee" class="form-control" ng-model="deficiency.vendorEmployee" placeholder="Enter Vendor Employee"  maxlength="50" ng-blur="doThisOnBlurInputs();" ng-disabled="disableVendor != ''" />			
+			</div>
+		</div>
+		<div class="row">
+			<div class="medium-12 columns">
+				<label class="m-b0">Notes</label>
+				<textarea name="deficiency.notes" id="deficiency.notes" ng-model="deficiency.notes" ng-blur="doThisOnBlurInputs();">{{deficiency.notes}}</textarea>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="medium-3 columns">&nbsp;</div>
+			<div class="medium-3 columns"><a href="javascript:void(0);" ng-click="PhotoPage(defID,questionID)" class="button medium blue"><i class="fa fa-picture-o"></i> View Photos ({{totaldeficiencyPhotos}})</a></div>
+			<div class="medium-3 columns"><a href="javascript:void(0);" ng-click="DeficiencyPhotoOption();" class="button medium blue"><i class="fa fa-camera"></i> Add Photo</a></div>
+			<div class="medium-3 columns">&nbsp;</div>
+		</div>
+	</div>
+</div>
+
+<footer>
+	<div class="row">
+		<div class="medium-2 columns">
+			<a href="javascript:void(0);"  ng-click="$hide(hideAside);" class="button medium gray">Back</a>
+		</div>
+		<div class="medium-7 columns">&nbsp;</div>
+		<div class="medium-3 columns">
+			<button type="submit" ng-hide="toggleState" class="button medium">Save</button>
+		</div>
+	</div>	
+</footer>
+</form>
+<!--<div class="msg success hideMe" ng-show="takeDeficiencyPhoto != ''">
+    <input type="button" class="button" ng-click="takeDeficencyPhoto(1);" value="Library" />
+    <input type="button" class="button" ng-click="takeDeficencyPhoto(0);" value="Capture">
+</div>-->
+
+
+<div class="popup hideMe" ng-show="takeDeficiencyPhoto != ''">
+	<h3>Select an action</h3>
+<hr />
+    <input type="button" class="button blue medium" ng-click="takeDeficencyPhoto(1);" value="Library" />
+    <input type="button" class="button blue medium" ng-click="takeDeficencyPhoto(0);" value="Capture">
+<hr />
+<div class="text-right"><button class="medium red inline" ng-click="hideTakeDeficiencyPhoto()">Close</button></div>
+</div>
+<div class="overlay" ng-show="takeDeficiencyPhoto != ''"></div>
+</div>
+
+<div class="popup asidePhotoPage" ng-if="showPhotoPage != ''" ng-show="showPhotoPage != ''">	
+    <div  ng-include="src='pages/auditor/photo.html'" ng-controller="photoController"></div>
+</div>
+
+<div class="popup asidePhotoPage" ng-if="showPhotoPageDef != ''" ng-show="showPhotoPageDef != ''" >	
+    <div  ng-include="src='pages/auditor/deficiency_photo.html'" ng-controller="deficiencyPhotoController"></div>
+</div>

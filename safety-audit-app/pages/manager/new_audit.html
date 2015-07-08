@@ -1,0 +1,236 @@
+	<div id="header" ng-class="isIOS7 == 1 ? 'ios7' : '';" ng-include="src='pages/manager/breadcrumbs.html'" ></div>
+	<div class="title">
+		<h1>Job / Phase</h1>
+	</div>
+	<hr />
+	
+	<form id="auditForm" name="auditForm" method="POST" action="" rc-submit="create_audit(audit_data)"  novalidate >
+	<div class="pad-rl40">
+		<div class="row">
+			<div class="medium-4 columns">
+				<h3 class="h-20x text-red">Audit Date {{date  | date:'MM/dd/yyyy'}}</h3>
+			</div>
+			<div class="medium-8 columns">
+				<h3 class="h-16x text-red" ng-if="Lat != NAN && Lat != ''" >Lat / Long ({{Lat | lat}} , {{Long | lon}})</h3>
+				<h3 class="h-16x text-red" ng-if="Lat == '' " >Geolocation not found</h3>
+			</div>	
+		</div>
+		
+		
+		<div class="row">
+			<div class="medium-2 columns"><label>Audit Type</label></div>
+			<div class="medium-3 columns" ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.audit_type)}">
+				<select name="audit_type" id="audit_type" ng-init="audit_data.audit_type='GAS'" required  ng-model="audit_data.audit_type">
+					<option value="" >Select</option>
+					<option value="CONCR/ASPHALT">Concrete / Asphalt</option>
+					<option value="ELECTRIC" >Electric</option>
+					<option value="GAS" >Gas</option>	
+					<option value="TRAFFIC" >Traffic</option>
+				</select>
+			</div>
+			
+			<div class="medium-3 columns">
+				<div class="checkbox">
+					<input id="post_audit" name="post_audit" ng-model="audit_data.post_audit" type="checkbox" /><label for="post_audit">Post Audit</label>
+				</div>
+			</div>
+			<div class="medium-4 columns">&nbsp;</div>		
+		</div>
+		
+		<div class="row">
+			<div class="medium-2 columns"><label>Area</label></div>
+			<div class="medium-5 columns" ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.area_master)}" />
+				<!--<select name = "area_master" ng-model="audit_data.area_master" ng-options="master.name for master in areaMaster track by master.id" required>-->
+				<select name = "area_master"  ng-change="onAreaUpdate()"  ng-model="audit_data.area_master" ng-options="master.AreaNum as master.AreaNum for master in areaMaster" required>
+					<option value="">Area</option>
+				</select>
+				
+			</div>
+			
+			<div class="medium-4 columns">&nbsp;</div>		
+		</div>	
+		
+		<div class="row">
+			<div class="medium-2 columns"><label>Job Number</label></div>
+			<div class="medium-5 columns" ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.job_number)}" >
+				<!--<autocomplete name="job_number" id="job_number" ng-model="audit_data.job_number" data="job_number"  required></autocomplete>-->
+				<input type="text" name="job_number" id="job_number" class="form-control" ng-model="audit_data.job_number" ng-options="job_number for job_number in job_numbers" placeholder="Enter job Number" bs-typeahead required autocomplete="off">
+				
+			</div>
+			<div class="medium-4 columns">&nbsp;</div>		
+		</div>
+		<div class="row">
+			<div class="medium-2 columns"><label>Phase Number</label></div>
+			<div class="medium-5 columns" ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.phase_number)}" >
+				<input type="text" name="phase_number" id="phase_number" class="form-control" ng-model="audit_data.phase_number" ng-options="phase_number for phase_number in phase_numbers" placeholder="Enter Phase Number" bs-typeahead required data-limit="11" autocomplete="off">
+				
+			</div>
+			<div class="medium-4 columns">&nbsp;</div>		
+		</div>
+		
+		<hr class="m-t0" />
+		
+		<div class="row">
+			<div class="medium-3 columns">
+				<label>Supervisor</label>
+				<label>Foreman/Leadman</label>
+			</div>
+			<div class="medium-4 columns" ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.supervisor)}">
+				<input type="text" name="supervisor" id="supervisor" class="form-control" ng-model="audit_data.supervisor" data-min-length="0" data-html="1" ng-options="supervisor as supervisor.label for supervisor in supervisors" placeholder="Supervisor" bs-typeahead="typeahead" required autocomplete="off">
+			</div>
+			<div class="medium-5 columns" ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.foreman)}">
+				<input type="text" name="foreman" id="foreman" class="form-control" ng-model="audit_data.foreman" data-min-length="0" data-html="1" ng-options="foreman as foreman.label for foreman in foremans" placeholder="Foreman/Leadman" bs-typeahead="typeahead" required autocomplete="off">
+			</div>
+			<div class="medium-1 column"><span class="vline"></span></div>
+			<div class="medium-4 columns">
+				<label class="m-b0">{{ assigned_employee.length }} Employees</label>
+				
+				<input type="button" ng-click="triggerEmployeeAside();" class="button blue" value="Select Employees">
+				<button type="button" id="triggerEmployeeAside" style="width:0px;height:0;opacity:0;" class="button blue" data-template="select_employees.html" data-placement="left" data-animation="am-slide-left" bs-aside="aside" >Select Employees</button>
+			</div>		
+		</div>	
+		 
+		<hr class="m-t0" />
+		
+		<div class="row">
+			<div class="medium-2 columns"><label>Customer</label></div>
+			<div class="medium-10 columns" ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.customer)}" >
+				<input type="text" name="customer" id="customer" class="form-control" ng-model="audit_data.customer" data-min-length="0" data-html="1" ng-options="customer as customer.label for customer in customers" placeholder="Enter Customer" bs-typeahead="typeahead" required autocomplete="off">
+			</div>
+		</div>	
+		<div class="row">
+			<div class="medium-2 columns"><label>Job Location</label></div>
+			<div class="medium-10 columns" ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.job_location)}">
+				<input type="text" name="job_location" id="job_location" ng-model="audit_data.job_location" placeholder = "Location (alphabatical)">
+			</div>
+		</div>	
+		<div class="row">
+			<div class="medium-2 columns"><label>City</label></div>
+			<div class="medium-5 columns" ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.city)}">
+				<input type="text" name="city" id="city" ng-model="audit_data.city" placeholder = "City (alphabatical)">
+			</div>
+			<div class="medium-5 columns">
+				<div class="row">
+					<div class="medium-2 columns"><label>State</label></div>
+					<div class="medium-4 columns" ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.state)}">
+						<select name="state" id="state" ng-init="audit_data.state=''" ng-model="audit_data.state"  ng-options="state.name for state in stateData track by state.abbreviation">
+							<option value="" >Select</option>
+						</select>
+					</div>
+					<div class="medium-2 columns"><label>Zip</label></div>
+					<div class="medium-4 columns" ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.zip)}">
+						<input type="text" name="zip" id="zip" ng-model="audit_data.zip" placeholder = "Zip(numeric)">
+					</div>
+				</div>
+			</div>
+		</div>	
+		<div class="row">
+			<div class="medium-2 columns"><label>Comments</label></div>
+			<div class="medium-10 columns">
+				<textarea rows="2" name="comments" id="comments" ng-model="audit_data.comments" ></textarea>
+			</div>
+		</div>	
+		<hr class="m-t0" />
+		
+		<div class="row">
+			<div class="medium-3 columns"><a href="#/photo" class="button medium blue"><i class="fa fa-picture-o"></i> View Photos (1)</a></div>
+			<div class="medium-3 columns"><a href="#" class="button medium blue"><i class="fa fa-camera"></i> Take Photo</a></div>
+			<div class="medium-6 columns">&nbsp;</div>
+		</div>	
+	</div>
+
+	<footer>
+		<div class="row">
+			<div class="medium-2 columns">
+				<a href="#/"  class="button medium gray">Back</a>
+			</div>
+			<div class="medium-7 columns">&nbsp;</div>
+			<div class="medium-3 columns">
+				<input type="submit" name="submit_audit" id="submit_audit" value="next" class="button medium" />
+				
+			</div>
+		</div>	
+	</footer>
+	
+	<script type="text/ng-template" id="select_employees.html">
+	<div style="position: fixed;top: 10%;left: 0px;z-index: 10000;width: 100%;height: 85%;display: block;background: rgb(221, 221, 221);overflow-y:scroll; " class="container">
+		<div class="title" style="background:#FFF;padding-bottom: 20px;">
+			<h1>Select Employees</h1>
+		</div>
+		<hr style="margin-top:0px;" />
+		<div class="pad-rl40">
+			<h4 class="h-18x m-t0">Picked</h4>
+			<div class="list-row input">
+				<div class="title">
+					<div class="row">
+						<div class="medium-4 columns"><label>Employees</label></div>
+						<div class="medium-4 columns"><label>Job Title</label></div>
+						<div class="medium-2 columns"><label class="text-center">Remove</label></div>
+					</div>
+				</div>
+				<ul>
+					<li ng-repeat="employee in assigned_employee">
+						
+						<div class="row">
+							<div class="medium-4 columns"><label>{{employee.name}}</label></div>
+							<div class="medium-4 columns">
+								<span>{{ employee.jobTitle}}</span>
+								<!--<select ng-model="ae" ng-options="title.name for jobTitle in jobTitle track by title.JobTitleId">
+									<option value="">Job Title</option>
+								</select>-->
+							</div>
+							<div class="medium-2 columns"><a href="javascript:void(0);" ng-click="move(employee, assigned_employee, available_employee)"><i class="fa fa-times"></i></a></div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="row">
+				<div class="medium-7 columns"><h4 class="h-18x">Pick From</h4></div>
+				<div class="medium-1 columns"><label>Area</label></div>
+				<div class="medium-4 columns">
+					<!--<select ng-model="audit_data.area_master_employee" ng-options="master.name for master in areaMaster track by master.id">
+						<option value="">Area</option>
+					</select>-->
+					<select name = "area_master"  ng-change="onAreaUpdate()"  ng-model="audit_data.area_master" ng-options="master.AreaNum as master.AreaNum for master in areaMaster" required>
+						<option value="">Area Master</option>
+					</select>
+				</div>
+			</div>
+			<div class="list-row input">
+				<div class="title">
+					<div class="row">
+						<div class="medium-4 columns"><label>Employees</label></div>
+						<div class="medium-4 columns"><label>Job Title</label></div>
+						<div class="medium-2 columns"><label class="text-center">Add</label></div>
+					</div>
+				</div>
+				<ul>
+					<li ng-repeat="employee in available_employee">						
+						<div class="row">
+							<div class="medium-4 columns"><label>{{employee.name}}</label></div>
+							<div class="medium-4 columns">
+								<span>{{ employee.jobTitle}}</span>
+								<!--<select ng-model="kk" ng-options="title.JobTitle for title in jobTitle track by title.JobTitleId">
+									<option value="">Job Title</option>
+								</select>-->
+							</div>
+							<div class="medium-2 columns"><a href="javascript:void(0);" ng-click="move(employee, available_employee, assigned_employee)"><i class="fa fa-plus"></i></a></div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<footer>
+			<div class="row">
+				<div class="medium-2 columns">
+					<input type="button" value="Back" ng-click="$hide()" class="button medium gray">
+				</div>
+				<div class="medium-7 columns">&nbsp;</div>
+				<div class="medium-3 columns">
+					<input type="button" name="submit_audit" id="submit_audit" value="Done" ng-click="$hide()" class="button medium">
+				</div>
+			</div>	
+		</footer>
+	</div>	
+	</script>
+	</form>
