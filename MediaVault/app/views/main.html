@@ -3,28 +3,28 @@
 </header>
 <navigation></navigation>
 <div ng-controller="MainCtrl" id="maintabs">
-<div ng-include="'views/keyword-select.html'"></div> 
-<!-- <keyword-select></keyword-select> -->
+    <div ng-include="'views/keyword-select.html'"></div>
+    <!-- <keyword-select></keyword-select> -->
 
     <tabset id="tabs">
-    <tab id="upload">
-    <tab-heading><i class="fa fa-upload"></i> Upload</tab-heading>
-    <div class="container">
-      <upload></upload>
-    </div>
-    </tab>
-	<tab>
-    <tab-heading><i class="fa fa-search"></i> Search</tab-heading>
-    <div class="container">
-      <search></search>
-    </div>
-    </tab> 
-	<tab>
-    <tab-heading><i class="fa fa-list-ul"></i> Queue</tab-heading>
-    <div class="container" >
-      <queue></queue>
-    </div>
-    </tab> 
-	</tabset>
+        <tab id="upload">
+            <tab-heading><i class="fa fa-upload"></i> Upload</tab-heading>
+            <div class="container">
+                <upload></upload>
+            </div>
+        </tab>
+        <tab>
+            <tab-heading><i class="fa fa-search"></i> Search</tab-heading>
+            <div class="container">
+                <search></search>
+            </div>
+        </tab>
+        <tab>
+            <tab-heading><i class="fa fa-list-ul"></i> Queue</tab-heading>
+            <div class="container">
+                <queue></queue>
+            </div>
+        </tab>
+    </tabset>
 </div>
 <footer></footer>
