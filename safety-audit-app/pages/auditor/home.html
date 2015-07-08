@@ -1,0 +1,43 @@
+   <div id="header" ng-class="isIOS7 == 1 ? 'ios7' : '';" ng-include="src='pages/auditor/breadcrumbs.html'" ></div>
+    <div class="title">
+      <h1>Safety Audit Control</h1>
+      
+      <div class="row">
+              <div class="medium-4 columns">
+                      <select class="style m-t15" ng-model="filter_options"  ng-change="filter_audit_list()">
+                              <option value="" >Show All</option>
+                              <option value="In Progress">In Progress</option>
+                              <option value="Awaiting Safety Manager">Awaiting Safety Manager</option>
+                              <option value="Awaiting Corrective Action">Awaiting Correction Action</option>
+                              <option value="Completed" >Completed</option>
+                      </select>
+              </div>
+              <div class="medium-4 columns">&nbsp;</div>
+              <div class="medium-4 columns">
+                      <button ng-click="addAudit();" class="button blue">New Audit</button>
+              </div>
+      </div>
+      
+    </div>
+    
+    <hr class="m-b0" />
+    <div class="list-plain">
+            <div class="row" ng-repeat="audit in audit_list | orderBy: '-AuditDateTime'" ng-click="editInprogressAudit(audit.PKAuditID, audit.AuditStatus, audit.auditData, audit.step)">
+                    <div class="medium-4 columns"><span class="title">{{ audit.AuditStatus }}</span></div>
+                    <div class="medium-2 columns"><span>{{ audit.AuditDateTime | date:'MM/dd/yyyy' }}</span></div>
+                    <div class="medium-3 columns"><span>{{ audit.WorkLocation }}</span></div>
+                    <div class="medium-3 columns"><span ng-if="audit.DefCount != null"> {{ audit.DefCount }} Deficiency </span><span ng-if="audit.DefCount == null"> 0 Deficiency </span></div>
+            </div>
+    </div>
+
+    <!--<footer>
+            <div class="row">
+                    <div class="medium-2 columns">
+                            <a href="#" class="button medium gray">Back</a>
+                    </div>
+                    <div class="medium-7 columns">&nbsp;</div>
+                    <div class="medium-3 columns">
+                            <a href="#" class="button medium">Next</a>
+                    </div>
+            </div>	
+    </footer>-->

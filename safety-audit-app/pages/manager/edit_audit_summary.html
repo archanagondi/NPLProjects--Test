@@ -1,0 +1,137 @@
+<style>
+	.aside.right {
+		width:100% !important;
+	}
+</style>
+<div id="header" ng-class="isIOS7 == 1 ? 'ios7' : '';" ng-include="src='pages/auditor/breadcrumbs.html'" ></div>
+
+	<div class="title">
+		<h1>Audit Summary</h1>
+		<span class="h-26x">|</span>
+		<h3 class="font-light">Completed Audit</h3>
+	</div>
+	<hr />
+	
+	<div class="pad-rl40">
+	<div class="audit-summary">
+		<div class="row">
+			<div class="medium-4 columns"><h3 class="h-16x text-red">Audit Date {{date  | date:'MM/dd/yyyy'}}</h3></div>
+			<div class="medium-4 columns"><h3 class="h-16x">Safety Auditor: <span>{{employeeName}}</span></h3> </div>
+			<div class="medium-4 columns"><h3 class="h-16x">Job Number: <span> {{jobNumber}}</span></h3></div>
+		</div>
+		<div class="row">
+			<div class="medium-4 columns"><h3 class="h-16x">Area: <span>{{Area.AreaNum}}</span></h3></div>
+			<div class="medium-4 columns"><h3 class="h-16x">City, State: <span>{{City}}, {{State.StateName}}</span></h3></div>
+			<div class="medium-4 columns"><h3 class="h-16x">One-call Ticket #: <span>{{one_call_ticket}}</span></h3></div>
+		</div>
+		<div class="row">
+			<div class="medium-12 columns"><h3 class="h-16x">Customer: <span>{{Customer}}</span></h3></div>
+		</div>
+		<div class="row">
+			<div class="medium-12 columns"><h3 class="h-16x">Job Location: <span>{{location}}</span></h3></div>
+		</div>
+		<div class="row">
+			<div class="medium-12 columns"><h3 class="h-16x">Superintendent: <span>{{Supervisor}}</span></h3></div>
+		</div>
+		<div class="row">
+			<div class="medium-12 columns"><h3 class="h-16x">Foreman/Leadman: <span>{{Foreman}}</span></h3></div>
+		</div>
+		<div class="row">
+			<div class="medium-12 columns"><h3 class="h-16x">Safety Manager: <span>{{manager}}</span></h3></div>
+		</div>
+		<!--<div class="row">
+			<div class="medium-12 columns"><h3 class="h-16x">Number of Employees: <span>{{EmployeeCount}}</span></h3></div>
+		</div>-->
+		<!--<h3 class="text-red h-18x">Employees:</h3>
+		<div class="list-row input">
+				<div class="title">
+					<div class="row">
+						<div class="medium-6 columns"><label>First Name</label></div>
+						<div class="medium-6 columns"><label>Last Name</label></div>
+					</div>
+				</div>
+				<ul class="employee-list">
+					<li ng-repeat="employee in employees">
+						<div class="row">
+							<div class="medium-6 columns">{{employee.FirstName}}</div>
+							<div class="medium-6 columns">{{employee.LastName}}</div>
+						</div>
+					</li>
+				</ul>
+		</div>
+		<div class="row">
+			<div class="medium-12 columns">
+				<<h3 class="h-16x">
+					Employees : <span ng-repeat="employee in employees"><span ng-if="$index > 1">,  </span>{{employee.FirstName}} {{employee.LastName}}</span>
+				</h3>
+			</div>
+		</div>-->
+        
+        
+        <div class="row">
+			<div class="medium-12 columns">
+				<h3 class="h-16x">
+					Employees : <ul class="emp-name"><li ng-repeat="employee in employees"><i class="fa fa-circle"></i>{{employee.FirstName}} {{employee.LastName}}</li></ul>
+				</h3>
+			</div>
+		</div>
+        
+        
+		<div class="row">
+			<div class="medium-12 columns">
+			<h3 class="h-16x m-b0">Comments:</h3>
+			<p>{{Comments}}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="medium-3 columns" ng-if="isApprove"><a href="#/audit_photo/{{audit_id}}" class="button medium blue"><i class="fa fa-picture-o"></i> View Photos ({{totalPhotoCount}})</a></div>
+			<div class="medium-3 columns" ng-if="!isApprove"><a href="#/photo" class="button medium blue"><i class="fa fa-picture-o"></i> View Photos ({{totalPhotoCount}})</a></div>
+		</div>
+		
+		
+
+		<div class="row" ng-if="deficiencyDetails.length > 0">
+			<div class="medium-12 columns" ng-if="deficiencyDetails != ''"> 		
+			
+			<hr />
+			
+			<h3 class="h-16x m-b0">The following deficiencies were noted during this safety audit:</h3>
+			<!--<h3 class="h-26x text-red m-t0 m-b25">Excavation - h' Shoring/Sloping</h3>-->
+			
+			<div class="list-deficiencies">
+				<ul>
+					<li ng-repeat="deficiency in deficiencyDetails ">
+						<div class="row">
+							<div class="medium-8 columns">
+								<h3 class="h-18x" ng-if='deficiency.refNum != undefined' >Reference {{deficiency.refNum}}</h3>
+								<p>{{deficiency.employee}}</p>
+								<p>{{deficiency.mainCatname}} / {{deficiency.subCatname}} / {{deficiency.question}}</p>
+							</div>
+							<div class="medium-3 columns" ng-if="isApprove && deficiency.defPhotoCount > 0"><a href="#/deficiency_photo/{{deficiency.PKAuditReqCategoryDeficientID}}/queID" class="photo">See Photo</a></div>
+							<div class="medium-3 columns" ng-if="!isApprove && deficiency.defPhotoCount > 0"><a href="#/deficiency_photo/{{deficiency.deficiencyID}}/{{deficiency.questionID}}" ng-if="deficiency.defPhotoCount > 0" class="photo">See Photo</a></div>
+							<div class="medium-1 column" ng-if="!isApprove"><a href="javascript:void(0);" ng-click="editDeficiency();"><i class="fa fa-pencil"></i></a></div>
+						</div>
+					</li>
+					
+				</ul>
+			</div>
+			
+			</div>
+		</div>
+	</div>
+	</div>
+	<button type="button" class="button blue" data-placement="right" data-animation="am-slide-right" bs-aside="aside" id="trigger_dificiency_flyout" style="opacity:0;width:0px;height:0px;margin-left:-20px" >Add Deficiency</button>
+	<footer id="footer">
+		<div class="row">
+			<div class="medium-2 columns">
+				<a ng-if="isApprove" href="#/" class="button medium gray">Back</a>
+				<a ng-if="!isApprove" href="#/edit_audit/categories/{{auditId}}" class="button medium gray">Back</a>
+
+			</div>
+			<div class="medium-7 columns">&nbsp;</div>
+			<div class="medium-3 columns">
+				<a href="javascript:void(0);" ng-if="auditData.FKAuditStatusID < 3 && isApprove!='' && !readOnly" ng-click="submitAuditStatus(auditData.PKAuditID);" class="button medium">Approve</a>
+				<a href="javascript:void(0);" ng-click="updateAudit();" class="button medium" ng-if="!isApprove">Update</a>
+			</div>
+		</div>	
+	</footer>

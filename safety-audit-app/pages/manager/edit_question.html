@@ -1,0 +1,50 @@
+<div class="title">
+		<h1>Sub-Sub-Cat</h1>
+		<span class="h-26x">|</span>
+		<h3 class="font-light">{{subCategory}}</h3>
+</div>
+<hr class="m-b0" />
+<div class="list-excavation" id="template">
+		<div class="title">{{sub_category}}</div>
+		
+		<div class="details">
+		
+        <div class="row">
+				<div class="large-12 medium-12 columns">
+        
+                    <table class="tbl">
+                        <tr>
+                            <th class="first"></th>
+                            <th>Compliant</th>
+                            <th>Deficient</th>
+                            <th>NA</th>
+                        </tr>
+                        
+                        <tr ng-repeat="question in questions ">
+                            <td class="first"><label>{{question.Question}}</label></td>
+                            <td><div class="radio green">
+						<input type="radio" ng-checked='question.lastAnswer == "isComplaint" '  ng-click="add_deficiency('hide', '{{question.PKAuditQuestionID}}','isComplaint');" name="{{question.PKAuditQuestionID}}_radio" id="{{question.PKAuditQuestionID}}_green" /><label for="{{question.PKAuditQuestionID}}_green"></label>
+					</div></td>
+                            <td><div class="radio red">
+						<input type="radio" ng-checked='question.lastAnswer == "deficiency" '   ng-click="add_deficiency('show', '{{question.PKAuditQuestionID}}','deficiency');" name="{{question.PKAuditQuestionID}}_radio" id="{{question.PKAuditQuestionID}}_red" /><label for="{{question.PKAuditQuestionID}}_red"></label>
+					</div></td>
+                            <td><div class="radio gray">
+						<input type="radio" ng-checked='question.lastAnswer == "isNA" '   ng-click="add_deficiency('hide', '{{question.PKAuditQuestionID}}', 'isNA');" name="{{question.PKAuditQuestionID}}_radio" id="{{question.PKAuditQuestionID}}_gray" /><label for="{{question.PKAuditQuestionID}}_gray"></label>
+					</div></td>
+                        </tr>
+                    </table>
+        
+        </div>
+        	</div>
+        
+        
+   
+		</div>
+		
+		<div class="row">
+			<div class="medium-3 columns">&nbsp;</div>
+			<div class="medium-3 columns"><a href="javascript:void(0);" ng-click="allComplaint();"  class="button medium green">All Compliant</a></div>
+			<div class="medium-3 columns"><a href="javascript:void(0);" ng-click="doneQuestions();" class="button medium gray">Done</a></div>
+			
+		</div>
+	</div>

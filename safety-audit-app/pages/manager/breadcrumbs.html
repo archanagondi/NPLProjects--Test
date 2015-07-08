@@ -1,0 +1,36 @@
+	<header>
+		<i class="fa fa-bars" data-template="menu.html" data-placement="left" data-animation="am-slide-left" bs-aside="aside"></i>
+		<i class="fa fa-refresh" ng-class="syncData == 1 ? 'fa-spin' : '' " ng-click="synchronizeData();"></i>
+
+		<span class="last-refresh" ng-if="lastRefresh">{{lastRefresh}}</span>
+	</header>
+ 
+	<div class="breadcrumbs">
+		<span ng-repeat="breadcrumb in breadcrumbs.get() track by breadcrumb.path" ng-class="{ active: $last }">
+		  <a ng-if="!$last" ng-href="#{{ breadcrumb.path }}" ng-bind="breadcrumb.label" class="margin-right-xs"></a>
+		  <i ng-if="!$last" class="fa fa-angle-right"></i>
+		  <span ng-if="$last" ng-bind="breadcrumb.label"></span>
+		</span>
+	</div>
+	
+	<script type="text/ng-template" id="menu.html">
+		<div class="aside" tabindex="-1" role="dialog">
+		   <h1>Menu</h1>
+		<div class="aside-header">
+		   <ul>
+			<li><a href="#/">Home</a></li>
+			<li ng-if= "showAccountSwitching == 1"><a href="javascript:void(0);" ng-click="switchUserAccount()">Switch to {{switchTo}} Account</a></li>
+			<li><a href="#logout">Logout</a></li>
+		   </ul>
+		   <a href="javascript:void(0);" class="button" ng-click="$hide();">close</a>
+		</div>
+		</div>
+	</script>
+	
+	<br>
+	<!--<div class="errors" ng-if="global_error != ''">{{global_error}}</div>-->
+	<div class="msg alert" ng-click="hideMessage('global_error');" ng-show="global_error != '' "><i class="fa fa-warning"></i>{{global_error}}</div>
+	<div class="msg alert" ng-if="global_process != ''" ><i class="fa fa-spinner fa-spin"></i>{{global_process}}</div>
+	<div class="msg success hideMe" ng-click="hideMessage('global_success');" ng-show="global_success != ''"><i class="fa fa-check-square-o"></i>{{global_success}}</div>
+	
+	

@@ -1,0 +1,46 @@
+	<link rel="stylesheet" href="assets/js/plugins/angular_motion/style/main.min.css">
+	<div id="header" ng-class="isIOS7 == 1 ? 'ios7' : '';" ng-include="src='pages/auditor/breadcrumbs.html'" ></div>
+	<style>
+		.am-slide-right{
+			width: 100%;
+			z-index: 10000;
+		}
+	</style>
+	<div class="title">
+		<!--<h1>{{audit_type}} Audit</h1>
+		<span class="h-26x">|</span>
+		<h3 class="font-light">Sub Categories</h3>-->
+		<h1>Sub-Categories</h1>
+		<span class="h-26x">|</span>
+		<h3 class="font-light">{{subCategory}}</h3>
+	</div>
+	<hr class="m-b0" />
+	
+	<div class="row m-tb10">
+		<div class="medium-10 columns">&nbsp;</div>
+		<div class="medium-2 columns">NA</div>
+	</div>
+	<div class="list-category">
+		<ul>
+			<li ng-repeat="category in subCategories" id="{{category.PKAuditSubCategoryID}}" ng-class="getCategoryIndex(category);" >
+				<span ng-click="showQuestion();"><i ng-class="getCategoryIndex(category) == 'active' ? 'fa fa-check-circle' : (getCategoryIndex(category) == 'inactive' ? 'fa fa-minus-circle' : 'fa fa-ban')" ng-if="getCategoryIndex(category) != ''" ></i> {{category.Description}}</span>
+				<div class="checkbox cross"><input type="checkbox" ng-checked="isChecked(category);" ng-click="naSubCategory(category)"  id="box_{{category.PKAuditSubCategoryID}}" /><label for="box_{{category.PKAuditSubCategoryID}}"></label></div>
+			</li>
+			<!-- data-template="questions.html" data-placement="center" data-animation="am-fade-and-slide-top" bs-modal="modal"-->
+		</ul>
+	</div>
+	<button type="button" class="button blue" data-placement="right" data-animation="am-slide-right" bs-aside="aside" id="trigger_dificiency_flyout" style="opacity:0;width:0px;height:0px;margin-left:-20px" >Add Deficiency</button>
+	<button type="button" class="btn btn-lg btn-primary" data-animation="am-fade-and-scale" data-placement="center" bs-modal="modal" id="trigger_modal" style="opacity:0;width:0px;height:0px;margin-left:-20px"></button>
+	
+	<footer id="footer">
+		<div class="row">
+			<div class="medium-2 columns">
+				<a href="javascript:void(0);" ng-click="backToCategory();" class="button medium gray">Save & Back</a>
+			</div>
+			<div class="medium-7 columns">&nbsp;</div>
+			<div class="medium-3 columns">
+				<!--<a href="javascript:void(0);" ng-click="nextToSummary()" class="button medium">Next</a>
+				<a href="javascript:void(0);" ng-click="saveProgress();" class="button medium">Save Progress</a>-->
+			</div>
+		</div>	
+	</footer>
