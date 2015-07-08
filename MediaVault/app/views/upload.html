@@ -2,10 +2,14 @@
     <div id="upload-page" ng-show="uploadpage" class="rows align-left">
         <div class="row align-top align-bottom">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-left">
-                <button type="button" class="btn btn-primary button-width" ng-click="camera()"> <i class="fa fa-camera"></i> Use Camera</button>
+                <button type="button" class="btn btn-primary button-width" ng-click="camera()"><i
+                        class="fa fa-camera"></i> Use Camera
+                </button>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-right">
-                <button type="button" class="btn btn-primary button-width" ng-click="gallery()"><i class="fa fa-picture-o"> </i> Gallary </button>
+                <button type="button" class="btn btn-primary button-width" ng-click="gallery()"><i
+                        class="fa fa-picture-o"> </i> Gallary
+                </button>
             </div>
         </div>
         <!--Row Two -->
@@ -13,17 +17,20 @@
             <div class="col-lg-12 col-sm-12 col-xs-12">
                 <div class="image-area">
                     <p>Image displays here</p>
-                    <img ng-src="{{imagePath}}">
+                    <img ng-src="{{imagePath}}" alt="">
                 </div>
             </div>
         </div>
         <!--Row Three -->
         <div class="row align-bottom">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-left">
-                <button type="button" ng-click="clear()" class="btn btn-success button-width"><i class="fa fa-times"></i> Clear</button>
+                <button type="button" ng-click="clear()" class="btn btn-success button-width"><i
+                        class="fa fa-times"></i> Clear
+                </button>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-right">
-                <button type="button" ng-click="continuee()" class="btn btn-success button-width">Continue <i class="fa fa-arrow-right"></i></button>
+                <button type="button" ng-click="continuee()" class="btn btn-success button-width">Continue <i
+                        class="fa fa-arrow-right"></i></button>
             </div>
         </div>
     </div>
@@ -31,7 +38,7 @@
     <div id="upload-dtl" ng-show="uploaddtl" class="rows">
         <div class="row align-bottom">
             <div class="col-lg-2 col-md-3">
-                <img src="images/thumbnail.gif" class="thumbnail"/>
+                <img src="images/thumbnail.gif" class="thumbnail" alt="thumbnail-image"/>
             </div>
             <div class="col-lg-4 mt-25 col-md-4">
 
@@ -45,42 +52,50 @@
         <hr class="horizontal-line"/>
 
         <div class="row">
-            <form role="form" name="uploadForm"  ng-submit="uploadData()">
+            <form role="form" name="uploadForm" ng-submit="uploadData()">
                 <div class="form-group col-lg-4 col-md-4">
                     <label for="area-data">Area</label>
-                    <select class="form-control" ng-model="areaSelect" id="area-data" name="uploadArea" ng-change="jobsFilter()" ng-options="areaCode for areaCode in areacode"   >
+                    <select class="form-control" ng-model="areaSelect" id="area-data" name="uploadArea"
+                            ng-change="jobsFilter()" ng-options="areaCode for areaCode in areacode">
                         <option value="" selected="selected"></option>
                     </select>
                 </div>
                 <div class="form-group col-lg-4 col-md-4">
                     <label for="job">Job:</label>
-                    <select class="form-control" id="job" ng-model="jobUpload" ng-change="phaseFilter()"  ng-options="jobs.jobNum as jobs.jobName for jobs in job">
+                    <select class="form-control" id="job" ng-model="jobUpload" ng-change="phaseFilter()"
+                            ng-options="jobs.jobNum as jobs.jobName for jobs in job">
                     </select>
                 </div>
                 <div class="form-group col-lg-3 col-md-3">
                     <label for="phase">Phase</label>
-                    <select class="form-control" id="phase" ng-model="phaseUpload"  ng-options="phases.Phase as phases.Phase for phases in phases" >
+                    <select class="form-control" id="phase" ng-model="phaseUpload"
+                            ng-options="phases.Phase as phases.Phase for phases in phases">
                     </select>
                 </div>
                 <div class="form-group col-lg-1 col-md-1 mt-25">
-                    <button type="button" class="btn btn-primary" id="clear-all" ng-click="uploadformclear()">Clear All</button>
+                    <button type="button" class="btn btn-primary" id="clear-all" ng-click="uploadformclear()">Clear
+                        All
+                    </button>
                 </div>
                 <div class="form-group col-lg-4 col-md-4">
                     <label for="work-date">WorkDate</label>
+
                     <div class="input-group">
-					  <input id="work-date" type="text"  class="form-control" datepicker-popup="{{format}}" ng-model="dateUpload" is-open="model.secondCal"
+                        <input id="work-date" type="text" class="form-control" datepicker-popup="{{format}}"
+                               ng-model="dateUpload" is-open="model.secondCal"
                                min-date="minDate" name="secondCal" datepicker-options="dateOptions"
-                               date-disabled="disabled(date, mode)"  close-text="Close"
-							   />
+                               date-disabled="disabled(date, mode)" close-text="Close"
+                                />
+
                         <p class="input-group-btn">
                             <button type="button" class="btn btn-default" ng-click="open($event, 'secondCal')"><i
                                     class="glyphicon glyphicon-calendar"></i></button>
                         </p>
-					</div>
+                    </div>
                 </div>
                 <div class="form-group col-lg-4 col-md-4">
                     <label for="dpr">Ext Dpr #</label>
-                    <input type="text" class="form-control" id="dpr" ng-model="dprUpload" />
+                    <input type="text" class="form-control" id="dpr" ng-model="dprUpload"/>
                 </div>
                 <div class="clearfix"></div>
                 <div class="form-group col-lg-4 col-md-4">
@@ -89,8 +104,9 @@
                 </div>
                 <div class="form-group col-lg-4 col-md-4">
                     <label for="zip">Zip code </label>
-                    <input type="number" name='zip' is-number ng-pattern='/(^\d{5}$)|(^\d{5}-\d{4}$)/' class="form-control" id="zip" ng-model="zipUpload" min="5" max="5"/>
-					<span class="error" ng-show="uploadForm.zip.$error.pattern">Not valid ZipCode !</span>
+                    <input type="number" name='zip' is-number ng-pattern='/(^\d{5}$)|(^\d{5}-\d{4}$)/'
+                           class="form-control" id="zip" ng-model="zipUpload" min="5" max="5"/>
+                    <span class="error" ng-show="uploadForm.zip.$error.pattern">Not valid ZipCode !</span>
                 </div>
                 <div class="form-group col-lg-4 col-md-4">
                     <label for="city">City</label>
@@ -107,10 +123,13 @@
                     </textarea>
                 </div>
                 <div class="form-group col-lg-2 col-md-2">
-				<button type="button" class="btn btn-primary select-text "   data-toggle="modal" data-target="#myModal">Select KeyWord</button>                    
-                </div>         
-                <div class="form-group col-lg-10 col-md-10 nopadding">                   
-					<textarea class="form-control align-top" rows="3" ng-model="keywordsUpload" ng-disabled='true'></textarea> 
+                    <button type="button" class="btn btn-primary select-text " data-toggle="modal"
+                            data-target="#myModal">Select KeyWord
+                    </button>
+                </div>
+                <div class="form-group col-lg-10 col-md-10 nopadding">
+                    <textarea class="form-control align-top" rows="3" ng-model="keywordsUpload"
+                              ng-disabled='true'></textarea>
                 </div>
                 <div class="clearfix"></div>
                 <div class="col-md-6 col-lg-6 text-left mt-15">
@@ -119,10 +138,11 @@
                     </button>
                 </div>
                 <div class="col-md-6 col-lg-6 text-right mt-15">
-                    <button type="button" class="btn btn-success button-width" ng-click="uploadData()" ><i class="fa fa-upload"></i>Upload
-                    </button>														
+                    <button type="button" class="btn btn-success button-width" ng-click="uploadData()"><i
+                            class="fa fa-upload"></i>Upload
+                    </button>
                 </div>
             </form>
         </div>
-    </div>	
+    </div>
 </div>

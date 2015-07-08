@@ -9,5 +9,5 @@
  */
 
 angular.module('MediaVault').controller('queueCtrl', function () {
-    
+
 });

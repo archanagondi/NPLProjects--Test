@@ -12,16 +12,15 @@
 
 angular.module('constants', [])
     .constant('ENDPOINTS', {
-        feedback: 'feedback',
-        signin: 'signin',
-        signout: 'signout',
-        releaseNotes: 'releaseNotes',
-        areas: 'areas',
-        jobsandphases: 'jobsAndPhases',
-		getcategories: 'getCategories',
-		getkeywords: 'getKeywords'
-		
-		
+        feedback: 'api.php?endpoint=feedback',
+        signin: 'api.php?endpoint=signin',
+        signout: 'api.php?endpoint=signout',
+        releaseNotes: 'api.php?endpoint=releaseNotes',
+        areas: 'api.php?endpoint=areas',
+        jobsandphases: 'api.php?endpoint=jobsAndPhases',
+		getcategories: 'MediaVault/api.php?endpoint=getCategories',
+		getkeywords: 'MediaVault/api.php?endpoint=getKeywords'
+	
     })
 
 //String Display Messages

@@ -1,83 +1,83 @@
 @import "includes/colors";
 
 #telemetry-notice {
-	display: none;
+  display: none;
 }
 
 #login {
-	display: table;
-	height: 100%;
-	position: absolute;
-	width: 100%;
+  display: table;
+  height: 100%;
+  position: absolute;
+  width: 100%;
 
-	#login-cell {
-		display: table-cell;
-		vertical-align: middle;
+  #login-cell {
+    display: table-cell;
+    vertical-align: middle;
 
-		#login-content {
-			margin: 0 auto;
-			position: relative;
-			text-align: center;
-			width: 288px;
+    #login-content {
+      margin: 0 auto;
+      position: relative;
+      text-align: center;
+      width: 288px;
 
-			h1 {
-				font-weight: 400;
-				margin-bottom: 0;
-			}
+      h1 {
+        font-weight: 400;
+        margin-bottom: 0;
+      }
 
-			h2 {
-				font-weight: 300;
-				margin-top: 0;
-			}
+      h2 {
+        font-weight: 300;
+        margin-top: 0;
+      }
 
-			h3 {
-				color: $primaryColorDevelopment;
-				font-weight: 400;
-			}
+      h3 {
+        color: $primaryColorDevelopment;
+        font-weight: 400;
+      }
 
-			input,
-			select {
-        		box-sizing: border-box;
-        		width: 100%;
-      		}
+      input,
+      select {
+        box-sizing: border-box;
+        width: 100%;
+      }
 
-			select {
-          		border-radius: 6px;
-          		margin-bottom: 4.5px;
-        	}
+      select {
+        border-radius: 6px;
+        margin-bottom: 4.5px;
+      }
 
-			input:first-child {
-				border-radius: 6px 6px 0 0;
-				position: relative;
-			}
+      input:first-child {
+        border-radius: 6px 6px 0 0;
+        position: relative;
+      }
 
-      		input:nth-child(2) {
-        		border-radius: 0 0 6px 6px;
-        		margin-bottom: 4.5px;
-        		position: relative;
-        		top: -1px;
-      		}
+      input:nth-child(2) {
+        border-radius: 0 0 6px 6px;
+        margin-bottom: 4.5px;
+        position: relative;
+        top: -1px;
+      }
 
-      		input:focus {
-        		z-index: 2;
-      		}
+      input:focus {
+        z-index: 2;
+      }
 
-      		input:first-child,
-      		input[type="password"] {
-        		color: $secondaryColor;   		
-        		border: 1px solid $quaternaryColorLight;
-        		
-      		}
+      input:first-child,
+      input[type="password"] {
+        color: $secondaryColor;
+        border: 1px solid $quaternaryColorLight;
 
-      		input[type="submit"] {
-        		background-color: $primaryColor;
-        		border-color: $primaryColor;
-      		}
+      }
 
-      		input[type="submit"]:active {
-        		background-color: darken($primaryColor, 14%);
-        		border-color: darken($primaryColor, 14%);
-      		}
-		}
-	}
+      input[type="submit"] {
+        background-color: $primaryColor;
+        border-color: $primaryColor;
+      }
+
+      input[type="submit"]:active {
+        background-color: darken($primaryColor, 14%);
+        border-color: darken($primaryColor, 14%);
+      }
+    }
+  }
 }

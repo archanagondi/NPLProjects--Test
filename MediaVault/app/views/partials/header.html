@@ -1,5 +1,7 @@
-<div id="header" ng-class="{'development': development}"> <a class="fa fa-bars" ng-click="openNavigation()"></a>
-  <div class="title-container"> <span class="title" ng-bind="pageTitle"></span> </div>
-  <div class="name"> <span class="test-user" ng-if="currentUser.isTest">Test User:</span> <span>{{currentUser.name}} </span> </div>
+<div id="header" ng-class="{'development': development}"><a class="fa fa-bars" ng-click="openNavigation()"></a>
+
+    <div class="title-container"><span class="title" ng-bind="pageTitle"></span></div>
+    <div class="name"><span class="test-user" ng-if="currentUser.isTest">Test User:</span>
+        <span>{{currentUser.name}} </span></div>
 </div>
 <div id="navbar-transclusion" class="clear" ng-transclude></div>

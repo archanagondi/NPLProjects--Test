@@ -25,9 +25,7 @@ angular.module('api').service('nplApi', function (ENV, ENDPOINTS, ERRORS, $http,
     }
 
     // append the version to the API URL
-    apiURL += '?endpoint=';
-
-
+   // apiURL += '?endpoint=';
     function post(endpoint, body) {
         var user = localRecord.get('user');
         var headers = {};
@@ -127,42 +125,9 @@ angular.module('api').service('nplApi', function (ENV, ENDPOINTS, ERRORS, $http,
                 return;
             });
     }
-    function get1(endpoint, params) {
-        var user = localRecord.get('user');
-
-        if (!params) {
-            params = {};
-        }
-
-        if (!user || !user.token) {
-            var error = {status: 401, message: ERRORS.login.missingId};
-            return promiseUtil.emptyPromise(null, error);
-        }
-
-        var headers = {
-            'X-Access-Token': user.token
-        };
-
-        //must add an extra param to work around IE caching get calls
-        params.rnd = +new Date().getTime();
-
-        return $http({
-            method: 'GET',
-            url: 'https://api-dev3.gonpl.com/mediavault/mediavault/api.php?endpoint='+endpoint,
-            headers: headers,
-            params: params
-        }).
-            error(function (data, status, headers, config) {
-                if (status === 401 && user) {
-                    user.token = null;
-                    localRecord.save('user', user);
-                }
-                return;
-            });
-    }
+    
     return {
         get: get,
-		get1: get1,
         post: post,
         put: put
     }

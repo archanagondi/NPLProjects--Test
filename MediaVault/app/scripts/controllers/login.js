@@ -8,12 +8,11 @@
  * Controller
  */
 angular.module('MediaVault').controller('LoginCtrl', function (ENV, ERRORS, $scope, $rootScope, $state, stringUtil, nplApi, access, localRecord, loadAppData) {
-     $scope.currentEnvironment = ENV;
-	 $scope.Phases= [];
-     $scope.jobs= [];
+    $scope.currentEnvironment = ENV;
+    $scope.Phases = [];
+    $scope.jobs = [];
     // if the user is logged in, take them to the dashboard
-    if (access.isSignedIn()) 
-	{
+    if (access.isSignedIn()) {
         $state.go('main');
     }
     // if a last username is stored
@@ -28,7 +27,8 @@ angular.module('MediaVault').controller('LoginCtrl', function (ENV, ERRORS, $sco
             return;
         }
         $scope.loggingIn = true;
-        var callback = function (error) {
+        var callback = function (error) 
+		{
             if (error) {
                 if (error.statusText) {
                     if (error.status === 404) {
@@ -47,49 +47,41 @@ angular.module('MediaVault').controller('LoginCtrl', function (ENV, ERRORS, $sco
                 $scope.loggingIn = false;
                 //load data of service get area data here get area is service
                 loadAppData.getAreas().success(
-                    function (areas)
-					{
-					  localRecord.save('area',areas);
+                    function (areas) {
+                        localRecord.save('area', areas);
                     }
-                ).error(function()
-				{
-					
-				});
+                ).error(function () {
+
+                    });
                 loadAppData.getJobsAndPhases().success(
-                    function (jobsandphases)
+                    function (jobsandphases) {
+                        $scope.test = angular.toJson(jobsandphases);
+
+                        localRecord.save('phase', $scope.test);
+                    }
+                ).error(function () {
+
+                    });
+                loadAppData.getCategory().success(
+                    function (categoryresponse) {
+
+                        $scope.categories = angular.toJson(categoryresponse);
+                        localRecord.save('categories', $scope.categories);
+                    }
+                ).error(function () {
+
+                    });
+
+                loadAppData.getKeywords().success(
+                    function (keywordresponse) 
 					{
-						$scope.test=angular.toJson(jobsandphases);
-						
-						localRecord.save('phase',$scope.test);
-					}
-                ).error(function()
-				{
-					
-				});
-				loadAppData.getCategory().success(
-                    function (categoryresponse)
-					{
-					  
-					  $scope.categories =angular.toJson(categoryresponse);
-					  localRecord.save('categories',$scope.categories );
-					}
-                ).error(function()
-				{
-					
-				});
-				
-				loadAppData.getKeywords().success(
-                    function (keywordresponse)
-					{
-						
-						 $scope.keys =angular.toJson(keywordresponse);
-					  localRecord.save('keywords', $scope.keys);
-					}
-                ).error(function()
-				{
-				});
-				
-				
+                        $scope.keys = angular.toJson(keywordresponse);
+                        localRecord.save('keywords', $scope.keys);
+                    }
+                ).error(function () {
+                    });
+
+
                 $state.go('main');
             }
             $scope.loggingIn = false;
