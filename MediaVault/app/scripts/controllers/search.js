@@ -14,18 +14,11 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
     $scope.searchpageresults = false;
     $scope.searchdetails = false;
     $scope.searchmediaimg = true;
-<<<<<<< HEAD
     $scope.searchmediadetails = false;
 
     //search page buttons
     $scope.searchbutton = function () 
 	{
-=======
-    $scope.searchmediadtl = false;
-
-    //search page buttons
-    $scope.searchbutton = function () {
->>>>>>> ebb1f9f2b724c5333475a4ed0b7d7207bc10b3dd
         $scope.searchpage = false;
         $scope.searchpageresults = true;
     };
@@ -124,10 +117,6 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
             $window.alert('No jobs in this area ');
         }
     };
-<<<<<<< HEAD
-=======
-
->>>>>>> ebb1f9f2b724c5333475a4ed0b7d7207bc10b3dd
     $scope.searchphaseFilter = function () {
         $scope.phasesSearch = [];
         angular.forEach($rootScope.jobsandphases, function (value) {
@@ -143,9 +132,4 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
             }
         });
     };
-<<<<<<< HEAD
-=======
-
-
->>>>>>> ebb1f9f2b724c5333475a4ed0b7d7207bc10b3dd
 });

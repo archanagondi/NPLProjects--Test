@@ -137,11 +137,8 @@ angular.module('MediaVault').controller('uploadCtrl', function (LABELS, $window,
         $rootScope.keywordsUpload;
     };
 
-<<<<<<< HEAD
 	
 	
 	
 	
-=======
->>>>>>> ebb1f9f2b724c5333475a4ed0b7d7207bc10b3dd
 });
