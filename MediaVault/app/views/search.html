@@ -15,6 +15,7 @@
                             ng-options="areaCode for areaCode in areacode">
                         <option value="" selected="selected"></option>
                     </select>
+					<div class="alert alert-danger" ng-show='searcharea'  id='search-area-alert'></div>
                 </div>
                 <div class="form-group">
                     <label for="jobs-list">Job:</label>
@@ -59,16 +60,14 @@
                     <input type="text" class="form-control" ng-model='searchStreetName' id="street-name"/>
                 </div>
                 <div class="form-group">
+				
                     <label for="zip-code">Zip code </label>
-                    <input type="text" class="form-control" ng-model='searchZipCode' id="zip-code"/>
+                    <input type="text" class="form-control" ng-model='searchZipCode' id="zip-code" ng-blur='getsearchgeoloactiondata()'/>
+					<div class="alert alert-danger" ng-show='searchziptext'  id='search-zip-alerts'></div>						
                 </div>
                 <div class="form-group">
                     <label for="cities">City</label>
-                    <select class="form-control" id="cities" ng-model='searchCity'>
-                        <option>hyderabad</option>
-                        <option>Karimnagar</option>
-                        <option>Adilabad</option>
-                        <option>Rangareddy</option>
+                    <select class="form-control" id="cities" ng-model='searchCity' ng-options="city.PrimaryCity as city.PrimaryCity for city in searchgeocity">
                     </select>
                 </div>
             </div>
@@ -156,7 +155,7 @@
 
         </div>
 		   
-            <div class="col-lg-12 load-more text-center"><img src="images/preload-green-spinner.gif" alt="preload-green-spinner"/></div>
+            <div class="col-lg-12 load-more text-center"><img src="images/preload-green-spinner.gif" alt="preload green spinner"/></div>
 
         </div>
     </div>
@@ -199,6 +198,7 @@
                                 ng-options="areaCode for areaCode in areacode">
                             <option value="" selected="selected"></option>
                         </select>
+						<div class="alert alert-danger" ng-show='searcharea'  id='searchdetails-area-alerts'></div>
                     </div>
                     <div class="form-group">
                         <label for="search-details-job">Job:</label>
@@ -221,12 +221,12 @@
 
                         <div class="input-group">
                             <input id="search-details-date" type="text" class="form-control"
-                                   datepicker-popup="{{format}}" ng-model="searchDetailsdate" is-open="model.search-details-date"
-                                   min-date="minDate" name="search-details-date" datepicker-options="dateOptions"
+                                   datepicker-popup="{{format}}" ng-model="searchDetailsdate" is-open="model.searchDetails"
+                                   min-date="minDate" name="searchDetails" datepicker-options="dateOptions"
                                    date-disabled="disabled(date, mode)" close-text="Close"/>
 
                             <p class="input-group-btn">
-                                <button type="button" class="btn btn-default" ng-click="open($event,'search-details-date')"><i
+                                <button type="button" class="btn btn-default" ng-click="open($event,'searchDetails')"><i
                                         class="glyphicon glyphicon-calendar"></i></button>
                             </p>
 
@@ -247,16 +247,13 @@
                     </div>
                     <div class="form-group">
                         <label for="search-details-zip-code">Zip code </label>
-                        <input type="text" class="form-control" ng-model='searchDetailsZip'
-                               id="search-details-zip-code"/>
+                        <input type="text" class="form-control" ng-model='searchDetailsZip' id="search-details-zip-code"  ng-blur='getsearchdetailsgeoloactiondata()'/>
+						<div class="alert alert-danger" ng-show='searchdetailsziptext'  id='search-details-zip-alerts'></div>
                     </div>
                     <div class="form-group">
                         <label for="search-details-cities">City</label>
-                        <select class="form-control" ng-model='searchDetailsCity' id="search-details-cities">
-                            <option>hyderabad</option>
-                            <option>Karimnagar</option>
-                            <option>Adilabad</option>
-                            <option>Rangareddy</option>
+                        <select class="form-control" ng-model='searchDetailsCity' id="search-details-cities" ng-options='city.PrimaryCity as city.PrimaryCity for city in searchdetailsgeocity'>
+                           
                         </select>
                     </div>
 
@@ -288,7 +285,7 @@
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-right mt-25">
                     <button type="button" class="btn btn-primary button-width"><i
-                            class="fa fa-floppy-o"></i>Save
+                            class="fa fa-floppy-o" ng-click='searchdetailssave()'></i>Save
                     </button>
                 </div>
             </form>

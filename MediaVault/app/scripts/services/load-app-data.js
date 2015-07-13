@@ -9,21 +9,25 @@
  */
 angular.module('MediaVault').service('loadAppData', function (ENV, ENDPOINTS, ERRORS, MESSAGES, $state, nplApi) {
     var service = {};
-    service.getAreas = function () 
-	{
+    service.getAreas = function () {
         return nplApi.get(ENDPOINTS.areas, {version: ENV.version});
     };
     service.getJobsAndPhases = function () {
         return nplApi.get(ENDPOINTS.jobsandphases, {version: ENV.version});
     };
-	service.getCategory = function () 
-	{
-        return nplApi.get(ENDPOINTS.getcategories, {version: ENV.version});       
+    service.getCategory = function () {
+        return nplApi.get(ENDPOINTS.getcategories, {version: ENV.version});
     };
-	service.getKeywords = function () 
-	{
+    service.getKeywords = function () {
         return nplApi.get(ENDPOINTS.getkeywords, {version: ENV.version});
     };
-	
+
+    service.getGeoLocation = function () {
+        return nplApi.get(ENDPOINTS.getgeoLocation, {version: ENV.version});
+    };
+    service.getGeoLocation = function (selectedArea) {
+        return nplApi.get(ENDPOINTS.getgeoLocation, {area: selectedArea});
+    };
+
     return service;
 });

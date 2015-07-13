@@ -18,9 +18,10 @@ angular.module('constants', [])
         releaseNotes: 'api.php?endpoint=releaseNotes',
         areas: 'api.php?endpoint=areas',
         jobsandphases: 'api.php?endpoint=jobsAndPhases',
-		getcategories: 'MediaVault/api.php?endpoint=getCategories',
-		getkeywords: 'MediaVault/api.php?endpoint=getKeywords'
-	
+        getcategories: 'MediaVault/api.php?endpoint=getCategories',
+        getkeywords: 'MediaVault/api.php?endpoint=getKeywords',
+        getgeoLocation: 'api.php?endpoint=getGeoLocation'
+
     })
 
 //String Display Messages

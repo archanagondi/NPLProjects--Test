@@ -8,62 +8,108 @@
  * Controller to handle the feedback form
  */
 
-angular.module('MediaVault').controller('uploadCtrl', function (LABELS, $window, $scope, $state, localRecord, access, $rootScope) {
+angular.module('MediaVault').controller('uploadCtrl', function (LABELS, $window,$filter, $scope, $state, localRecord, access, $rootScope, loadAppData,$http, $q) {
 
     $scope.job = [];
     $scope.phases = [];
-
+	$scope.uploadformdata = [];
+    $rootScope.geocity = [];
     $scope.areaSelect = '';
     $scope.phaseUpload = '';
     $scope.dateUpload = '';
     $scope.jobUpload = '';
     $scope.dprUpload = '';
     $scope.streetUpload = '';
-    $scope.zipUpload = '';
+    $scope.zipcodeUpload = '';
     $scope.cityUpload = '';
     $scope.NotesUpload = '';
     $scope.dt = '';
-
+    $scope.geodata = [];
+	$scope.areatext=false;
+	$scope.ziptext=false;
 
     $scope.uploadpage = true;
     $scope.uploaddtl = false;
 
+
     /* script for camera*/
+    $scope.pictureSource = '';
+    $scope.destinationType = '';
+    $scope.picturetype = '';
     var destinationType = '';
 
-    $scope.camera = function () {
+    $scope.camera = function(source) {
 
-        navigator.camera.getPicture(onPhotoFromlibraryDataSuccess, onFail, {
-            quality: 4,
-            allowEdit: true,
-            destinationType: Camera.DestinationType.FILE_URI
-        });
-    };
+        var deferred = $q.defer();
+		
+        var cameraOptions = {quality: 70, destinationType: Camera.DestinationType.FILE_URI, correctOrientation: true};
 
-    $scope.gallery = function () {
+        // If source == 1 photo upload from gallery
+        if (source === parseInt(1)) 
+		{
+            cameraOptions = {quality: 70, destinationType: Camera.DestinationType.FILE_URI, sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY, targetWidth: 600, targetHeight: 600, correctOrientation: true};
+			
+        }
 
-        navigator.camera.getPicture(onPhotoFromlibraryDataSuccess, onFail, {
-            quality: 4,
-            destinationType: destinationType.FILE_URI,
-            allowEdit: true
-        });
-    };
+        navigator.camera.getPicture(function(imageURI) {
+		
+                var networkState = navigator.network.connection.type;
+                var states = {};
+                states[Connection.UNKNOWN] = 'Unknown connection';
+                states[Connection.ETHERNET] = 'Ethernet connection';
+                states[Connection.WIFI] = 'WiFi connection';
+                states[Connection.CELL_2G] = 'Cell 2G connection';
+                states[Connection.CELL_3G] = 'Cell 3G connection';
+                states[Connection.CELL_4G] = 'Cell 4G connection';
+                states[Connection.NONE] = 'No network connection';
 
-    function onPhotoFromlibraryDataSuccess(imageURI) {
-
-        $scope.imagePath = imageURI;
-    }
-
-    function onFail(message) {
-        navigator.notification.alert(
-            message, // message
-            null, // callback
-            'Camera Error', // title
-            'Ok'  // buttonName
+                if (states[networkState] === 'WiFi connection' || states[networkState] === 'Cell 4G connection') {
+                    $scope.imagePath = imageURI;
+                    window.resolveLocalFileSystemURI(imageURI, function(fileEntry) {
+                        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) {
+                            fileSys.root.getDirectory('uploadedPhoto', {create: true, exclusive: false}, function(dir) {
+                                fileEntry.copyTo(dir, generateRandomID() + '.png', function(entry) {
+                                    deferred.resolve(entry.toURL());
+                                }, null);
+                            }, null);
+                        }, null);
+                    }, null);
+                } else {
+                    navigator.notification.alert(
+                        'This App requires an internet connection.', // message
+                        'No Internet Connection', // title
+                        'Close'                  // buttonName
+                    );
+                    return false;
+                }
+            },
+            function(message) {
+                deferred.reject(message);
+            },
+            cameraOptions
         );
-    }
 
-    $scope.clear = function () {
+        return deferred.promise;
+
+
+        // generate random code
+        function generateRandomID() 
+		{
+            var length = 10;
+            var letters = 'abcdefghijklmnopqrstuvwxyz';
+            var numbers = '1234567890';
+            var charset = letters + letters.toUpperCase() + numbers;
+            var R = '';
+            for (var i = 0; i < length; i++)
+            {
+                R += charset.substr(Math.floor(Math.random() * length), 2);
+            }
+            return R;
+        }
+    };
+
+    $scope.clear = function () 
+	{
         $scope.imagePath = '';
     };
     $scope.continuee = function () {
@@ -76,24 +122,33 @@ angular.module('MediaVault').controller('uploadCtrl', function (LABELS, $window,
     };
 
     //form validations in upload html
-    $scope.uploadformclear = function () {
+    $scope.uploadformclear = function (){
         $scope.areaSelect = '';
         $scope.phaseUpload = '';
         $scope.dateUpload = '';
         $scope.jobUpload = '';
         $scope.dprUpload = '';
         $scope.streetUpload = '';
-        $scope.zipUpload = '';
+        $scope.zipcodeUpload = '';
         $scope.cityUpload = '';
         $scope.NotesUpload = '';
-
         $rootScope.keywordsUpload = '';
-
+		$scope.ziptext=false;
     };
 
     $scope.jobsFilter = function () {
         $scope.job = [];
         $scope.phases = [];
+
+        loadAppData.getGeoLocation($scope.areaSelect).success(
+            function (selectedGeoData) {
+                localRecord.remove('geodata');
+                $scope.geodata = angular.toJson(selectedGeoData);
+                localRecord.save('geodata', $scope.geodata);
+            }
+        ).error(function () {
+
+            });
 
         angular.forEach($rootScope.jobsandphases, function (value) {
             if (value.Area === parseInt($scope.areaSelect)) {
@@ -101,12 +156,13 @@ angular.module('MediaVault').controller('uploadCtrl', function (LABELS, $window,
                 $scope.jobOptions.jobName = value.JobName;
                 $scope.jobOptions.jobNum = value.JobNum;
                 $scope.job.push($scope.jobOptions);
-
             }
         });
         if ($scope.job.length === parseInt(0)) {
-            $window.alert('No jobs in this area ');
+			$scope.areatext=true;
+			document.getElementById('area-alert').innerHTML='No jobs in this area';
         }
+		else{$scope.areatext=false;}
     };
 
     $scope.phaseFilter = function () {
@@ -124,21 +180,50 @@ angular.module('MediaVault').controller('uploadCtrl', function (LABELS, $window,
         });
     };
 
-    $scope.uploadData = function () {
-        $scope.areaSelect;
-        $scope.phaseUpload;
-        $scope.dateUpload;
-        $scope.jobUpload;
-        $scope.dprUpload;
-        $scope.streetUpload;
-        $scope.zipUpload;
-        $scope.cityUpload;
-        $scope.NotesUpload;
-        $rootScope.keywordsUpload;
+    $scope.uploadData = function ()
+	{
+		$scope.uploadformdata=[];
+		
+		//$scope.areaSelect,$scope.phaseUpload,$scope.dateUpload,$scope.jobUpload,$scope.dprUpload,$scope.streetUpload,$scope.zipcodeUpload,$scope.cityUpload,$scope.NotesUpload,$rootScope.keywordsUpload;      
+		$scope.uploadformdata.push($scope.areaSelect);
+		$scope.uploadformdata.push($scope.jobUpload);
+		$scope.uploadformdata.push($scope.phaseUpload);
+		$scope.dateUpload =$filter('date')($scope.dateUpload, 'MM/dd/yyyy');
+		$scope.uploadformdata.push($scope.dateUpload);
+		$scope.uploadformdata.push($scope.dprUpload);
+		$scope.uploadformdata.push($scope.streetUpload);
+		$scope.uploadformdata.push($scope.zipcodeUpload);
+		$scope.uploadformdata.push($scope.cityUpload);
+		$scope.uploadformdata.push($scope.NotesUpload);
+		$scope.uploadformdata.push($rootScope.keywordsUpload);
+				
     };
 
-	
-	
-	
-	
+    $scope.localcitydata = angular.fromJson(localRecord.get('geodata').geodataCode);
+
+    $scope.getgeoloactiondata = function () 
+	{
+        $scope.geocity = [];
+		
+        angular.forEach($scope.localcitydata, function (value) {
+            if (value.Zip === $scope.zipcodeUpload) {
+                $scope.geo = [];
+                $scope.geo.PrimaryCity = value.PrimaryCity;
+                $scope.geocity.push($scope.geo);
+				
+            }
+        });
+		
+        if ($scope.geocity.length === parseInt(0)) 
+		{
+			$scope.ziptext=true;
+			 document.getElementById('zip-alert').innerHTML='No city for this zipcode ';
+            
+        }
+		else
+		{
+			$scope.ziptext=false;
+		}
+    };
+
 });

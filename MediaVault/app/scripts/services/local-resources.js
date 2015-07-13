@@ -33,21 +33,24 @@ angular.module('MediaVault').service('localResources', function (ENV, stringUtil
             properties: ['area-code'],
             prefixUser: false
         },
-		phase: {
+        phase: {
             id: 'phase',
             properties: ['phase-code'],
             prefixUser: false
         },
-		categories: 
-		{
+        categories: {
             id: 'categories',
             properties: ['categories-code'],
             prefixUser: false
         },
-		keywords: 
-		{
+        keywords: {
             id: 'keywords',
             properties: ['keywords-code'],
+            prefixUser: false
+        },
+        geodata: {
+            id: 'geodata',
+            properties: ['geodata-code'],
             prefixUser: false
         },
     };

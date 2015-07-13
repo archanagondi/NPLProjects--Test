@@ -17,7 +17,7 @@
             <div class="col-lg-12 col-sm-12 col-xs-12">
                 <div class="image-area">
                     <p>Image displays here</p>
-                    <img ng-src="{{imagePath}}" alt="">
+                    <img ng-src="{{imagePath}}" >
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
     <div id="upload-dtl" ng-show="uploaddtl" class="rows">
         <div class="row align-bottom">
             <div class="col-lg-2 col-md-3">
-                <img src="images/thumbnail.gif" class="thumbnail" alt="thumbnail-image"/>
+                <img src="images/thumbnail.gif" class="thumbnail" alt="thumbnail image"/>
             </div>
             <div class="col-lg-4 mt-25 col-md-4">
 
@@ -50,7 +50,6 @@
         </div>
         <p>Set as many items below as you can to help Searching </p>
         <hr class="horizontal-line"/>
-
         <div class="row">
             <form role="form" name="uploadForm" ng-submit="uploadData()">
                 <div class="form-group col-lg-4 col-md-4">
@@ -59,6 +58,8 @@
                             ng-change="jobsFilter()" ng-options="areaCode for areaCode in areacode">
                         <option value="" selected="selected"></option>
                     </select>
+					<div class="alert alert-danger" ng-show='areatext' id='area-alert'>	
+					</div>
                 </div>
                 <div class="form-group col-lg-4 col-md-4">
                     <label for="job">Job:</label>
@@ -86,7 +87,6 @@
                                min-date="minDate" name="secondCal" datepicker-options="dateOptions"
                                date-disabled="disabled(date, mode)" close-text="Close"
                                 />
-
                         <p class="input-group-btn">
                             <button type="button" class="btn btn-default" ng-click="open($event, 'secondCal')"><i
                                     class="glyphicon glyphicon-calendar"></i></button>
@@ -104,17 +104,16 @@
                 </div>
                 <div class="form-group col-lg-4 col-md-4">
                     <label for="zip">Zip code </label>
-                    <input type="number" name='zip' is-number ng-pattern='/(^\d{5}$)|(^\d{5}-\d{4}$)/'
-                           class="form-control" id="zip" ng-model="zipUpload" min="5" max="5"/>
+                    <input type="text" name='zip' is-number ng-pattern='/(^\d{5}$)|(^\d{5}-\d{4}$)/'
+                           class="form-control" id="zip" ng-model="zipcodeUpload" min="5" max="5" ng-blur='getgeoloactiondata()'/>
+						  
                     <span class="error" ng-show="uploadForm.zip.$error.pattern">Not valid ZipCode !</span>
+					<div class="alert alert-danger" ng-show='ziptext' id='zip-alert'></div>
                 </div>
                 <div class="form-group col-lg-4 col-md-4">
                     <label for="city">City</label>
-                    <select class="form-control" id="city" ng-model="cityUpload">
-                        <option>hyderabad</option>
-                        <option>Karimnagar</option>
-                        <option>Adilabad</option>
-                        <option>Rangareddy</option>
+                    <select class="form-control" id="city" ng-model="cityUpload"  ng-options="city.PrimaryCity as city.PrimaryCity for city in geocity"  >
+                       
                     </select>
                 </div>
                 <div class="form-group col-lg-12">

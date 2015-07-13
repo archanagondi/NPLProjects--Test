@@ -55,8 +55,7 @@ angular.module('MediaVault').service('localRecord', function (localResources, st
         }
     };
 
-    function parse(type, data, args) 
-	{
+    function parse(type, data, args) {
         switch (type) {
             case 'user':
                 return parseUsers(data, args);
@@ -75,16 +74,20 @@ angular.module('MediaVault').service('localRecord', function (localResources, st
             case 'area':
                 saveArea(data);
                 break;
-			case 'phase':
+            case 'phase':
                 savePhase(data);
                 break;
-			case 'categories':
+            case 'categories':
                 saveCategories(data);
                 break;
-			case 'keywords':
+            case 'keywords':
                 savekeywords(data);
                 break;
-			
+
+            case 'geodata':
+                savegeodata(data);
+                break;
+
         }
     }
 
@@ -100,15 +103,20 @@ angular.module('MediaVault').service('localRecord', function (localResources, st
             case 'phase':
                 results = getPhase();
                 break;
-				case 'area':
+            case 'area':
                 results = getArea();
                 break;
-				case 'categories':
+            case 'categories':
                 results = getCategories();
                 break;
-				case 'keywords':
+            case 'keywords':
                 results = getkeywords();
                 break;
+            case 'geodata':
+                results = getgeodata();
+                break;
+
+
         }
         return results;
     }
@@ -120,6 +128,10 @@ angular.module('MediaVault').service('localRecord', function (localResources, st
                 break;
             case 'user':
                 removeRecord('user');
+                break;
+            case 'geodata':
+                removeRecord('geodata');
+                console.log('removed');
                 break;
         }
     }
@@ -192,45 +204,53 @@ angular.module('MediaVault').service('localRecord', function (localResources, st
     function saveArea(data) {
         if (data) {
             var values = {
-                areaCode:data
+                areaCode: data
             };
             addRecord('area', values);
         }
     }
 
-	
-	function savePhase(data) {
+
+    function savePhase(data) {
         if (data) {
             var values = {
-                phaseCode:data
+                phaseCode: data
             };
             addRecord('phase', values);
         }
     }
-	
-	function saveCategories(data) {
-        if (data) 
-		{
-            var values = 
-			{
-                categoriesCode:data
+
+    function saveCategories(data) {
+        if (data) {
+            var values =
+            {
+                categoriesCode: data
             };
             addRecord('categories', values);
         }
     }
 
-	function savekeywords(data) 
-	{
-        if (data) 
-		{
-            var values = 
-			{
-                keywordsCode:data
+    function savekeywords(data) {
+        if (data) {
+            var values =
+            {
+                keywordsCode: data
             };
             addRecord('keywords', values);
         }
     }
-	
+
+    function savegeodata(data) {
+        if (data) {
+            var values =
+            {
+                geodataCode: data
+            };
+            addRecord('geodata', values);
+        }
+    }
+
+
     function saveUsers(data) {
         if (data) {
             var groups = [];
@@ -298,9 +318,8 @@ angular.module('MediaVault').service('localRecord', function (localResources, st
         }
         return;
     }
-	
-	 function getCategories() 
-	 {
+
+    function getCategories() {
         var categoriesData = getRecords('categories');
         if (categoriesData) {
             return categoriesData;
@@ -308,25 +327,31 @@ angular.module('MediaVault').service('localRecord', function (localResources, st
         return;
     }
 
-	function getkeywords() 
-	 {
+    function getkeywords() {
         var keywordsData = getRecords('keywords');
         if (keywordsData) {
             return keywordsData;
         }
         return;
-     }
-	
-	
-	 function getPhase() 
-	{
-        var phaseData= getRecords('phase');
+    }
+
+    function getgeodata() {
+        var geodataData = getRecords('geodata');
+        if (geodataData) {
+            return geodataData;
+        }
+        return;
+    }
+
+
+    function getPhase() {
+        var phaseData = getRecords('phase');
         if (phaseData) {
             return phaseData;
         }
         return;
     }
-	
+
 //	 function getJobs() 
 //	 {
 //        var jobData= getRecords('jobs');
@@ -335,9 +360,8 @@ angular.module('MediaVault').service('localRecord', function (localResources, st
 //        }
 //        return;
 //    }
-	
-	
-	
+
+
     //Remove function
     function removeRecord(resource) {
         var keysData = localResources.getResourceKeysByProperty(resource);

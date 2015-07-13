@@ -27,8 +27,7 @@ angular.module('MediaVault').controller('LoginCtrl', function (ENV, ERRORS, $sco
             return;
         }
         $scope.loggingIn = true;
-        var callback = function (error) 
-		{
+        var callback = function (error) {
             if (error) {
                 if (error.statusText) {
                     if (error.status === 404) {
@@ -73,8 +72,7 @@ angular.module('MediaVault').controller('LoginCtrl', function (ENV, ERRORS, $sco
                     });
 
                 loadAppData.getKeywords().success(
-                    function (keywordresponse) 
-					{
+                    function (keywordresponse) {
                         $scope.keys = angular.toJson(keywordresponse);
                         localRecord.save('keywords', $scope.keys);
                     }

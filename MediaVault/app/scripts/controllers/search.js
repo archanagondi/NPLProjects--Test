@@ -8,19 +8,38 @@
  * Controller to handle the feedback form
  */
 
-angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window, $scope, $state, localRecord, access, $rootScope) {
-
+angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window, $scope, $state,$filter, localRecord, access, $rootScope, loadAppData) {
+	$scope.searcharea= false;
     $scope.searchpage = true;
     $scope.searchpageresults = false;
     $scope.searchdetails = false;
     $scope.searchmediaimg = true;
     $scope.searchmediadetails = false;
+    $scope.searchgeodata = [];
+	$scope.searchformdata=[];
+	$scope.searchdetailsformdata=[];
+	$scope.searchziptext=false;
+	$scope.searchdetailsziptext=false;
 
     //search page buttons
     $scope.searchbutton = function () 
 	{
         $scope.searchpage = false;
-        $scope.searchpageresults = true;
+        $scope.searchpageresults = true;	
+	$scope.searchformdata=[];
+	$scope.searchformdata.push($scope.searchVaultId);
+	$scope.searchformdata.push($scope.searchAreaSelect);
+	$scope.searchformdata.push( $scope.searchJob );
+	$scope.searchformdata.push( $scope.searchPhase);
+	$scope.searchDate =$filter('date')($scope.searchDate, 'MM/dd/yyyy');
+	$scope.searchformdata.push($scope.searchDate);
+	$scope.searchformdata.push($scope.searchExtNo);
+	$scope.searchformdata.push($scope.searchStreetName);
+	$scope.searchformdata.push($scope.searchZipCode);
+	$scope.searchformdata.push($scope.searchCity);
+	$scope.searchformdata.push($scope.searchNotes);
+	$scope.searchformdata.push($rootScope.keywordsUpload);
+	
     };
 
     $scope.searchback = function () {
@@ -49,9 +68,12 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
     };
 
     $scope.jobsearch = [];
-    $scope.phasesSearch = [];
+    $scope.phasesSearch =[];
+    $scope.searchgeocity =[];
+    $scope.searchdetailsgeocity = [];
 
 
+	
     $scope.searchVaultId = '';
     $scope.searchAreaSelect = '';
     $scope.searchJob = '';
@@ -71,10 +93,29 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
     $scope.searchDetailsCity = '';
     $scope.searchDetailsNotes = '';
     $scope.searchdetailsStreet = '';
-
-
-    $scope.searchdetailscancel = function () {
-
+	
+	 $scope.searchdetailssave = function () 
+	{
+	  $scope.searchdetailsformdata=[];
+	  $scope.searchdetailsformdata.push($scope.searchAreaSelect);
+	  $scope.searchdetailsformdata.push($scope.searchJob);
+	  $scope.searchdetailsformdata.push($scope.searchPhase);
+	  $scope.searchDetailsdate =$filter('date')($scope.searchDetailsdate, 'MM/dd/yyyy');
+	  $scope.searchdetailsformdata.push($scope.searchDetailsdate);
+	  $scope.searchdetailsformdata.push($scope.searchDetailsExt);
+	  $scope.searchdetailsformdata.push($scope.searchDetailsZip);
+	  $scope.searchdetailsformdata.push($scope.searchDetailsCity);
+	  $scope.searchdetailsformdata.push($scope.searchDetailsNotes );
+	  $scope.searchdetailsformdata.push($scope.searchdetailsStreet);
+	  $scope.searchdetailsformdata.push($rootScope.keywordsUpload);
+	 
+	};
+	
+	
+	
+    $scope.searchdetailscancel = function () 
+	{
+		$scope.searcharea= false;
         $scope.searchDetailsdate = '';
         $scope.searchDetailsExt = '';
         $scope.searchDetailsZip = '';
@@ -85,10 +126,12 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
         $scope.searchJob = '';
         $scope.searchPhase = '';
         $scope.searchdetailsStreet = '';
+		$scope.searchdetailsziptext=false;
+
     };
 
-
     $scope.searchclear = function () {
+		$scope.searcharea= false;
         $scope.searchVaultId = '';
         $scope.searchAreaSelect = '';
         $scope.searchJob = '';
@@ -100,11 +143,24 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
         $scope.searchCity = '';
         $scope.searchNotes = '';
         $rootScope.keywordsUpload = '';
+		$scope.searchziptext=false;
     };
 
     $scope.searchjobsFilter = function () {
         $scope.jobsearch = [];
         $scope.phasesSearch = [];
+
+        loadAppData.getGeoLocation($scope.searchAreaSelect).success(
+            function (selectedGeoData) {
+                localRecord.remove('geodata');
+                $scope.geodata = angular.toJson(selectedGeoData);
+                localRecord.save('geodata', $scope.geodata);
+            }
+            ).error(function () {
+
+            });
+
+
         angular.forEach($rootScope.jobsandphases, function (value) {
             if (value.Area === parseInt($scope.searchAreaSelect)) {
                 $scope.jobOptions = [];
@@ -114,8 +170,13 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
             }
         });
         if ($scope.jobsearch.length === parseInt(0)) {
-            $window.alert('No jobs in this area ');
+		   $scope.searcharea=true;
+            document.getElementById('search-area-alert').innerHTML='No jobs in this area';
+		    document.getElementById('searchdetails-area-alerts').innerHTML='No jobs in this area';
         }
+		else {
+			  $scope.searcharea=false;
+			}
     };
     $scope.searchphaseFilter = function () {
         $scope.phasesSearch = [];
@@ -132,4 +193,54 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
             }
         });
     };
+
+
+    $scope.searchcitydata = angular.fromJson(localRecord.get('geodata').geodataCode);
+	
+    $scope.getsearchgeoloactiondata = function () {
+        $scope.searchgeocity = [];
+        angular.forEach($scope.searchcitydata, function (value) {
+            if (value.Zip === $scope.searchZipCode) {
+                $scope.geo = [];
+                $scope.geo.PrimaryCity = value.PrimaryCity;
+                $scope.searchgeocity.push($scope.geo);
+            }
+        });
+
+        if ($scope.searchgeocity.length === parseInt(0))
+		{
+		   $scope.searchziptext=true;
+           document.getElementById('search-zip-alerts').innerHTML='no city for this zipcode ';
+           
+        }else
+		{
+			$scope.searchziptext=false;
+		}
+    };
+
+
+	
+	
+    $scope.searchdetailcitydata = angular.fromJson(localRecord.get('geodata').geodataCode);
+    $scope.getsearchdetailsgeoloactiondata = function () 
+	{
+        $scope.searchdetailsgeocity = [];
+        angular.forEach($scope.searchdetailcitydata, function (value) {
+            if (value.Zip === $scope.searchDetailsZip) {
+                $scope.geo = [];
+                $scope.geo.PrimaryCity = value.PrimaryCity;
+                $scope.searchdetailsgeocity.push($scope.geo);
+            }
+        });
+        if ($scope.searchdetailsgeocity.length === parseInt(0)) {
+		$scope.searchdetailsziptext=true;
+		document.getElementById('search-details-zip-alerts').innerHTML='no city for this zipcode ';   
+        }
+		else
+		{
+			$scope.searchdetailsziptext=false;
+		}
+    };
+
+
 });
