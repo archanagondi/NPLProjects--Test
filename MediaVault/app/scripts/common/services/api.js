@@ -25,11 +25,7 @@ angular.module('api').service('nplApi', function (ENV, ENDPOINTS, ERRORS, $http,
     }
 
     // append the version to the API URL
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> 6d7388717d8af5607d4867653c08775d8129a0d3
     function post(endpoint, body) {
         var user = localRecord.get('user');
         var headers = {};
