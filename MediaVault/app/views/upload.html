@@ -12,7 +12,7 @@
                 </button>
             </div>
         </div>
-        <!--Row Two -->
+      
         <div class="row align-bottom">
             <div class="col-lg-12 col-sm-12 col-xs-12">
                 <div class="image-area">
@@ -21,7 +21,7 @@
                 </div>
             </div>
         </div>
-        <!--Row Three -->
+      
         <div class="row align-bottom">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-left">
                 <button type="button" ng-click="clear()" class="btn btn-success button-width"><i
@@ -34,7 +34,7 @@
             </div>
         </div>
     </div>
-    <!-- UPLOAD PAGE 2 -->
+    
     <div id="upload-dtl" ng-show="uploaddtl" class="rows">
         <div class="row align-bottom">
             <div class="col-lg-2 col-md-3">
@@ -46,7 +46,7 @@
                 Size:19 MB
 
             </div>
-            <!-- another div-->
+          
         </div>
         <p>Set as many items below as you can to help Searching </p>
         <hr class="horizontal-line"/>
@@ -58,8 +58,7 @@
                             ng-change="jobsFilter()" ng-options="areaCode for areaCode in areacode">
                         <option value="" selected="selected"></option>
                     </select>
-					<div class="alert alert-danger" ng-show='areatext' id='area-alert'>	
-					</div>
+					<div ng-if="areatext == true">{{message}}</div>
                 </div>
                 <div class="form-group col-lg-4 col-md-4">
                     <label for="job">Job:</label>
@@ -106,9 +105,8 @@
                     <label for="zip">Zip code </label>
                     <input type="text" name='zip' is-number ng-pattern='/(^\d{5}$)|(^\d{5}-\d{4}$)/'
                            class="form-control" id="zip" ng-model="zipcodeUpload" min="5" max="5" ng-blur='getgeoloactiondata()'/>
-						  
                     <span class="error" ng-show="uploadForm.zip.$error.pattern">Not valid ZipCode !</span>
-					<div class="alert alert-danger" ng-show='ziptext' id='zip-alert'></div>
+					<div ng-if="ziptext == true">{{zipmessage}}</div>
                 </div>
                 <div class="form-group col-lg-4 col-md-4">
                     <label for="city">City</label>
@@ -127,9 +125,10 @@
                     </button>
                 </div>
                 <div class="form-group col-lg-10 col-md-10 nopadding">
-                    <textarea class="form-control align-top" rows="3" ng-model="keywordsUpload"
+                    <textarea class="form-control align-top" rows="3" id="keywordsUpload"  ng-model="keywordsUpload"
                               ng-disabled='true'></textarea>
                 </div>
+				
                 <div class="clearfix"></div>
                 <div class="col-md-6 col-lg-6 text-left mt-15">
                     <button type="button" ng-click="back()" class="btn btn-success button-width"><i

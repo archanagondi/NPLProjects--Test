@@ -214,9 +214,7 @@ section {
   margin-top: -4px;
 }
 
-.searchpage2 {
-  margin: 20px;
-}
+
 
 .search-heading {
   color: $primaryColor;
@@ -232,10 +230,6 @@ section {
 
 .search-subheading {
   color: $secondaryColorDark;
-}
-
-.searchpage2 {
-  margin: 20px;
 }
 
 .underline {
@@ -256,7 +250,7 @@ h3 {
   margin-top: 44px;
   width: 100%;
   .nav-tabs {
-    background: #363636;
+    background:$secondaryColor;
     margin-bottom: 24px;
   }
   .nav-tabs li a {
@@ -335,13 +329,11 @@ p {
   padding: 6px 15px;
   margin-top: 26px;
   text-align: center;
-}
-
-.btn-delete:hover {
+  hover {
   background-color: $primaryDeleteButtonBackgroundColor;
   color: $primaryDeleteButtonColor;
 }
-
+}
 .complete-list {
   margin: 0 0 30px 0;
   padding: 0;
@@ -405,10 +397,9 @@ span {
 
 .btn-icon {
   font-size: 32px;
-}
-
-.btn-icon:hover, btn-icon:focus, btn-icon:active {
+  hover, btn-icon:focus, btn-icon:active {
   color: $success-color;
+}
 }
 
 .success {

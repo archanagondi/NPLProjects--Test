@@ -31,7 +31,6 @@ angular.module('MediaVault').controller('uploadCtrl', function (LABELS, $window,
     $scope.uploadpage = true;
     $scope.uploaddtl = false;
 
-
     /* script for camera*/
     $scope.pictureSource = '';
     $scope.destinationType = '';
@@ -99,12 +98,12 @@ angular.module('MediaVault').controller('uploadCtrl', function (LABELS, $window,
             var letters = 'abcdefghijklmnopqrstuvwxyz';
             var numbers = '1234567890';
             var charset = letters + letters.toUpperCase() + numbers;
-            var R = '';
+            var randomID = '';
             for (var i = 0; i < length; i++)
             {
-                R += charset.substr(Math.floor(Math.random() * length), 2);
+               randomID += charset.substr(Math.floor(Math.random() * length), 2);
             }
-            return R;
+            return randomID;
         }
     };
 
@@ -113,6 +112,9 @@ angular.module('MediaVault').controller('uploadCtrl', function (LABELS, $window,
         $scope.imagePath = '';
     };
     $scope.continuee = function () {
+		$rootScope.type='upload';
+		$scope.selection = [];
+	$rootScope.selectedKeywords=[];
         $scope.uploadpage = false;
         $scope.uploaddtl = true;
     };
@@ -160,15 +162,17 @@ angular.module('MediaVault').controller('uploadCtrl', function (LABELS, $window,
         });
         if ($scope.job.length === parseInt(0)) {
 			$scope.areatext=true;
-			document.getElementById('area-alert').innerHTML='No jobs in this area';
+			$scope.message='No jobs in this area';
         }
-		else{$scope.areatext=false;}
+		else{$scope.areatext=false;
+			}
     };
 
-    $scope.phaseFilter = function () {
+    $scope.phaseFilter = function () 
+	{
         $scope.phases = [];
-        angular.forEach($rootScope.jobsandphases, function (value) {
-
+        angular.forEach($rootScope.jobsandphases, function (value) 
+		{
             if (value.JobNum === parseInt($scope.jobUpload)) {
                 angular.forEach(value.Phases, function (value1) {
                     $scope.jobOptions = [];
@@ -178,13 +182,10 @@ angular.module('MediaVault').controller('uploadCtrl', function (LABELS, $window,
                 });
             }
         });
-    };
-
+    };	
     $scope.uploadData = function ()
 	{
 		$scope.uploadformdata=[];
-		
-		//$scope.areaSelect,$scope.phaseUpload,$scope.dateUpload,$scope.jobUpload,$scope.dprUpload,$scope.streetUpload,$scope.zipcodeUpload,$scope.cityUpload,$scope.NotesUpload,$rootScope.keywordsUpload;      
 		$scope.uploadformdata.push($scope.areaSelect);
 		$scope.uploadformdata.push($scope.jobUpload);
 		$scope.uploadformdata.push($scope.phaseUpload);
@@ -195,8 +196,7 @@ angular.module('MediaVault').controller('uploadCtrl', function (LABELS, $window,
 		$scope.uploadformdata.push($scope.zipcodeUpload);
 		$scope.uploadformdata.push($scope.cityUpload);
 		$scope.uploadformdata.push($scope.NotesUpload);
-		$scope.uploadformdata.push($rootScope.keywordsUpload);
-				
+		$scope.uploadformdata.push($rootScope.keywordsUpload);				
     };
 
     $scope.localcitydata = angular.fromJson(localRecord.get('geodata').geodataCode);
@@ -209,20 +209,16 @@ angular.module('MediaVault').controller('uploadCtrl', function (LABELS, $window,
             if (value.Zip === $scope.zipcodeUpload) {
                 $scope.geo = [];
                 $scope.geo.PrimaryCity = value.PrimaryCity;
-                $scope.geocity.push($scope.geo);
-				
+                $scope.geocity.push($scope.geo);	
             }
-        });
-		
+        });		
         if ($scope.geocity.length === parseInt(0)) 
 		{
-			$scope.ziptext=true;
-			 document.getElementById('zip-alert').innerHTML='No city for this zipcode ';
-            
+			 $scope.ziptext=true;
+			 $scope.zipmessage='No city for this zipcode';	 
         }
 		else
-		{
-			$scope.ziptext=false;
+		{$scope.ziptext=false;
 		}
     };
 

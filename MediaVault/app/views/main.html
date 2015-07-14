@@ -4,6 +4,9 @@
 <navigation></navigation>
 <div ng-controller="MainCtrl" id="maintabs">
    <keywordselect> </keywordselect>	
+	<delete> </delete>
+	<email></email>
+   
     <tabset id="tabs">
         <tab id="upload">
             <tab-heading><i class="fa fa-upload"></i> Upload</tab-heading>
@@ -11,7 +14,7 @@
                 <upload></upload>
             </div>
         </tab>
-        <tab>
+        <tab id="search-tab">
             <tab-heading><i class="fa fa-search"></i> Search</tab-heading>
             <div class="container">
                 <search></search>

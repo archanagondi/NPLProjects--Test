@@ -131,7 +131,6 @@ angular.module('MediaVault').service('localRecord', function (localResources, st
                 break;
             case 'geodata':
                 removeRecord('geodata');
-                console.log('removed');
                 break;
         }
     }
@@ -351,15 +350,6 @@ angular.module('MediaVault').service('localRecord', function (localResources, st
         }
         return;
     }
-
-//	 function getJobs() 
-//	 {
-//        var jobData= getRecords('jobs');
-//        if (jobData) {
-//            return jobData;
-//        }
-//        return;
-//    }
 
 
     //Remove function

@@ -16,10 +16,8 @@ angular.module('MediaVault', [
     'securityRoute',
     'api',
     'utilities'
-
 ]);
 
-//MediaVault.config();
-	
+
 	
 	

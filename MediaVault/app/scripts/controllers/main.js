@@ -9,13 +9,26 @@
  */
 angular.module('MediaVault').controller('MainCtrl', function (LABELS, $scope, $state, localRecord, access, $rootScope) {
 
+$rootScope.type='';
 
-    $scope.areacode = '';
+$('#search-tab').click(function()
+ {
+	$rootScope.type='search';
+	$scope.selection = [];
+	$rootScope.selectedKeywords=[];	
+});
 
-    if (localRecord.get('area').areaCode) {
+$('#upload').click(function() {
+	$rootScope.type='upload';
+	$scope.selection = [];
+	$rootScope.selectedKeywords=[];	
+});
+   $scope.areacode = '';
+
+    if (localRecord.get('area').areaCode)
+	{
         $scope.areacode = localRecord.get('area').areaCode.split(',');
     }
-
     $scope.phaseCode = localRecord.get('phase').phaseCode;
     $rootScope.category = angular.fromJson(localRecord.get('categories').categoriesCode);
     $rootScope.kewordsdata = angular.fromJson(localRecord.get('keywords').keywordsCode);
@@ -35,13 +48,15 @@ angular.module('MediaVault').controller('MainCtrl', function (LABELS, $scope, $s
     //$scope.events = $rootScope.kewordsdata;
     $scope.filterCategories = [];
 
-    $scope.keywordToFilter = function () {
+    $scope.keywordToFilter = function () 
+	{
         $scope.filterCategories = [];
         return $rootScope.kewordsdata;
     };
     $scope.filterCategory = function (event) {
         $scope.newCategory = $scope.filterCategories.indexOf(event.Category) === -1;
-        if ($scope.newCategory) {
+        if ($scope.newCategory) 
+		{
             $scope.filterCategories.push(event.Category);
         }
         return $scope.newCategory;
@@ -66,8 +81,24 @@ angular.module('MediaVault').controller('MainCtrl', function (LABELS, $scope, $s
         $rootScope.selectedKeywords = $scope.selection;
     };
 
-    $scope.selectedKeys = function () {
-        $rootScope.keywordsUpload = $rootScope.selectedKeywords;
+    $scope.selectedKeys = function () 
+	{
+		
+		if($rootScope.type === 'search')
+		{
+			$('#searchKeyword').val($rootScope.selectedKeywords);
+			$rootScope.searchKeyword = $rootScope.selectedKeywords;	
+		}
+	  else if($rootScope.type === 'searchDetails')
+	  { 
+		$('#searchDetailsKeyword').val($rootScope.selectedKeywords);
+		$rootScope.searchDetailsKeyword = $rootScope.selectedKeywords;	
+	  }
+	else if($rootScope.type === 'upload')
+	{
+	  $('#keywordsUpload').val($rootScope.selectedKeywords);
+	  $rootScope.keywordsUpload = $rootScope.selectedKeywords;
+	}   
     };
 
     //date
