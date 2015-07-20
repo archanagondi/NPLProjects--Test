@@ -161,13 +161,11 @@ angular.module('MediaVault').controller('uploadCtrl', function (LABELS, $window,
             }
         });
         if ($scope.job.length === parseInt(0)) {
-			$scope.areatext=true;
-			$scope.message='No jobs in this area';
+			 $scope.areatext=true;
         }
 		else{$scope.areatext=false;
 			}
     };
-
     $scope.phaseFilter = function () 
 	{
         $scope.phases = [];
@@ -213,9 +211,7 @@ angular.module('MediaVault').controller('uploadCtrl', function (LABELS, $window,
             }
         });		
         if ($scope.geocity.length === parseInt(0)) 
-		{
-			 $scope.ziptext=true;
-			 $scope.zipmessage='No city for this zipcode';	 
+		{ $scope.ziptext=true;
         }
 		else
 		{$scope.ziptext=false;

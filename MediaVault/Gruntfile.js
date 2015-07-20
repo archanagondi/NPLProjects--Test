@@ -84,8 +84,8 @@ module.exports = function (grunt) {
 			options: {
 				port: 9000,
 				// Change this to '0.0.0.0' to access the server from outside.
-				//hostname: 'localhost',
-				hostname: '0.0.0.0',
+				hostname: 'localhost',
+				//hostname: '0.0.0.0',
 				livereload: 35729
 			},
 			livereload: {
@@ -397,7 +397,7 @@ module.exports = function (grunt) {
 					ENV: {
 						name: 'development',
 						version: '1.0.0',
-						server: 'https://api-dev3.gonpl.com/mediavault/',
+						server: 'https://api-dev3.gonpl.com/mediavault/api.php',
 						appName: 'MediaVault',
 						apiVersion: 'v2',
 						locale : 'en' 			

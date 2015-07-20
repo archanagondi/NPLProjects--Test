@@ -193,7 +193,7 @@ section {
 }
 
 .image-area {
-  border: 1px solid #dedede;
+  border: 1px solid $borderPrimaryColor;
   padding: 8px;
   height: 400px;
 }
@@ -329,7 +329,7 @@ p {
   padding: 6px 15px;
   margin-top: 26px;
   text-align: center;
-  hover {
+  &:hover {
   background-color: $primaryDeleteButtonBackgroundColor;
   color: $primaryDeleteButtonColor;
 }
@@ -341,7 +341,7 @@ p {
  .list {
   list-style-type: none;
   padding: 6px 15px;
-  border-bottom: 1px solid #dedede;
+  border-bottom: 1px solid $borderPrimaryColor;
 }
 
 span {
@@ -364,7 +364,7 @@ span {
 .list {
   list-style-type: none;
   padding: 6px 15px;
-  border-bottom: 1px solid #dedede;
+  border-bottom: 1px solid $borderPrimaryColor;
 }
 
 p {
@@ -397,7 +397,7 @@ span {
 
 .btn-icon {
   font-size: 32px;
-  hover, btn-icon:focus, btn-icon:active {
+  &:hover, &:focus, &:active {
   color: $success-color;
 }
 }

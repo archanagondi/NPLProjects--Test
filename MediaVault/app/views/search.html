@@ -15,7 +15,7 @@
                             ng-options="areaCode for areaCode in areacode">
                         <option value="" selected="selected"></option>
                     </select>
-					<div ng-if="searcharea == true">{{searchareamessage}}</div>	
+					<div ng-if="searcharea">No jobs for this area </div>	
                 </div>
                 <div class="form-group">
                     <label for="jobs-list">Job:</label>
@@ -59,7 +59,7 @@
                 <div class="form-group">				
                     <label for="zip-code">Zip code </label>
                     <input type="text" class="form-control" ng-model='searchZipCode' id="zip-code" ng-blur='getsearchgeoloactiondata()'/>
-					<div ng-if="searchziptext == true">{{searchzipmessage}}</div>		
+					<div ng-if="searchziptext">No city for this Zip Code</div>		
                 </div>
                 <div class="form-group">
                     <label for="cities">City</label>
@@ -163,7 +163,7 @@
                     <i class="fa fa-arrow-left"></i></button>
             </div>
             <div class="col-lg-9 col-md-9">
-                <button type="button" class="btn btn-icon" data-toggle="modal" data-target="#email-dialog">
+                <button type="button" class="btn btn-icon" data-toggle="modal" data-target="#email-dialogue">
                     <i class="fa fa-envelope"></i>
                 </button>
                 <button type="button" class="btn btn-icon" data-toggle="modal" data-target="#my-remove">
@@ -194,7 +194,7 @@
                                 ng-options="areaCode for areaCode in areacode">
                             <option value="" selected="selected"></option>
                         </select>
-						<div ng-if="searcharea == true">{{searchareamessage}}</div>
+						<div ng-if="searcharea">No jobs for this area</div>
                     </div>
                     <div class="form-group">
                         <label for="search-details-job">Job:</label>
@@ -244,7 +244,7 @@
                         <label for="search-details-zip-code">Zip code </label>
                         <input type="text" class="form-control" ng-model='searchDetailsZip' id="search-details-zip-code"  ng-blur='getsearchdetailsgeoloactiondata()'/>
 						<div class="alert alert-danger" ng-show='searchdetailsziptext'  id='search-details-zip-alerts'></div>
-						<div ng-if="searchdetailsziptext == true">{{searchdetailszipmessage}}</div>
+						<div ng-if="searchdetailsziptext">No city for this Zip Code</div>
                     </div>
                     <div class="form-group">
                         <label for="search-details-cities">City</label>
