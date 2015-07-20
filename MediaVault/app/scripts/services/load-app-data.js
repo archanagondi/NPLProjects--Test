@@ -21,7 +21,8 @@ angular.module('MediaVault').service('loadAppData', function (ENV, ENDPOINTS, ER
     service.getKeywords = function () {
         return nplApi.get(ENDPOINTS.getkeywords, {version: ENV.version});
     };
-    service.getGeoLocation = function (selectedArea) {
+    service.getGeoLocation = function (selectedArea) 
+	{
         return nplApi.get(ENDPOINTS.getgeoLocation, {area: selectedArea});
     };
 

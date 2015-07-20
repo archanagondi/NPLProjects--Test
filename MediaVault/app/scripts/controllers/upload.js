@@ -9,7 +9,7 @@
  */
 
 angular.module('MediaVault').controller('uploadCtrl', function (LABELS, $window,$filter, $scope, $state, localRecord, access, $rootScope, loadAppData,$http, $q) {
-
+	$rootScope.uploadimage;
     $scope.job = [];
     $scope.phases = [];
 	$scope.uploadformdata = [];
@@ -27,85 +27,45 @@ angular.module('MediaVault').controller('uploadCtrl', function (LABELS, $window,
     $scope.geodata = [];
 	$scope.areatext=false;
 	$scope.ziptext=false;
-
     $scope.uploadpage = true;
     $scope.uploaddtl = false;
 
-    /* script for camera*/
-    $scope.pictureSource = '';
-    $scope.destinationType = '';
-    $scope.picturetype = '';
-    var destinationType = '';
-
-    $scope.camera = function(source) {
-
-        var deferred = $q.defer();
-		
-        var cameraOptions = {quality: 70, destinationType: Camera.DestinationType.FILE_URI, correctOrientation: true};
-
-        // If source == 1 photo upload from gallery
-        if (source === parseInt(1)) 
-		{
-            cameraOptions = {quality: 70, destinationType: Camera.DestinationType.FILE_URI, sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY, targetWidth: 600, targetHeight: 600, correctOrientation: true};
-			
-        }
-
-        navigator.camera.getPicture(function(imageURI) {
-		
-                var networkState = navigator.network.connection.type;
-                var states = {};
-                states[Connection.UNKNOWN] = 'Unknown connection';
-                states[Connection.ETHERNET] = 'Ethernet connection';
-                states[Connection.WIFI] = 'WiFi connection';
-                states[Connection.CELL_2G] = 'Cell 2G connection';
-                states[Connection.CELL_3G] = 'Cell 3G connection';
-                states[Connection.CELL_4G] = 'Cell 4G connection';
-                states[Connection.NONE] = 'No network connection';
-
-                if (states[networkState] === 'WiFi connection' || states[networkState] === 'Cell 4G connection') {
-                    $scope.imagePath = imageURI;
-                    window.resolveLocalFileSystemURI(imageURI, function(fileEntry) {
-                        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) {
-                            fileSys.root.getDirectory('uploadedPhoto', {create: true, exclusive: false}, function(dir) {
-                                fileEntry.copyTo(dir, generateRandomID() + '.png', function(entry) {
-                                    deferred.resolve(entry.toURL());
-                                }, null);
-                            }, null);
-                        }, null);
-                    }, null);
-                } else {
-                    navigator.notification.alert(
-                        'This App requires an internet connection.', // message
-                        'No Internet Connection', // title
-                        'Close'                  // buttonName
-                    );
-                    return false;
-                }
-            },
-            function(message) {
-                deferred.reject(message);
-            },
-            cameraOptions
-        );
-
-        return deferred.promise;
-
-
-        // generate random code
-        function generateRandomID() 
-		{
-            var length = 10;
-            var letters = 'abcdefghijklmnopqrstuvwxyz';
-            var numbers = '1234567890';
-            var charset = letters + letters.toUpperCase() + numbers;
-            var randomID = '';
-            for (var i = 0; i < length; i++)
-            {
-               randomID += charset.substr(Math.floor(Math.random() * length), 2);
+   
+   
+    $scope.camera = function()
+	{
+		   navigator.camera.getPicture(onSuccess, onFail, {quality: 50,
+                destinationType: Camera.DestinationType.DATA_URL
+            });
+            function onSuccess(imageData) {
+               
+                var image = document.getElementById('uploaded-image');
+                image.src = "data:image/jpeg;base64," + imageData;
+				$rootScope.uploadimage=image.src;
             }
-            return randomID;
-        }
+            function onFail(message) 
+			{
+                alert('Failed because: ' + message);
+            }		
     };
+	
+		
+	$scope.gallery =function()
+	{
+			navigator.camera.getPicture(onGalSuccess, onGalFail, {quality: 50,
+                destinationType: Camera.DestinationType.DATA_URL,
+                sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+            });
+            function onGalSuccess(imageData) {
+                var image = document.getElementById('uploaded-image');
+                image.src = "data:image/jpeg;base64," + imageData;
+            }
+            function onGalFail(message) 
+			{
+                alert('Failed because: ' + message);
+            }		
+	};
+
 
     $scope.clear = function () 
 	{
@@ -137,6 +97,11 @@ angular.module('MediaVault').controller('uploadCtrl', function (LABELS, $window,
         $rootScope.keywordsUpload = '';
 		$scope.ziptext=false;
     };
+
+	
+
+
+
 
     $scope.jobsFilter = function () {
         $scope.job = [];

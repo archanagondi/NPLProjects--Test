@@ -20,8 +20,15 @@ angular.module('constants', [])
         jobsandphases: 'api.php?endpoint=jobsAndPhases',
         getcategories: 'MediaVault/api.php?endpoint=getCategories',
         getkeywords: 'MediaVault/api.php?endpoint=getKeywords',
-        getgeoLocation: 'api.php?endpoint=getGeoLocation'
-
+        getgeoLocation: 'api.php?endpoint=getGeoLocation',
+		//office 365 services end points 
+		accesstoken: 'api.php?endpoint=accessToken',
+		createfolder: 'api.php?endpoint=createFolder',
+		listfoldercontents:'api.php?endpoint=listFolderContents',
+		uploadfile : 'api.php?endpoint=uploadFile',
+		downloadfile: 'api.php?endpoint=downloadFile',
+		deletefile: 'api.php?endpoint=deleteFile',
+		searchfile: 'api.php?endpoint=searchFile'
     })
 
 //String Display Messages
