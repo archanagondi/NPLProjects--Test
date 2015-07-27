@@ -1,13 +1,15 @@
 <div id="upload" class="container" ng-controller="uploadCtrl">
+    <capturechoice></capturechoice>
+    <gallerychoice></gallerychoice>
     <div id="upload-page" ng-show="uploadpage" class="rows align-left">
         <div class="row align-top align-bottom">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-left">
-                <button type="button" class="btn btn-primary button-width" ng-click="camera()"><i
+                <button type="button" class="btn btn-primary button-width" data-toggle="modal" data-target="#capturechoice"><i
                         class="fa fa-camera"></i> Use Camera
                 </button>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-right">
-                <button type="button" class="btn btn-primary button-width" ng-click="gallery()"><i
+                <button type="button" class="btn btn-primary button-width" data-toggle="modal" data-target="#gallerychoice"><i
                         class="fa fa-picture-o"> </i> Gallary
                 </button>
             </div>
@@ -17,6 +19,7 @@
                 <div class="image-area" >
                     <p>Image displays here</p>
                     <img ng-src="{{imagePath}}" id="uploaded-image" class="upload-img" >
+                    <video  id="myVideo" style="display:none;" width="100%" height="50%" preload="metadata" controls webkit-playsinline><source type="video/mp4" >
                 </div>
             </div>
         </div>

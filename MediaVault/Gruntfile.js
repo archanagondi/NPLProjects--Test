@@ -397,7 +397,7 @@ module.exports = function (grunt) {
 					ENV: {
 						name: 'development',
 						version: '1.0.0',
-						server: 'https://api-dev3.gonpl.com/mediavault/api.php',
+						server: 'https://api-dev3.gonpl.com/mediavault/',
 						appName: 'MediaVault',
 						apiVersion: 'v2',
 						locale : 'en' 			
