@@ -13,7 +13,8 @@ header {
   clear: both;
   color: $tertiaryColorLight;
   font-size: 17px;
-  height: 44px;
+  height: 64px;
+  padding-top:20px;
   line-height: 44px;
   overflow: hidden;
 
@@ -42,8 +43,9 @@ header {
   .fa {
     color: $tertiaryColorLight;
     cursor: pointer;
-    font-size: 20px;
-    margin-left: 17px;
+    font-size: 26px;
+	line-height:44px;
+    margin-left: 25px;
     text-decoration: none;
   }
 
@@ -62,14 +64,16 @@ header {
       display: inline-block;
       background: $primaryColor;
       padding: 0 15px;
+	  font-size:26px;
       white-space: nowrap;
+	  
     }
   }
 
   .name {
     display: inline-block;
     float: right;
-    font-size: 17px;
+    font-size: 19px;
     font-weight: 300;
     padding-right: 17px;
     text-align: right;

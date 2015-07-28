@@ -77,7 +77,8 @@ navigation {
 
   #navigation-header {
     background: rgba($primaryColor, .9);
-    height: 44px;
+    height: 64px;
+	padding-top:20px;
     text-align: right;
 
     &.development {
@@ -87,9 +88,9 @@ navigation {
     a {
       color: $tertiaryColor;
       cursor: pointer;
-      font-size: 18px;
+      font-size: 26px;
       font-weight: 300;
-      margin-top: 8px;
+      margin-top: 0px;
       text-decoration: none;
     }
 

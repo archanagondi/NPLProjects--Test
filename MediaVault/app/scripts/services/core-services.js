@@ -16,13 +16,14 @@ angular.module('MediaVault').service('coreservices', function (ENV,ENDPOINTS, ER
 	{
         return nplApi.get(ENDPOINTS.accesstoken, {version: ENV.version});
     };
-	core.generatefolder = function () 
+	core.generatefolder = function (accessToken,folderName) 
 	{
-        return nplApi.post(ENDPOINTS.createfolder, {version: ENV.version});
+		console.log(nplApi.post1(ENDPOINTS.createfolder, {accessToken: accessToken,folderName:folderName}));
+        return  nplApi.post1(ENDPOINTS.createfolder, {accessToken: accessToken,folderName:folderName});
     };
-	core.foldercontents = function () 
+	core.foldercontents = function (accessToken,folderId) 
 	{
-        return nplApi.post(ENDPOINTS.listfoldercontents, {version: ENV.version});
+        return nplApi.post1(ENDPOINTS.listfoldercontents,{accessToken:accessToken,folderId:folderId});
     };
 	core.fileupload = function () 
 	{

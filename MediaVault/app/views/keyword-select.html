@@ -14,6 +14,7 @@
                         <th>{{event.Category}}
                         </th>
                     </tr>
+				
                     <tr ng-repeat="e in kewordsdata | filter: {Category: event.Category}">
                         <td>
                             <label class="checkbox-inline">
