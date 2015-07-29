@@ -8,6 +8,12 @@
  * Controller to handle the feedback form
  */
 
-angular.module('MediaVault').controller('queueCtrl', function () {
+angular.module('MediaVault').controller('queueCtrl', function (LABELS,coreservices,$filter, $scope,$state, localRecord, access, $rootScope) {
+
+$scope.getRecordId = function(divId){	
+	$scope.deleteId = divId;
+	alert($scope.deleteId);
+	
+};
 
 });

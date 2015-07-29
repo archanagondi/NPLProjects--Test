@@ -29,17 +29,20 @@ angular.module('MediaVault').service('coreservices', function (ENV,ENDPOINTS, ER
 	{
         return nplApi.post(ENDPOINTS.uploadfile, {version: ENV.version});
     };
+	
 	core.filedownload = function () 
 	{
-        return nplApi.post(ENDPOINTS.downloadfile, {version: ENV.version});
+        return nplApi.post(ENDPOINTS.downloadfile, {accessToken:accessToken,fileId:fileId});
     };
+	
 	core.filedelete = function () 
 	{
-        return nplApi.post(ENDPOINTS.deletefile, {version: ENV.version});
+        return nplApi.post(ENDPOINTS.deletefile, {accessToken:accessToken,fileId:fileId});
     };	
 	core.filesearch = function () 
 	{
-        return nplApi.post(ENDPOINTS.searchfile, {version: ENV.version});
+        return nplApi.post(ENDPOINTS.searchfile, {accessToken:accessToken,querytext:querytext,folderName:folderName});
     };
+	
   return core;
 });

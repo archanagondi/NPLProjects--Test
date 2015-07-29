@@ -53,6 +53,11 @@ angular.module('MediaVault').service('localResources', function (ENV, stringUtil
             properties: ['geodata-code'],
             prefixUser: false
         },
+		uploaddata: {
+            id: 'uploaddata',
+            properties: ['uploaddata-code'],
+            prefixUser: false
+        },
     };
 
     localResources.getUserId = function () {

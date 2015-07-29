@@ -16,17 +16,15 @@ angular.module('api').service('nplApi', function (ENV, ENDPOINTS, ERRORS, $http,
     var apiURL;
 
     // if we are in dev, set the API url dynamically
-    if (ENV) {
+    if (ENV)
+		{
         apiURL = ENV.server;
     }
     // else we are on production
-    else {
+    else 
+	{
         apiURL = ENV.server;
     }
-
-	
-	
-	
 	
 	//testing core services locally 
 function post1(endpoint, body) {
@@ -38,7 +36,6 @@ function post1(endpoint, body) {
                 var error = {status: 401, message: ERRORS.login.missingId};
                 return promiseUtil.emptyPromise(null, error);
             }
-
             headers = 
 			{   
                 'X-Access-Token': user.token,
@@ -47,7 +44,7 @@ function post1(endpoint, body) {
 			console.log("endpoint----->"+endpoint);
         return $http({
             method: 'POST',
-            url: 'http://52.26.121.92/api-v3/MediaVault/' + endpoint,
+            url: ' http://192.168.0.21/api-v3/MediaVault/' + endpoint,
             headers: headers,
             data: body
         }).success(function (data, status, headers, config) {
@@ -94,7 +91,7 @@ function post1(endpoint, body) {
 
         return $http({
             method: 'GET',
-            url: 'http://52.26.121.92/api-v3/MediaVault/' + endpoint,
+            url: 'http://192.168.0.21/api-v3/MediaVault/' + endpoint,
             headers: headers,
             params: params
         }).

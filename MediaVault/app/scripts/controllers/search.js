@@ -73,6 +73,7 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
     };
     $scope.searchback = function () {
 		$rootScope.type='search';
+		alert($rootScope.type);
 		$scope.selection = [];
 		$rootScope.selectedKeywords=[];
         $scope.searchpage = true;
@@ -80,6 +81,7 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
     };
     $scope.elementclick = function () {
 		$rootScope.type='searchDetails';
+		alert($rootScope.type);
 		$scope.selection = [];		
 		$rootScope.selectedKeywords=[];
         $scope.searchpageresults = false;
@@ -171,7 +173,7 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
         }
 		else {
 			  $scope.searcharea=false;
-			}
+		   	}
     };
     $scope.searchphaseFilter = function () {
         $scope.phasesSearch = [];

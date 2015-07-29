@@ -23,8 +23,8 @@ angular.module('constants', [])
         getgeoLocation: 'api.php?endpoint=getGeoLocation',
 		//office 365 services end points 
 		accesstoken: 'api.php?endpoint=accessToken',
-		createfolder: 'Api.php?endpoint=createFolder',
-		listfoldercontents:'Api.php?endpoint=listFolderContents',
+		createfolder: 'api.php?endpoint=createFolder',
+		listfoldercontents:'api.php?endpoint=listFolderContents',
 		uploadfile : 'api.php?endpoint=uploadFile',
 		downloadfile: 'api.php?endpoint=downloadFile',
 		deletefile: 'api.php?endpoint=deleteFile',

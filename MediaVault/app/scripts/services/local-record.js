@@ -88,6 +88,9 @@ angular.module('MediaVault').service('localRecord', function (localResources, st
                 savegeodata(data);
                 break;
 
+			case 'uploaddata':
+                saveuploaddata(data);
+                break;
         }
     }
 
@@ -115,7 +118,9 @@ angular.module('MediaVault').service('localRecord', function (localResources, st
             case 'geodata':
                 results = getgeodata();
                 break;
-
+		   case 'uploaddata':
+                results = getuploaddata();
+                break;
 
         }
         return results;
@@ -249,6 +254,21 @@ angular.module('MediaVault').service('localRecord', function (localResources, st
         }
     }
 
+	 function saveuploaddata(data) 
+	 {
+        if (data) 
+		{
+            var values =
+            {
+                uploaddataCode: data
+            };
+            addRecord('uploaddata', values);
+        }
+    }
+
+	
+	
+	
 
     function saveUsers(data) {
         if (data) {
@@ -334,23 +354,31 @@ angular.module('MediaVault').service('localRecord', function (localResources, st
         return;
     }
 
-    function getgeodata() {
+    function getgeodata()
+	{
         var geodataData = getRecords('geodata');
         if (geodataData) {
             return geodataData;
         }
         return;
     }
-
-
-    function getPhase() {
+	
+    function getPhase() 
+	{
         var phaseData = getRecords('phase');
         if (phaseData) {
             return phaseData;
         }
         return;
     }
-
+	function getuploaddata() 
+	 {
+        var uploadData = getRecords('uploaddata');
+        if (uploadData){
+        return uploadData;
+        }
+        return;
+    }
 
     //Remove function
     function removeRecord(resource) {

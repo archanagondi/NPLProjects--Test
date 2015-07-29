@@ -10,16 +10,19 @@
 angular.module('MediaVault').controller('MainCtrl', function (LABELS, $scope, $state, localRecord, access, $rootScope) {
 
 $rootScope.type='';
-
+//getting the type while click the tab 
 $('#search-tab').click(function()
- {
+ {	 
 	$rootScope.type='search';
+	//alert($rootScope.type);
 	$scope.selection = [];
 	$rootScope.selectedKeywords=[];	
 });
-
-$('#upload').click(function() {
+//getting the type while click the tab 
+$('#upload').click(function() 
+{
 	$rootScope.type='upload';
+	//alert($rootScope.type);
 	$scope.selection = [];
 	$rootScope.selectedKeywords=[];	
 });
@@ -42,9 +45,7 @@ $('#upload').click(function() {
     // set the title to Time Entry
     $scope.pageTitle = LABELS.main.pageTitle;
     $scope.currentUser = localRecord.get('user');
-
     //select keyword function
-
     //$scope.events = $rootScope.kewordsdata;
     $scope.filterCategories = [];
 
@@ -67,7 +68,8 @@ $('#upload').click(function() {
     $rootScope.selectedKeywords = [];
 
     // toggle selection for a given fruit by name
-    $scope.toggleSelection = function toggleSelection(keyword) {
+    $scope.toggleSelection = function toggleSelection(keyword) 
+	{
         var idx = $scope.selection.indexOf(keyword);
 
         // is currently selected
@@ -80,27 +82,28 @@ $('#upload').click(function() {
         }
         $rootScope.selectedKeywords = $scope.selection;
     };
-
+	
     $scope.selectedKeys = function () 
 	{
-		
 		if($rootScope.type === 'search')
 		{
 			$('#searchKeyword').val($rootScope.selectedKeywords);
 			$rootScope.searchKeyword = $rootScope.selectedKeywords;	
+			alert('this is the search keyword part ');
 		}
 	  else if($rootScope.type === 'searchDetails')
 	  { 
 		$('#searchDetailsKeyword').val($rootScope.selectedKeywords);
 		$rootScope.searchDetailsKeyword = $rootScope.selectedKeywords;	
+		alert('this is the search details part ');
 	  }
 	else if($rootScope.type === 'upload')
 	{
 	  $('#keywordsUpload').val($rootScope.selectedKeywords);
 	  $rootScope.keywordsUpload = $rootScope.selectedKeywords;
-	}   
-    };
-
+	  alert('this is the upload keyword part ');
+	} 
+	};
     //date
     $scope.model = {};
     $scope.formats = ['MM/dd/yyyy'];
