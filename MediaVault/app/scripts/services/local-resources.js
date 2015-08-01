@@ -58,6 +58,29 @@ angular.module('MediaVault').service('localResources', function (ENV, stringUtil
             properties: ['uploaddata-code'],
             prefixUser: false
         },
+		accesstokendata: {
+            id: 'accesstokendata',
+            properties: ['accesstokendata-code'],
+            prefixUser: false
+        },
+		folderdata: 
+		{
+            id: 'folderdata',
+            properties: ['folderdata-code'],
+            prefixUser: false
+        },
+		foldercontentslist: 
+		{
+            id: 'foldercontentslist',
+            properties: ['foldercontentslist-code'],
+            prefixUser: false
+        },		
+		searchresults: 
+		{
+            id: 'searchresults',
+            properties: ['searchresults-code'],
+            prefixUser: false
+        },
     };
 
     localResources.getUserId = function () {

@@ -107,9 +107,10 @@
         <div class="col-lg-8 col-md-8 mt-15 col-xs-9"> <p class="search-heading">Maximum of 100 reached narrow your search </p> </div>   
        </div>  
         <div class="clearfix"></div>
-        <div id="individual-row" ng-click="elementclick()">
+        <div id="individual-row" ng-click="elementclick()">		
            <div class="search-result-list">
-            <div class="row list">
+            <div class="row list" >
+		
                 <div class="col-lg-3 col-md-3"><img src="images/thumbnail.gif" class="thumbnail"/></div>
                 <div class="col-lg-9 col-md-9"><p>Date: 6/5/2015 </p> 
                     <p>Size: <strong>178MB</strong></p>
@@ -148,7 +149,7 @@
                     <p>Submitted<span> John Doe</span></p>
                 </div>
             </div>
-
+ 
         </div>
 		   
             <div class="col-lg-12 load-more text-center"><img src="images/preload-green-spinner.gif" alt="preload green spinner"/></div>
@@ -166,7 +167,7 @@
                 <button type="button" class="btn btn-icon" data-toggle="modal" data-target="#email-dialogue">
                     <i class="fa fa-envelope"></i>
                 </button>
-                <button type="button" class="btn btn-icon" data-toggle="modal" data-target="#my-remove">
+                <button type="button" class="btn btn-icon" data-toggle="modal" data-target="#my-remove" ng-click="downloadfile()"> 
                     <i class="fa fa-download"></i>
                 </button>
 

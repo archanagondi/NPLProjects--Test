@@ -9,7 +9,7 @@
 
 angular.module('MediaVault').factory('Uploaddata', function () 
 {
-    var Uploaddata = function (id,area,job,phase,date,department,street,city,zip,note,keyword,image) {
+    var Uploaddata = function (id,area,job,phase,date,department,street,city,zip,note,keyword,image,status) {
         this.id=id;
 		this.area = area;
 		this.job = job;
@@ -22,6 +22,7 @@ angular.module('MediaVault').factory('Uploaddata', function ()
 		this.note = note;
 		this.keyword = keyword;
 		this.image=image;
+		this.status=status;
     };
 
     return Uploaddata;

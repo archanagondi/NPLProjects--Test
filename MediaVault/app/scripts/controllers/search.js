@@ -8,7 +8,7 @@
  * Controller to handle the feedback form
  */
 
-angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window, $scope, $state,$filter, localRecord, access, $rootScope, loadAppData) {
+angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window, $scope, $state,$filter, localRecord, access, $rootScope, loadAppData,coreservices) {
 	$scope.searcharea= false;
     $scope.searchpage = true;
     $scope.searchpageresults = false;
@@ -19,13 +19,13 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
 	$scope.searchformdata=[];
 	$scope.searchdetailsformdata=[];
 	$scope.searchziptext=false;
-	$scope.searchdetailsziptext=false;
+	$scope.searchdetailsziptext=false;	
 
-	 $scope.jobsearch = [];
+	$scope.jobsearch = [];
     $scope.phasesSearch =[];
     $scope.searchgeocity =[];
     $scope.searchdetailsgeocity = [];
-
+	$rootScope.searchresultdata = [];
 
 
 
@@ -51,6 +51,11 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
     $scope.searchdetailsStreet = '';
 	$rootScope.searchDetailsKeyword='';
 	
+	
+	
+	
+	
+	
     //search page buttons
     $scope.searchbutton = function () 
 	{
@@ -70,6 +75,21 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
 	$scope.searchformdata.push($scope.searchCity);
 	$scope.searchformdata.push($scope.searchNotes);
 	$scope.searchformdata.push($rootScope.searchKeyword);
+	
+	//search service 
+			$scope.querytext='sidewalk'; //sending selected keywords
+			$scope.foldername='techmile156';
+			coreservices.filesearch($rootScope.accesstoken,$scope.querytext,$scope.foldername).then(function(searchfileresponse)
+			{
+				$scope.searchresponse=angular.toJson(searchfileresponse);
+				localRecord.save('searchresults',$scope.searchresponse);
+				$rootScope.searchresultdata = angular.fromJson(localRecord.get('searchresults').searchresultsCode);
+				console.log(searchresultdata);
+			}).catch(function(response)
+			{
+					
+			}); 	
+		
     };
     $scope.searchback = function () {
 		$rootScope.type='search';
@@ -226,6 +246,28 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
 		{$scope.searchdetailsziptext=false;
 		}
     };
+	$scope.downloadfile = function () 
+	{
+       alert("in download");
+	  // $rootScope.folderdetails = angular.fromJson(localRecord.get('folderdata').folderdataCode);
+	//	console.log($rootScope.folderdetails);
+		$scope.fileld="017LDWEEDE474HUBEJ4JC2WNQVJ2TOY6UH";
+		
+		coreservices.filedownload($rootScope.accesstoken,$scope.fileld).then(function(downloadresponse)
+		{
+		$scope.download=angular.toJson(downloadresponse);
+		console.log($scope.download+'==========hello this is download ');
+		
+		}).catch(function(response){
+			if(response.status == 401){
+				alert("token expired");
+			}
+		}); 
+    };
 
 
+	
+	
+	
+	
 });

@@ -8,40 +8,74 @@
  * The module of the application that handles coreservices on the site.
  */
 
-angular.module('MediaVault').service('coreservices', function (ENV,ENDPOINTS, ERRORS, nplApi) 
+angular.module('MediaVault').service('coreservices', function (ENV,ENDPOINTS, ERRORS, nplApi, localRecord) 
 {
 	var core={};
-	
 	core.getAccessToken = function () 
 	{
-        return nplApi.get(ENDPOINTS.accesstoken, {version: ENV.version});
-    };
+		alert('access token started');
+        //return nplApi.post1(ENDPOINTS.accesstoken,"token");
+		nplApi.post1(ENDPOINTS.accesstoken,"token").then(function(accessTokenresponse)
+			{
+				var response=angular.fromJson(accessTokenresponse);
+				console.log("accesstoken status----"+response.status);
+				var responsestatus = response.status;
+				console.log(response.data.accessToken+"   ----this is before save ");
+				localRecord.save('accesstokendata',angular.toJson(response.data.accessToken));
+			
+			
+			//console.log($rootScope.accesstoken);
+			}).catch(function()
+			{
+			alert('access token error error');
+			});
+    }; 
+
 	core.generatefolder = function (accessToken,folderName) 
 	{
-		console.log(nplApi.post1(ENDPOINTS.createfolder, {accessToken: accessToken,folderName:folderName}));
-        return  nplApi.post1(ENDPOINTS.createfolder, {accessToken: accessToken,folderName:folderName});
+	var querystring = "accessToken="+accessToken;
+	
+	querystring= querystring+"&folderName="+folderName;
+	console.log("endpoint----->"+querystring);
+        return  nplApi.post1(ENDPOINTS.createfolder,querystring);
     };
 	core.foldercontents = function (accessToken,folderId) 
 	{
-        return nplApi.post1(ENDPOINTS.listfoldercontents,{accessToken:accessToken,folderId:folderId});
+	console.log('folderId');
+	var querystring = "accessToken="+accessToken;
+	querystring = querystring+"&folderId="+folderId;
+	console.log("endpoint----->"+querystring);
+     return  nplApi.post1(ENDPOINTS.listfoldercontents,querystring);
     };
-	core.fileupload = function () 
+
+	core.fileupload = function(accessToken,folderId,folderName,str) 
 	{
-        return nplApi.post(ENDPOINTS.uploadfile, {version: ENV.version});
-    };
-	
-	core.filedownload = function () 
-	{
-        return nplApi.post(ENDPOINTS.downloadfile, {accessToken:accessToken,fileId:fileId});
-    };
-	
-	core.filedelete = function () 
-	{
-        return nplApi.post(ENDPOINTS.deletefile, {accessToken:accessToken,fileId:fileId});
+		var querystring = "accessToken="+accessToken+"&folderId="+folderId+"&folderName="+folderName+"&"+str;
+        return nplApi.post1(ENDPOINTS.uploadfile,querystring);
     };	
-	core.filesearch = function () 
+	
+	core.filedownload = function (accessToken,fileld) 
 	{
-        return nplApi.post(ENDPOINTS.searchfile, {accessToken:accessToken,querytext:querytext,folderName:folderName});
+		console.log('coreservice======== '+accessToken);
+		console.log('coreservice========= '+fileld);
+		var querystring = "accessToken="+accessToken;
+		querystring = querystring+"&fileld="+fileld;
+        return nplApi.post1(ENDPOINTS.downloadfile,querystring);
+    };
+
+	core.filedelete = function (accessToken,fileld) 
+	{
+		var querystring = "accessToken="+accessToken;
+		querystring = querystring+"&fileld="+fileld;
+        return nplApi.post1(ENDPOINTS.deletefile,querystring);
+    };	
+	
+	core.filesearch = function (accessToken,querytext,folderName) 
+	{
+		var querystring = "accessToken="+accessToken;
+		querystring = querystring+"&querytext="+querytext;
+		querystring = querystring+"&folderName="+folderName;
+        return nplApi.post1(ENDPOINTS.searchfile,querystring);
     };
 	
   return core;

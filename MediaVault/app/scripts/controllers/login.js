@@ -7,10 +7,16 @@
  * # LoginCtrl
  * Controller
  */
-angular.module('MediaVault').controller('LoginCtrl', function (ENV, ERRORS, $scope, $rootScope, $state, stringUtil, nplApi, access, localRecord, loadAppData) {
+angular.module('MediaVault').controller('LoginCtrl', function (ENV, ERRORS, $scope, $rootScope, $state, stringUtil, nplApi, access, localRecord, loadAppData,coreservices) {
     $scope.currentEnvironment = ENV;
     $scope.Phases = [];
     $scope.jobs = [];
+	
+	
+	
+	
+	
+	
     // if the user is logged in, take them to the dashboard
     if (access.isSignedIn()) {
         $state.go('main');
@@ -18,6 +24,7 @@ angular.module('MediaVault').controller('LoginCtrl', function (ENV, ERRORS, $sco
     // if a last username is stored
     if (localRecord.get('login') && localRecord.get('login').lastUser !== null) {
         $scope.username = localRecord.get('login').lastUser;
+		
     }
     // function to handle processing a login
     $scope.login = function () {
@@ -69,21 +76,44 @@ angular.module('MediaVault').controller('LoginCtrl', function (ENV, ERRORS, $sco
                     }
                 ).error(function () {
 
-                    });
+                    }); 
 
-                loadAppData.getKeywords().success(
+                 loadAppData.getKeywords().success(
                     function (keywordresponse) {
                         $scope.keys = angular.toJson(keywordresponse);
                         localRecord.save('keywords', $scope.keys);
                     }
                 ).error(function () {
-                    });
-
-
+                    }); 
+					
+					coreservices.getAccessToken();
+					
+					
+					
+					
                 $state.go('main');
             }
             $scope.loggingIn = false;
         };
         access.signIn($scope.username, $scope.password, callback);
     };
+	
+	
+		
+		/*.then(function(accessTokenresponse)
+			{
+				$scope.response=angular.fromJson(accessTokenresponse);
+				console.log("accesstoken status----"+$scope.response.status);
+				$scope.responsestatus = $scope.response.status;
+				console.log($scope.response.data.accessToken+"   ----this is before save ");
+				localRecord.save('accesstokendata',angular.toJson($scope.response.data.accessToken));
+			
+			
+			//console.log($rootScope.accesstoken);
+			}).catch(function()
+			{
+			alert('access token error error');
+			}); */
+
+
 });

@@ -91,6 +91,20 @@ angular.module('MediaVault').service('localRecord', function (localResources, st
 			case 'uploaddata':
                 saveuploaddata(data);
                 break;
+				
+			case 'accesstokendata':
+                saveaccessToken(data);
+                break;
+				case 'folderdata':
+                savefolderdata(data);
+                break;
+				case 'foldercontentslist':
+                savefoldercontentslist(data);
+                break;
+				case 'searchresults':
+                savesearchresultslist(data);
+                break;
+				
         }
     }
 
@@ -121,6 +135,19 @@ angular.module('MediaVault').service('localRecord', function (localResources, st
 		   case 'uploaddata':
                 results = getuploaddata();
                 break;
+			case 'accesstokendata':
+                results = getaccessToken();
+                break;	
+			case 'folderdata':
+                results = getfolderdata();
+                break;	
+			case 'foldercontentslist':
+                results = getfoldercontentslist();
+                break;		
+			case 'searchresults':
+                results = getsearchresultslist();
+                break;		
+				
 
         }
         return results;
@@ -265,11 +292,57 @@ angular.module('MediaVault').service('localRecord', function (localResources, st
             addRecord('uploaddata', values);
         }
     }
-
+	 function saveaccessToken(data) 
+	 {
+        if (data) 
+		{
+            var values =
+            {
+                accesstokendataCode: data
+            };
+            addRecord('accesstokendata', values);
+        }
+	 }
+	 
+	 function savefolderdata(data) 
+	 {
+        if (data) 
+		{
+            var values =
+            {
+                folderdataCode: data
+            };
+            addRecord('folderdata', values);
+        }
+	 }
+	 
+	 function savefoldercontentslist(data) 
+	 {
+        if (data) 
+		{
+            var values =
+            {
+                foldercontentslistCode: data
+            };
+            addRecord('foldercontentslist', values);
+        }
+	 }
+	 function savesearchresultslist(data) 
+	 {
+        if (data) 
+		{
+            var values =
+            {
+                searchresultsCode: data
+            };
+            addRecord('searchresults', values);
+        }
+	 }
 	
 	
 	
-
+	
+	
     function saveUsers(data) {
         if (data) {
             var groups = [];
@@ -366,22 +439,59 @@ angular.module('MediaVault').service('localRecord', function (localResources, st
     function getPhase() 
 	{
         var phaseData = getRecords('phase');
-        if (phaseData) {
+        if (phaseData) 
+		{
             return phaseData;
         }
         return;
     }
 	function getuploaddata() 
-	 {
+	{
         var uploadData = getRecords('uploaddata');
         if (uploadData){
         return uploadData;
         }
         return;
     }
-
+	function getaccessToken() 
+	{
+        var accesstokenData = getRecords('accesstokendata');
+        if (accesstokenData)
+		{return accesstokenData;
+        }
+        return;
+	}
+	function getfolderdata() 
+	{
+        var folderData = getRecords('folderdata');
+        if (folderData)
+		{return folderData;
+        }
+        return;
+	}
+	function getfoldercontentslist() 
+	{
+        var foldercontentslistData = getRecords('foldercontentslist');
+        if (foldercontentslistData)
+		{
+			return foldercontentslistData;
+        }
+        return;
+	}
+	function getsearchresultslist() 
+	{
+        var searchresultsData = getRecords('searchresults');
+        if (searchresultsData)
+		{
+			return searchresultsData;
+        }
+        return;
+	}
+	
+	
     //Remove function
-    function removeRecord(resource) {
+    function removeRecord(resource) 
+	{
         var keysData = localResources.getResourceKeysByProperty(resource);
         for (var i = 0, j = keysData.length; i < j; i++) {
             var keyData = keysData[i];
