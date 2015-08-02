@@ -109,50 +109,18 @@
         <div class="clearfix"></div>
         <div id="individual-row" ng-click="elementclick()">		
            <div class="search-result-list">
-            <div class="row list" >
+            <div class="row list" ng-repeat="n in searchresponse">
 		
-                <div class="col-lg-3 col-md-3"><img src="images/thumbnail.gif" class="thumbnail"/></div>
-                <div class="col-lg-9 col-md-9"><p>Date: 6/5/2015 </p> 
-                    <p>Size: <strong>178MB</strong></p>
-                    <p>Submitted<span> John Doe</span></p>
+                <div class="col-lg-3 col-md-3"><img src="{{n.webUrl}}" class="thumbnail"/></div>
+                <div class="col-lg-9 col-md-9"><p>Date: {{n.dateTimeCreated}} </p> 
+                    <p>Size: <strong>{{n.size}}</strong></p>
+                    <p>Submitted<span> </span></p>
                 </div>
             </div>
 
-            <div class="row list">
-                <div class="col-lg-3 col-md-3"><img src="images/thumbnail.gif" class="thumbnail"/></div>
-                <div class="col-lg-9 col-md-9"><p>Date: 6/5/2015 </p> 
-                    <p>Size: <strong>178MB</strong></p>
-                    <p>Submitted<span> Thom Smith</span></p>
-                </div>
-            </div>
-
-            <div class="row list">
-                <div class="col-lg-3 col-md-3"><img src="images/thumbnail.gif" class="thumbnail"/></div>
-                <div class="col-lg-9 col-md-9"><p>Date: 6/5/2015 </p> 
-                    <p>Size: <strong>178MB</strong></p>
-                    <p>Submitted<span> Nelson</span></p>
-                </div>
-            </div>
-
-            <div class="row list">
-                <div class="col-lg-3 col-md-3"><img src="images/thumbnail.gif" class="thumbnail"/></div>
-                <div class="col-lg-9 col-md-9"><p>Date: 6/5/2015 </p> 
-                    <p>Size: <strong>178MB</strong></p>
-                    <p>Submitted<span> John Doe</span></p>
-                </div>
-            </div>
-
-            <div class="row list">
-                <div class="col-lg-3 col-md-3"><img src="images/thumbnail.gif" class="thumbnail"/></div>
-                <div class="col-lg-9 col-md-9"><p>Date: 6/5/2015 </p> 
-                    <p>Size: <strong>178MB</strong></p>
-                    <p>Submitted<span> John Doe</span></p>
-                </div>
-            </div>
- 
         </div>
 		   
-            <div class="col-lg-12 load-more text-center"><img src="images/preload-green-spinner.gif" alt="preload green spinner"/></div>
+            <div class="col-lg-12 load-more text-center" ng-show="{{spinnervalue}}"><img src="images/preload-green-spinner.gif" alt="preload green spinner"/></div>
 
         </div>
     </div>
@@ -171,8 +139,8 @@
                     <i class="fa fa-download"></i>
                 </button>
 
-                <button type="button" class="btn btn-icon" data-toggle="modal"  data-target="#delete">
-                    <i class="fa fa-trash"></i></button>
+                <button type="button" class="btn btn-icon" data-toggle="modal"  data-target="#searchdelete">
+                <i class="fa fa-trash"></i></button>
             </div>
         </div>
        

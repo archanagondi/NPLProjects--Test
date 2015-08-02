@@ -22,13 +22,13 @@ angular.module('constants', [])
         getkeywords: 'MediaVault/api.php?endpoint=getKeywords',
         getgeoLocation: 'api.php?endpoint=getGeoLocation',
 		//office 365 services end points 
-		accesstoken: 'api.php?endpoint=accessToken',
-		createfolder: 'api.php?endpoint=createFolder',
-		listfoldercontents:'api.php?endpoint=listFolderContents',
-		uploadfile : 'api.php?endpoint=uploadFile',
-		downloadfile: 'api.php?endpoint=downloadFile',
-		deletefile: 'api.php?endpoint=deleteFile',
-		searchfile: 'api.php?endpoint=searchFile'
+		accesstoken: 'MediaVault/api.php?endpoint=accessToken',
+		createfolder: 'MediaVault/api.php?endpoint=createFolder',
+		listfoldercontents:'MediaVault/api.php?endpoint=listFolderContents',
+		uploadfile : 'MediaVault/api.php?endpoint=uploadFile',
+		downloadfile: 'MediaVault/api.php?endpoint=downloadFile',
+		deletefile: 'MediaVault/api.php?endpoint=deleteFile',
+		searchfile: 'MediaVault/api.php?endpoint=searchFile'
     })
 
 //String Display Messages

@@ -9,6 +9,7 @@
  */
 
 angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window, $scope, $state,$filter, localRecord, access, $rootScope, loadAppData,coreservices) {
+	
 	$scope.searcharea= false;
     $scope.searchpage = true;
     $scope.searchpageresults = false;
@@ -20,12 +21,14 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
 	$scope.searchdetailsformdata=[];
 	$scope.searchziptext=false;
 	$scope.searchdetailsziptext=false;	
-
+	$scope.spinnervalue=false;	
+	
 	$scope.jobsearch = [];
     $scope.phasesSearch =[];
     $scope.searchgeocity =[];
     $scope.searchdetailsgeocity = [];
-	$rootScope.searchresultdata = [];
+	//$rootScope.searchresultdata = [];
+	$rootScope.searchresponse =[];
 
 
 
@@ -77,14 +80,17 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
 	$scope.searchformdata.push($rootScope.searchKeyword);
 	
 	//search service 
-			$scope.querytext='sidewalk'; //sending selected keywords
-			$scope.foldername='techmile156';
+			$scope.querytext='side'; //sending selected keywords
+			$scope.foldername='sathish';
+			$rootScope.accesstoken=angular.fromJson(localRecord.get('accesstokendata').accesstokendataCode);
+			console.log($rootScope.accesstoken);
 			coreservices.filesearch($rootScope.accesstoken,$scope.querytext,$scope.foldername).then(function(searchfileresponse)
 			{
-				$scope.searchresponse=angular.toJson(searchfileresponse);
-				localRecord.save('searchresults',$scope.searchresponse);
-				$rootScope.searchresultdata = angular.fromJson(localRecord.get('searchresults').searchresultsCode);
-				console.log(searchresultdata);
+				$rootScope.searchresponse=angular.fromJson(searchfileresponse.data);
+				//localRecord.save('searchresults',$scope.searchresponse);
+				//$rootScope.searchresultdata = angular.fromJson(localRecord.get('searchresults').searchresultsCode);
+				console.log($rootScope.searchresponse);
+				$scope.spinnervalue=true;	
 			}).catch(function(response)
 			{
 					
@@ -93,7 +99,7 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
     };
     $scope.searchback = function () {
 		$rootScope.type='search';
-		alert($rootScope.type);
+		//alert($rootScope.type);
 		$scope.selection = [];
 		$rootScope.selectedKeywords=[];
         $scope.searchpage = true;
@@ -101,7 +107,7 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
     };
     $scope.elementclick = function () {
 		$rootScope.type='searchDetails';
-		alert($rootScope.type);
+		//alert($rootScope.type);
 		$scope.selection = [];		
 		$rootScope.selectedKeywords=[];
         $scope.searchpageresults = false;
@@ -248,7 +254,7 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
     };
 	$scope.downloadfile = function () 
 	{
-       alert("in download");
+   //    alert("in download");
 	  // $rootScope.folderdetails = angular.fromJson(localRecord.get('folderdata').folderdataCode);
 	//	console.log($rootScope.folderdetails);
 		$scope.fileld="017LDWEEDE474HUBEJ4JC2WNQVJ2TOY6UH";
@@ -257,10 +263,12 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
 		{
 		$scope.download=angular.toJson(downloadresponse);
 		console.log($scope.download+'==========hello this is download ');
-		
+		//alert("file downloaded");
 		}).catch(function(response){
 			if(response.status == 401){
-				alert("token expired");
+				//alert("token expired");
+			}else{
+				//alert("sorry! file has been deleted");
 			}
 		}); 
     };

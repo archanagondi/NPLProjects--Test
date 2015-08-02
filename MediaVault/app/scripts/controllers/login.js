@@ -78,7 +78,7 @@ angular.module('MediaVault').controller('LoginCtrl', function (ENV, ERRORS, $sco
 
                     }); 
 
-                 loadAppData.getKeywords().success(
+                loadAppData.getKeywords().success(
                     function (keywordresponse) {
                         $scope.keys = angular.toJson(keywordresponse);
                         localRecord.save('keywords', $scope.keys);
@@ -87,8 +87,29 @@ angular.module('MediaVault').controller('LoginCtrl', function (ENV, ERRORS, $sco
                     }); 
 					
 					coreservices.getAccessToken();
+						//create folder service
+		$rootScope.accesstoken=angular.fromJson(localRecord.get('accesstokendata').accesstokendataCode);
+		$scope.foldername='testm578';
+		//console.log("getting saved data-------------->"+$rootScope.accesstoken)
+			coreservices.generatefolder($rootScope.accesstoken,$scope.foldername).then(function(response)
+			{
+				$scope.folderresponse=angular.toJson(response);
+				console.log($scope.folderresponse+'===create folder response  login js file ');
+				localRecord.save('folderdata',angular.toJson(response));
+			}).catch(function(errorresponse){
+				 $scope.folderresponse=angular.fromJson(errorresponse);
+					//alert("error in create folder");
+					console.log("error");
+					console.log($scope.folderresponse.status);
 					
-					
+					/* if($scope.folderresponse.status == 401){
+						alert("token expired");
+						//generateaccesstoken();
+						coreservices.getAccessToken();
+						
+					} */
+			});
+						
 					
 					
                 $state.go('main');
@@ -98,9 +119,7 @@ angular.module('MediaVault').controller('LoginCtrl', function (ENV, ERRORS, $sco
         access.signIn($scope.username, $scope.password, callback);
     };
 	
-	
-		
-		/*.then(function(accessTokenresponse)
+			/*.then(function(accessTokenresponse)
 			{
 				$scope.response=angular.fromJson(accessTokenresponse);
 				console.log("accesstoken status----"+$scope.response.status);
@@ -113,7 +132,9 @@ angular.module('MediaVault').controller('LoginCtrl', function (ENV, ERRORS, $sco
 			}).catch(function()
 			{
 			alert('access token error error');
-			}); */
+			}); 
+			
+			*/
 
 
 });

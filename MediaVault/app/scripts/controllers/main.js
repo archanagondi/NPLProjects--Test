@@ -93,19 +93,19 @@ $('#upload').click(function()
 		{
 			$('#searchKeyword').val($rootScope.selectedKeywords);
 			$rootScope.searchKeyword = $rootScope.selectedKeywords;	
-			alert('this is the search keyword part ');
+		//	alert('this is the search keyword part ');
 		}
 	  else if($rootScope.type === 'searchDetails')
 	  { 
 		$('#searchDetailsKeyword').val($rootScope.selectedKeywords);
 		$rootScope.searchDetailsKeyword = $rootScope.selectedKeywords;	
-		alert('this is the search details part ');
+		//alert('this is the search details part ');
 	  }
 	else if($rootScope.type === 'upload')
 	{
 	  $('#keywordsUpload').val($rootScope.selectedKeywords);
 	  $rootScope.keywordsUpload = $rootScope.selectedKeywords;
-	  alert('this is the upload keyword part ');
+	//  alert('this is the upload keyword part ');
 	} 
 	};
     //date
@@ -130,28 +130,27 @@ $('#upload').click(function()
 	localRecord.save('uploaddata',angular.toJson($scope.uploadformFulldata));
 	$("#"+$rootScope.deleteId).remove();
 	};
-	$scope.foldername='test';
-	coreservices.generatefolder($rootScope.accesstoken,$scope.foldername).then(function(response)
-		{
-			$scope.folderresponse=angular.toJson(response);
-			console.log($scope.folderresponse+'===create folder response  login js file ');
-			localRecord.save('folderdata',angular.toJson(response));
-		}).catch(function(errorresponse){
-			 $scope.folderresponse=angular.fromJson(errorresponse);
-				console.log("error");
-				console.log($scope.folderresponse.status);
-				
-				/* if($scope.folderresponse.status == 401){
-					alert("token expired");
-					//generateaccesstoken();
-					coreservices.getAccessToken();
-					
-				} */
-		}); 
+	//pop-up for search delete method 	
+	$scope.deletesearchfile = function()
+	{
+	
+		//	alert('delete function in main js');
+	
+			$scope.fileld='DWEEDE474HUBEJ4JC2WNQVJ2TOY6UH';
+			coreservices.filedelete($rootScope.accesstoken,$scope.fileld).then(function(deletedresponse)
+			{
+			$scope.download=angular.toJson(deleteresponse);
+			console.log($scope.download+'hello this is download ');
+			}).catch(function(response)
+			{
+		//	alert("sorry could not be deleted");	
+			});
+	};
+	 
 		
 		
 		
-$interval(coreservices.getAccessToken,5000);
+$interval(coreservices.getAccessToken,500000);
 
 
 

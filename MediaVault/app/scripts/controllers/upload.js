@@ -10,26 +10,14 @@
 
 angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservices,Uploaddata, $window, $filter, $scope, $state, localRecord, access, $rootScope, loadAppData, $http, $q) {
     
-	
+	 $rootScope.showorhide=false;
 	$scope.hidedata=true;
 	$scope.hideimage=false;
 	$rootScope.listresponse=[];
-	//$rootScope.queuelist=[];
+	$rootScope.queuelist ==[];
 	$rootScope.queuelist = angular.fromJson(localRecord.get('uploaddata').uploaddataCode);
-	//$rootScope.accesstoken=angular.fromJson(localRecord.get('accesstokendata').accesstokendataCode);
-	//console.log('this is in upload js ');
-	//console.log($rootScope.accesstoken);
-		$rootScope.folderdetails = angular.fromJson(localRecord.get('folderdata').folderdataCode);
-		 console.log($rootScope.folderdetails);
-			/*$scope.folderName=$rootScope.folderdetails.data.folderName;
-			$scope.folderid=$rootScope.folderdetails.data.folderId;
-			console.log(angular.toJson($rootScope.folderdetails)+'---------------------');
-			console.log($scope.folderName);
-			console.log($scope.folderid);   */
-	
-	
-	
-	
+	$rootScope.folderdetails = angular.fromJson(localRecord.get('folderdata').folderdataCode);
+	console.log($rootScope.folderdetails);
 	$rootScope.uploadimage;
     $scope.job = [];
     $scope.phases = [];
@@ -66,22 +54,24 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
     // PhoneGap is ready
     function onDeviceReady() 
 	{
-        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
+		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
     }
-    function gotFS(fileSystem) {
+    function gotFS(fileSystem) 
+	{
         fileSystem.root.getDirectory(imagesfoldername, {create: true, exclusive: false}, projectdirexist, notexists);
     }
     //on creating a folder successfully
-    function projectdirexist(direntry) {
+    function projectdirexist(direntry) 
+	{
         projectpath = direntry.fullPath;
     }
     function notexists(error) 
 	{
-        alert(error.code);
+        $window.alert(error.code);
     }
     function fail(error) 
 	{
-        alert('fail1' + error);
+        $window.alert('fail1' + error);
     }
     $scope.camera = function(type)
     {
@@ -89,11 +79,11 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
             navigator.device.capture.captureVideo(captureVideoSuccess, captureVideoError, {duration: 30});
         } else {
             navigator.camera.getPicture(onSuccess, onFail, {quality: 50,
-                //destinationType: Camera.DestinationType.DATA_URL,
+                
                 destinationType: Camera.DestinationType.FILE_URI,
             });
 			$scope.hidedata=false;
-			$scope.hideimage="";
+			$scope.hideimage='';
 			$scope.hideimage=true;
         }
         /* Image capture success */
@@ -101,12 +91,14 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
 		{
             var image = document.getElementById('uploaded-image');
             image.src = imageData;
+			
             $rootScope.uploadimage = imageData;
+			//$window.alert("image url-----"+$rootScope.uploadimage);
         }
         /* Fail image capture */
         function onFail(message)
         {
-            alert('Failed because: ' + message);
+            //$window.alert('Failed because: ' + message);
         }
 
         /* Video capture success */
@@ -118,26 +110,26 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
             }
         }
         /* save video file */
-        function saveVideoFile(mediaFile) {
-            // alert(mediaFile.fullPath);
+        function saveVideoFile(mediaFile) 
+		{
+            //$window.alert(mediaFile.fullPath);
             save_video_locally(mediaFile.fullPath);
         }
         function save_video_locally(video_file) {
-            // alert("inside save video filel" + video_file)
+            // $window.alert('inside save video filel' + video_file)
             var stamp = new Date().getTime();
             var folder = imagesfoldername;
-            var currentImageUrl = "Video" + stamp + ".MOV";
+            var currentImageUrl = 'Video' + stamp + '.MOV';
             window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {
-                var imagePath = fs.root.toURL() + folder + "/" + currentImageUrl;
-                // alert("new..." + fs.root.toURL() + folder + "/" + currentImageUrl)
+                var imagePath = fs.root.toURL() + folder + '/' + currentImageUrl;
+               // $window.alert('new...' + fs.root.toURL() + folder + '/' + currentImageUrl)
                 var fileTransfer = new FileTransfer();
-                var vppath = "file://" + video_file;
-                // alert("old path" + vppath);
+                var vppath = 'file://' + video_file;
+               //$window.alert('old path' + vppath);
                 fileTransfer.download(vppath, imagePath, function(entry) {
-                    // alert("::: success" + entry.fullPath);
+                  // $window.alert('::: success' + entry.fullPath);
                 }, function(error) {
-                //    alert("error " + error.code);
-
+              //  $window.alert('error' + error.code);
                 });
             });
         }
@@ -165,7 +157,8 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
             });
         }
 
-        function onGalSuccess(imageData) {
+        function onGalSuccess(imageData) 
+		{
             var image = document.getElementById('uploaded-image');
             image.src = imageData;
             $rootScope.uploadimage = imageData;
@@ -176,7 +169,6 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
         {
             alert('Failed because: ' + message);
         }
-
         function galVideoSuccess(VideoURI) {
             $scope.video = document.getElementById('myVideo');
             if (VideoURI.substring(0, 21) === 'content://com.android') 
@@ -189,8 +181,9 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
             $scope.apply();
         }
 
-        function galVideoFail() {
-            alert('Failed because: ' + message);
+        function galVideoFail() 
+		{
+		$window.alert('Failed because: ' + message);
         }
     };
     $scope.clear = function()
@@ -332,7 +325,7 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
         }  */
 
          $rootScope.type = 'upload';
-		 alert($rootScope.type);
+		 //alert($rootScope.type);
          $scope.selection = [];
          $rootScope.selectedKeywords = [];
          $scope.uploadpage = false;
@@ -423,6 +416,7 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
 		$rootScope.queuelist = angular.fromJson(localRecord.get('uploaddata').uploaddataCode);
 		console.log($rootScope.queuelist);
 		//navigating to queue tab
+			$rootScope.showorhide=true;
     };
 
     $scope.localcitydata = angular.fromJson(localRecord.get('geodata').geodataCode);
