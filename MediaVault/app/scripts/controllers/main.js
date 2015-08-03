@@ -7,27 +7,21 @@
  * # MainCtrl
  * Controller
  */
-angular.module('MediaVault').controller('MainCtrl', function (LABELS, $scope, $state,$interval, localRecord, access, $rootScope,coreservices) {
+angular.module('MediaVault').controller('MainCtrl', function (LABELS, $scope,$window, $state,$interval, localRecord, access, $rootScope,coreservices) {
 $rootScope.accesstoken=angular.fromJson(localRecord.get('accesstokendata').accesstokendataCode);
 console.log($rootScope.accesstoken+'main in controller');	
 		
 $rootScope.type='';
-//getting the type while click the tab 
+/* //getting the type while click the tab 
 $('#search-tab').click(function()
  {	 
 	$rootScope.type='search';
-	//alert($rootScope.type);
+	$window.alert($rootScope.type);
 	$scope.selection = [];
 	$rootScope.selectedKeywords=[];	
-});
+}); */
 //getting the type while click the tab 
-$('#upload').click(function() 
-{
-	$rootScope.type='upload';
-	//alert($rootScope.type);
-	$scope.selection = [];
-	$rootScope.selectedKeywords=[];	
-});
+
    $scope.areacode = '';
 
     if (localRecord.get('area').areaCode)
@@ -93,19 +87,22 @@ $('#upload').click(function()
 		{
 			$('#searchKeyword').val($rootScope.selectedKeywords);
 			$rootScope.searchKeyword = $rootScope.selectedKeywords;	
-		//	alert('this is the search keyword part ');
+		   //alert('this is the search keyword part ');
+		  
 		}
 	  else if($rootScope.type === 'searchDetails')
 	  { 
 		$('#searchDetailsKeyword').val($rootScope.selectedKeywords);
 		$rootScope.searchDetailsKeyword = $rootScope.selectedKeywords;	
 		//alert('this is the search details part ');
+		
 	  }
 	else if($rootScope.type === 'upload')
 	{
 	  $('#keywordsUpload').val($rootScope.selectedKeywords);
 	  $rootScope.keywordsUpload = $rootScope.selectedKeywords;
-	//  alert('this is the upload keyword part ');
+	  //alert('this is the upload keyword part ');
+	  
 	} 
 	};
     //date
@@ -133,9 +130,7 @@ $('#upload').click(function()
 	//pop-up for search delete method 	
 	$scope.deletesearchfile = function()
 	{
-	
 		//	alert('delete function in main js');
-	
 			$scope.fileld='DWEEDE474HUBEJ4JC2WNQVJ2TOY6UH';
 			coreservices.filedelete($rootScope.accesstoken,$scope.fileld).then(function(deletedresponse)
 			{

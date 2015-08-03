@@ -8,8 +8,7 @@
  * Controller to handle the feedback form
  */
 
-angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window, $scope, $state,$filter, localRecord, access, $rootScope, loadAppData,coreservices) {
-	
+angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window, $scope, $state,$filter, localRecord, access, $rootScope, loadAppData,coreservices){
 	$scope.searcharea= false;
     $scope.searchpage = true;
     $scope.searchpageresults = false;
@@ -30,6 +29,16 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
 	//$rootScope.searchresultdata = [];
 	$rootScope.searchresponse =[];
 
+	
+$rootScope.type='';
+//getting the type while click the tab 
+$('#search-tab').click(function()
+ {	 
+	$rootScope.type='search';
+	//$window.alert($rootScope.type);
+	$scope.selection = [];
+	$rootScope.selectedKeywords=[];	
+});
 
 
 	
@@ -99,7 +108,7 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
     };
     $scope.searchback = function () {
 		$rootScope.type='search';
-		//alert($rootScope.type);
+		//alert("This is search type------------>"+$rootScope.type);
 		$scope.selection = [];
 		$rootScope.selectedKeywords=[];
         $scope.searchpage = true;
@@ -107,12 +116,11 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
     };
     $scope.elementclick = function () {
 		$rootScope.type='searchDetails';
-		//alert($rootScope.type);
+		//alert("This is search details type "+$rootScope.type);
 		$scope.selection = [];		
 		$rootScope.selectedKeywords=[];
         $scope.searchpageresults = false;
         $scope.searchdetails = true;
-		
     };
     $scope.searchdetailsimage = function () {
         $scope.searchmediaimg = true;
@@ -120,7 +128,6 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
 
     };
     $scope.searchdetailsinformation = function () {
-		
         $scope.searchmediaimg = false;
         $scope.searchmediadetails = true;
     };

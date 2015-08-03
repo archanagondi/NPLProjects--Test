@@ -19,7 +19,7 @@
                 <div class="image-area" >
                     <div ng-show="hidedata">Image display here </div>
                     <img ng-src="{{uploadimage}}" id="uploaded-image" class="upload-img" ng-show="hideimage">
-                    <video  id="myVideo" style="display:none;" width="100%" height="50%" preload="metadata" controls webkit-playsinline><source type="video/mp4" >
+					<!-- <video  id="myVideo"  width="100%" height="50%" preload="metadata" controls webkit-playsinline><source='{{videoimagepath}}' type="video/mp4" ></video> -->
                 </div>
             </div>
         </div>
@@ -133,7 +133,7 @@
                     </button>
                 </div>
                 <div class="col-md-6 col-lg-6 text-right mt-15">
-                    <button  type="button" id="uploadData" class="btn btn-success button-width" ng-click="uploadData()"><i
+                    <button  type="button" id="uploadData" ng-disabled="{{isDisabled}}" class="btn btn-success button-width" ng-click="uploadData()"><i
                             class="fa fa-upload"></i>Upload
                     </button>
                 </div>

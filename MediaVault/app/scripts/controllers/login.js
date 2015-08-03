@@ -103,7 +103,7 @@ angular.module('MediaVault').controller('LoginCtrl', function (ENV, ERRORS, $sco
 					console.log($scope.folderresponse.status);
 					
 					/* if($scope.folderresponse.status == 401){
-						alert("token expired");
+						//alert("token expired");
 						//generateaccesstoken();
 						coreservices.getAccessToken();
 						
@@ -131,7 +131,7 @@ angular.module('MediaVault').controller('LoginCtrl', function (ENV, ERRORS, $sco
 			//console.log($rootScope.accesstoken);
 			}).catch(function()
 			{
-			alert('access token error error');
+			//alert('access token error error');
 			}); 
 			
 			*/

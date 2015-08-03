@@ -10,15 +10,17 @@
 
 angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservices,Uploaddata, $window, $filter, $scope, $state, localRecord, access, $rootScope, loadAppData, $http, $q) {
     
-	 $rootScope.showorhide=false;
+	$rootScope.showorhide=false;
 	$scope.hidedata=true;
+	$rootScope.videoimagepath='';
 	$scope.hideimage=false;
 	$rootScope.listresponse=[];
 	$rootScope.queuelist ==[];
 	$rootScope.queuelist = angular.fromJson(localRecord.get('uploaddata').uploaddataCode);
 	$rootScope.folderdetails = angular.fromJson(localRecord.get('folderdata').folderdataCode);
 	console.log($rootScope.folderdetails);
-	$rootScope.uploadimage;
+	$rootScope.uploadimage='';
+	$scope.isDisabled = false;
     $scope.job = [];
     $scope.phases = [];
     $scope.uploadformdata = [];
@@ -42,12 +44,23 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
 	$rootScope.folderdetails='';
 	$rootScope.foldercontentslistresopnes='';
 	$scope.uploadformFulldata = [];
-		
+	var image = document.getElementById('uploaded-image');
+     if(image.src != ""){
+      $scope.isDisabled = "false";
+    }
 	//button click navigation to queue	
 	$('#uploadData').click(function() 
 	{
 	$('#queue').click();
 	});	
+	//keywords	
+	$('#upload').click(function() 
+	{
+		$rootScope.type='upload';
+		//$window.alert($rootScope.type);
+		$scope.selection = [];
+		$rootScope.selectedKeywords=[];	
+	});
     document.addEventListener("deviceready", onDeviceReady, false);
     var imagesfoldername ='Mediavault-files';
     var projectpath = '';
@@ -67,21 +80,20 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
     }
     function notexists(error) 
 	{
-        $window.alert(error.code);
+        //$window.alert(error.code);
     }
     function fail(error) 
 	{
-        $window.alert('fail1' + error);
+        //$window.alert('fail1' + error);
     }
     $scope.camera = function(type)
     {
-        if (type == 'video') {
+        if (type == 'video') 
+		{
             navigator.device.capture.captureVideo(captureVideoSuccess, captureVideoError, {duration: 30});
-        } else {
-            navigator.camera.getPicture(onSuccess, onFail, {quality: 50,
-                
-                destinationType: Camera.DestinationType.FILE_URI,
-            });
+        } else 
+		{
+            navigator.camera.getPicture(onSuccess, onFail, {quality: 50,destinationType: Camera.DestinationType.FILE_URI,});
 			$scope.hidedata=false;
 			$scope.hideimage='';
 			$scope.hideimage=true;
@@ -91,8 +103,8 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
 		{
             var image = document.getElementById('uploaded-image');
             image.src = imageData;
-			
             $rootScope.uploadimage = imageData;
+			$scope.isDisabled = "true";
 			//$window.alert("image url-----"+$rootScope.uploadimage);
         }
         /* Fail image capture */
@@ -100,7 +112,6 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
         {
             //$window.alert('Failed because: ' + message);
         }
-
         /* Video capture success */
         function captureVideoSuccess(mediaFiles) {
             var i, len;
@@ -115,21 +126,24 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
             //$window.alert(mediaFile.fullPath);
             save_video_locally(mediaFile.fullPath);
         }
-        function save_video_locally(video_file) {
-            // $window.alert('inside save video filel' + video_file)
+        function save_video_locally(video_file) 
+		{
+            //$window.alert('inside save video filel' + video_file)
             var stamp = new Date().getTime();
             var folder = imagesfoldername;
-            var currentImageUrl = 'Video' + stamp + '.MOV';
+            var currentImageUrl = 'Video' + stamp + '.MP4';
             window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {
                 var imagePath = fs.root.toURL() + folder + '/' + currentImageUrl;
-               // $window.alert('new...' + fs.root.toURL() + folder + '/' + currentImageUrl)
+                //$window.alert('new...' + fs.root.toURL() + folder + '/' + currentImageUrl)
                 var fileTransfer = new FileTransfer();
                 var vppath = 'file://' + video_file;
                //$window.alert('old path' + vppath);
                 fileTransfer.download(vppath, imagePath, function(entry) {
-                  // $window.alert('::: success' + entry.fullPath);
-                }, function(error) {
-              //  $window.alert('error' + error.code);
+                   //$window.alert('::: success' + entry.fullPath); 
+				  $rootScope.videoimagepath=entry.fullPath;
+				  //alert($rootScope.videoimagepath);
+                },function(error) {
+              //$window.alert('error' + error.code);
                 });
             });
         }
@@ -183,7 +197,7 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
 
         function galVideoFail() 
 		{
-		$window.alert('Failed because: ' + message);
+		//$window.alert('Failed because: ' + message);
         }
     };
     $scope.clear = function()
@@ -325,7 +339,7 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
         }  */
 
          $rootScope.type = 'upload';
-		 //alert($rootScope.type);
+		 //alert("this is upload type "+$rootScope.type);
          $scope.selection = [];
          $rootScope.selectedKeywords = [];
          $scope.uploadpage = false;
@@ -350,6 +364,7 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
         $scope.cityUpload = '';
         $scope.NotesUpload = '';
         $rootScope.keywordsUpload = '';
+		$rootScope.uploadimage={};
         $scope.ziptext = false;
     };
 
@@ -399,6 +414,8 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
     };
     $scope.uploadData = function()
     {
+			
+		
 		var uploaddata={};
 		//creating form data object upload data and pushing in array and saving locally 
 		
@@ -408,11 +425,11 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
 		else{
 		$scope.uploadformFulldata=[];
 		}
+		//alert($rootScope.uploadimage);
 		console.log($scope.uploadformFulldata+"hai");
-		uploaddata = new Uploaddata($scope.uploadformFulldata.length,$scope.areaSelect,$scope.jobUpload,$scope.phaseUpload,$scope.dateUpload,$scope.dprUpload,$scope.streetUpload,$scope.cityUpload,$scope.zipcodeUpload,$scope.NotesUpload,$rootScope.keywordsUpload,'icon','pending');
+		uploaddata = new Uploaddata($scope.uploadformFulldata.length,$scope.areaSelect,$scope.jobUpload,$scope.phaseUpload,$scope.dateUpload,$scope.dprUpload,$scope.streetUpload,$scope.cityUpload,$scope.zipcodeUpload,$scope.NotesUpload,$rootScope.keywordsUpload,'icon',$rootScope.uploadimage,'pending');
 		$scope.uploadformFulldata.push(uploaddata);		
 		localRecord.save('uploaddata',angular.toJson($scope.uploadformFulldata));
-		
 		$rootScope.queuelist = angular.fromJson(localRecord.get('uploaddata').uploaddataCode);
 		console.log($rootScope.queuelist);
 		//navigating to queue tab
