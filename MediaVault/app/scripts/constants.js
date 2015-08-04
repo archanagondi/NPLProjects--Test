@@ -38,12 +38,14 @@ angular.module('constants', [])
             offline: 'You are offline and cannot submit feedback.'
         },
         login: {
-            apiUnreachable: 'Could not contact Central Office. Please try again.',
+            apiUnreachable:'Could not contact Central Office. Please try again.',
             incomplete: 'Please fill in the proper fields.',
             missingADGroup: 'Unauthorized: You do not have permission to access this site.',
             missingId: 'Missing employee id.',
             missingUsername: 'Username not found',
-            offline: 'You must be online to use Media Vault.'
+            offline: 'You must be online to use Media Vault.',
+			invalidCredientials: 'Please enter valid username and Password'
+
         },
         releaseNotes: {
             getFailed: 'There was an error getting the release notes'

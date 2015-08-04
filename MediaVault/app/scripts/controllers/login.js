@@ -11,20 +11,14 @@ angular.module('MediaVault').controller('LoginCtrl', function (ENV, ERRORS, $sco
     $scope.currentEnvironment = ENV;
     $scope.Phases = [];
     $scope.jobs = [];
-	
-	
-	
-	
-	
-	
+
     // if the user is logged in, take them to the dashboard
     if (access.isSignedIn()) {
         $state.go('main');
     }
     // if a last username is stored
     if (localRecord.get('login') && localRecord.get('login').lastUser !== null) {
-        $scope.username = localRecord.get('login').lastUser;
-		
+        $scope.username = localRecord.get('login').lastUser;	
     }
     // function to handle processing a login
     $scope.login = function () {
@@ -39,9 +33,16 @@ angular.module('MediaVault').controller('LoginCtrl', function (ENV, ERRORS, $sco
                 if (error.statusText) {
                     if (error.status === 404) {
                         $scope.error = ERRORS.login.missingUsername;
-                    } else if (error.status === 401) {
+                    } else if (error.status === 401) 
+					{
                         $scope.error = error.data;
-                    } else {
+						
+                    }else if (error.status === 403 || error.status === 500) 
+					{
+                       
+						$scope.error = ERRORS.login.invalidCredientials;
+                    } else 
+					{
                         $scope.error = ERRORS.login.apiUnreachable;
                     }
                 } else if (error.message) {

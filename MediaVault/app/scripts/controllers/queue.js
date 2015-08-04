@@ -38,84 +38,61 @@ function calluploadService()
         states[Connection.NONE] = 'No network connection'; 
          if (states[networkState] == "WiFi connection") 
 		 {
-		// alert('wifi is avaliable');
-		//if wifi is avaliable it will call service 
-		$rootScope.accesstoken=angular.fromJson(localRecord.get('accesstokendata').accesstokendataCode);       
-		//$rootScope.folderdetails = angular.fromJson(localRecord.get('folderdata').folderdataCode);
-		//console.log($rootScope.folderdetails);
-		//$scope.folderld = $rootScope.folderdetails.data.folderId;
-		//$scope.folderName = $rootScope.folderdetails.data.folderName;  
-		$scope.folderld = "01J2RPBCMACFBV7IPW6ZHZYRZ6JM37QERZ";
-		$scope.folderName = "testm578";  
-		angular.forEach($rootScope.queuelist, function(value,key)
+	$rootScope.accesstoken=angular.fromJson(localRecord.get('accesstokendata').accesstokendataCode);
+  $rootScope.folderdetails = angular.fromJson(localRecord.get('folderdata').folderdataCode);
+  console.log($rootScope.folderdetails);
+ 
+  $scope.folderld = $rootScope.folderdetails.data.folderId;
+  $scope.folderName = $rootScope.folderdetails.data.folderName;  
+
+  angular.forEach($rootScope.queuelist, function(value,key)
         {
-			var error='';
-			//alert(value.imagepath);
-			//var str = "fileName=test&filePath=/images/1.jpg&areaName="+value.area+"&city="+value.city+"&phase="+value.phase+"&job="+value.job+"&description="+value.note+"&workdate="+value.date+"&zip="+value.zip+"&keywords="+value.keyword+"&redirectUrl=http://localhost/api-v3/MediaVault";
-			 var str = "fileName=test&filePath=/images/1.jpg&areaName="+value.area+"&city=ghfgh&phase=fgh&job=fgh&description=fghfg&workDate="+value.date+"&zip=45676&keywords=side walk&redirectUrl=http://localhost/api-v3/MediaVault";
-			coreservices.fileupload($rootScope.accesstoken,$scope.folderld,$scope.folderName,str).then(function(downloadresponse)
-			{
-				$scope.download=angular.toJson(downloadresponse);
-				console.log($scope.download+'hello this is download ');
-				 $('#'+id+' .progress-bar-success').css('width','100%');
-			}).catch(function(response){
-				 error='false'; 
-				//window.clearInterval(interval);
-				$('#'+key+' .progress-bar-success').css('background-color', "#BD4343");
-			});  
-			var progress = 0;
-			var interval = setInterval(
-			function(){
-				if (progress == 95 || error == "false"){
-				window.clearInterval(interval);
-				}else{
-					setProgress(++progress,key);
-				}
-			}, 400);
-		});
-		//end of service calling 
-          } else 
-		 {
-			// alert('No wifi connection avaliable please on your wifi to upload  ');
-			window.resolveLocalFileSystemURI($rootScope.uploadimage, resolveOnSuccess, resOnError) 
-			//alert($rootScope.uploadimage+'before calling ');
-		 }         
+  if(value.status == "pending"){
+  
+  
+   var error='';
+   
+   //var str = "fileName=test&filePath=/images/1.jpg&areaName="+value.area+"&city="+value.city+"&phase="+value.phase+"&job="+value.job+"&description="+value.note+"&workdate="+value.date+"&zip="+value.zip+"&keywords="+value.keyword+"&redirectUrl=http://localhost/api-v3/MediaVault";
+    //var str = "fileName=test&filePath=/images/1.jpg&areaName="+value.area+"&city=ghfgh&phase=fgh&job=fgh&description=fghfg&workDate="+value.date+"&zip=45676&keywords=side walk&redirectUrl=http://localhost/api-v3/MediaVault";
+   var str = "fileName="+value.imagepath+"&areaName="+value.area+"&city="+value.city+"&phase="+value.phase+"&job="+value.job+"&description="+value.note+"&workDate="+value.date+"&zip="+value.zip+"&keywords="+value.keyword+"&folderName="+$scope.folderName +"&fileExt=jpeg&base64Data="+value.imagepath;
+   coreservices.fileupload($rootScope.accesstoken,str).then(function(downloadresponse)
+   {
+    $scope.download=angular.toJson(downloadresponse);
+    
+    console.log($scope.download);
+    console.log('file is uploaded');
+	 progress = 100;
+     $('#'+key+' .progress-bar-success').css('width',progress+"%");
+     $rootScope.queuelist[key]['status'] = "completed";
+     console.log( $rootScope.queuelist);
+     localRecord.save('uploaddata',angular.toJson($rootScope.queuelist)); 
+   }).catch(function(response){
+    
+     error='false'; 
+    
+    //window.clearInterval(interval);
+    $('#'+key+' .progress-bar-success').css('background-color', "#BD4343");
+   });  
+   var progress = 0;
+   var interval = setInterval(
+   function(){
+   
+    if (progress == 95 || error == "false"){
+    window.clearInterval(interval);
+    }else{
+     setProgress(++progress,key);
+    }
+   }, 400);
+   //localRecord.save('uploaddata',angular.toJson($rootScope.queuelist)); 
+   console.log("updated Queue list"); 
+   console.log($rootScope.queuelist); 
+   console.log(localRecord.get('uploaddata').uploaddataCode); 
+  }
+  
+  }); 
+}         
 	}
-	function resolveOnSuccess(entry) 
-		{
-            var d = new Date();
-            var n = d.getTime();
-            //new file name;
-            var newFileName = n + ".jpg";
-             var myFolderApp = "EasyPacking";
-            //alert("image name is " + newFileName)
-            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) {
-                //The folder is created if doesn't exist
-                fileSys.root.getDirectory(imagesfoldername,
-                        {create: true, exclusive: false},
-                function(directory) 
-				{
-                    //alert("moving function")
-                    entry.moveTo(directory, newFileName, successMove, resOnError);
-                },
-                        resOnError);
-            },
-                    resOnError);
-        } 
-		
-        //Callback function when the file has been moved successfully - inserting the complete path
-         function successMove(entry) 
-		{
-            //I do my insert with "entry.fullPath" as for the path
-            var full_path = entry.toURL();
-          // alert("success of permenent " + full_path);
-		   $rootScope.videopath=full_path;
-		   //alert($rootScope.videopath+'video path ---');
-        }
-        function resOnError(error) 
-		{
-            //alert("failure" + error.code);
-        } 
+	
 
    function setProgress(percent,id){
    //bar.style.width = percent + "%";

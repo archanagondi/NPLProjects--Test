@@ -120,6 +120,13 @@ $('#search-tab').click(function()
         formatYear: 'yy',
         startingDay: 1
     };
+	
+	
+	
+	
+	
+	
+	
 //popup for delete
 	$scope.deleteRecord = function(){	
 	$scope.uploadformFulldata=angular.fromJson(localRecord.get('uploaddata').uploaddataCode);
