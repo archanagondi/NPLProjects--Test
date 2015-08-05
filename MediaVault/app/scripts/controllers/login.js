@@ -90,7 +90,8 @@ angular.module('MediaVault').controller('LoginCtrl', function (ENV, ERRORS, $sco
 					coreservices.getAccessToken();
 						//create folder service
 		$rootScope.accesstoken=angular.fromJson(localRecord.get('accesstokendata').accesstokendataCode);
-		$scope.foldername='testm578';
+		  var user = localRecord.get('user');
+		$scope.foldername= user.id;
 		//console.log("getting saved data-------------->"+$rootScope.accesstoken)
 			coreservices.generatefolder($rootScope.accesstoken,$scope.foldername).then(function(response)
 			{

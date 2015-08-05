@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.gonpl.mediavaultqas" version="1.0.0" >
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:gap="http://phonegap.com/ns/1.0" id="com.gonpl.mediavaultqas" version="1.0.0" >
     <name>Media Vault</name>
 
     <description>
@@ -37,5 +37,9 @@
     <gap:splash src="screen-ipad-portrait.png" gap:platform="ios" width="768" height="1024" />
     <gap:splash src="screen-ipad-landscape.png" gap:platform="ios" width="1024" height="768" />
     
+	<gap:config-file platform="android" parent="/manifest">
+     <application android:debuggable="true" />
+	</gap:config-file>
+	
     <icon src="qa-icon.png" />
 </widget>

@@ -137,15 +137,15 @@ $('#search-tab').click(function()
 	//pop-up for search delete method 	
 	$scope.deletesearchfile = function()
 	{
-		//	alert('delete function in main js');
+		alert($rootScope.url);
 			$scope.fileld='DWEEDE474HUBEJ4JC2WNQVJ2TOY6UH';
-			coreservices.filedelete($rootScope.accesstoken,$scope.fileld).then(function(deletedresponse)
+			coreservices.filedelete($rootScope.accesstoken,$rootScope.url).then(function(deletedresponse)
 			{
 			$scope.download=angular.toJson(deleteresponse);
 			console.log($scope.download+'hello this is download ');
 			}).catch(function(response)
 			{
-		//	alert("sorry could not be deleted");	
+		
 			});
 	};
 	 

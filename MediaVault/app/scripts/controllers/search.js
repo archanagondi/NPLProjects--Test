@@ -21,7 +21,7 @@ angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window,
 	$scope.searchziptext=false;
 	$scope.searchdetailsziptext=false;	
 	$scope.spinnervalue=false;	
-	
+	$rootScope.url='';
 	$scope.jobsearch = [];
     $scope.phasesSearch =[];
     $scope.searchgeocity =[];
@@ -39,9 +39,6 @@ $('#search-tab').click(function()
 	$scope.selection = [];
 	$rootScope.selectedKeywords=[];	
 });
-
-
-	
     $scope.searchVaultId = '';
     $scope.searchAreaSelect = '';
     $scope.searchJob = '';
@@ -62,12 +59,7 @@ $('#search-tab').click(function()
     $scope.searchDetailsNotes = '';
     $scope.searchdetailsStreet = '';
 	$rootScope.searchDetailsKeyword='';
-	
-	
-	
-	
-	
-	
+
     //search page buttons
     $scope.searchbutton = function () 
 	{
@@ -114,7 +106,15 @@ $('#search-tab').click(function()
         $scope.searchpage = true;
         $scope.searchpageresults = false;
     };
-    $scope.elementclick = function () {
+    $scope.elementclick = function (webUrl) {
+			$rootScope.url=webUrl;
+			alert($scope.url);
+			coreservices.filedetails($rootScope.accesstoken,$rootScope.url).then(function(filedetailsresponse)
+			{	alert('file details services '+ filedetailsresponse);
+			}).catch(function(response)
+			{		
+			}); 
+
 		$rootScope.type='searchDetails';
 		//alert("This is search details type "+$rootScope.type);
 		$scope.selection = [];		
@@ -122,6 +122,7 @@ $('#search-tab').click(function()
         $scope.searchpageresults = false;
         $scope.searchdetails = true;
     };
+	
     $scope.searchdetailsimage = function () {
         $scope.searchmediaimg = true;
         $scope.searchmediadetails = false;
@@ -261,16 +262,15 @@ $('#search-tab').click(function()
     };
 	$scope.downloadfile = function () 
 	{
-   //    alert("in download");
-	  // $rootScope.folderdetails = angular.fromJson(localRecord.get('folderdata').folderdataCode);
-	//	console.log($rootScope.folderdetails);
-		$scope.fileld="017LDWEEDE474HUBEJ4JC2WNQVJ2TOY6UH";
-		
-		coreservices.filedownload($rootScope.accesstoken,$scope.fileld).then(function(downloadresponse)
+		//alert("in download");
+	   //$rootScope.folderdetails = angular.fromJson(localRecord.get('folderdata').folderdataCode);
+	   //console.log($rootScope.folderdetails);
+		alert($rootScope.url);
+		coreservices.filedownload($rootScope.accesstoken,$rootScope.url).then(function(downloadresponse)
 		{
 		$scope.download=angular.toJson(downloadresponse);
 		console.log($scope.download+'==========hello this is download ');
-		//alert("file downloaded");
+		alert("file downloaded service is called ");
 		}).catch(function(response){
 			if(response.status == 401){
 				//alert("token expired");
@@ -278,6 +278,7 @@ $('#search-tab').click(function()
 				//alert("sorry! file has been deleted");
 			}
 		}); 
+		
     };
 
 

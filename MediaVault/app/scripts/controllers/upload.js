@@ -17,8 +17,8 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
 	$rootScope.listresponse=[];
 	$rootScope.queuelist ==[];
 	$rootScope.queuelist = angular.fromJson(localRecord.get('uploaddata').uploaddataCode);
-	$rootScope.folderdetails = angular.fromJson(localRecord.get('folderdata').folderdataCode);
-	console.log($rootScope.folderdetails);
+	//$rootScope.folderdetails = angular.fromJson(localRecord.get('folderdata').folderdataCode);
+	//console.log($rootScope.folderdetails);
 	$rootScope.uploadimage='';
 	$rootScope.imgname='';
 	$scope.isDisabled = true;
@@ -100,7 +100,7 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
         } else 
 		{
             navigator.camera.getPicture(onSuccess, onFail,
-			{quality: 50,
+			{quality:5,
 			destinationType: Camera.DestinationType.DATA_URL,
 			saveToPhotoAlbum:true
 			});
@@ -117,7 +117,7 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
             $rootScope.uploadimage = "data:image/jpeg;base64," + imageData;
 			//$window.alert("image url-----"+$rootScope.uploadimage);
 			//alert($scope.isDisabled);
-			$scope.isDisabled = "false";
+			 $("#continue-btn").removeAttr('disabled');
 			//alert($scope.isDisabled);
         }
         /* Fail image capture */
@@ -179,7 +179,7 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
                 mediaType: Camera.MediaType.VIDEO
             });
         } else {
-            navigator.camera.getPicture(onGalSuccess, onGalFail, {quality: 50,
+            navigator.camera.getPicture(onGalSuccess, onGalFail, {quality: 5,
                 destinationType: Camera.DestinationType.DATA_URL,
                 sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
             });
@@ -193,7 +193,7 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
 			$scope.hidedata=false;
 			$scope.hideimage=true;
 			//alert($scope.isDisabled);
-			$scope.isDisabled = "false";
+			$("#continue-btn").removeAttr('disabled');
 			//alert($scope.isDisabled);
         }
         function onGalFail(message)
@@ -219,11 +219,14 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
     };
     $scope.clear = function()
     {
-        $rootScope.uploadimage ={};
+        $rootScope.uploadimage ="";
+		$(".upload-imgsmall,.upload-img").attr("src","");
 		$scope.hidedata=true;
 		$scope.hideimage=false;	
 		$scope.responsestatus = {};
-	
+		$scope.isDisabled = false;
+		$("#continue-btn").attr('disabled','disabled');
+	//$("#continue-btn").removeAttr('disabled');
     };
     $scope.continuee = function() 
 	{
@@ -278,7 +281,8 @@ $scope.back = function()
     };
 
     //form validations in upload html
-    $scope.uploadformclear = function() {
+    $scope.uploadformclear = function() 
+	{
         $scope.areaSelect = '';
         $scope.phaseUpload = '';
         $scope.dateUpload = '';
@@ -290,7 +294,10 @@ $scope.back = function()
         $scope.NotesUpload = '';
 		$rootScope.imgname='';
         $rootScope.keywordsUpload = '';
-		$rootScope.uploadimage={};
+		$scope.hidedata=true;
+		$scope.hideimage=false;	
+		$rootScope.uploadimage="";
+		$(".upload-imgsmall,.upload-img").attr("src","");
         $scope.ziptext = false;
     };
     $scope.jobsFilter = function() {
@@ -348,7 +355,7 @@ $scope.back = function()
 		else{
 		$scope.uploadformFulldata=[];
 		}
-		 window.resolveLocalFileSystemURI($rootScope.uploadimage, resolveOnSuccess, resOnError);
+		 //window.resolveLocalFileSystemURI($rootScope.uploadimage, resolveOnSuccess, resOnError);
 		
 		//alert($rootScope.uploadimage);
 		console.log($scope.uploadformFulldata+"hai");
@@ -361,6 +368,7 @@ $scope.back = function()
 		$scope.uploadformclear();
 		$rootScope.showorhide=true;
     };
+	
     $scope.localcitydata = angular.fromJson(localRecord.get('geodata').geodataCode);
     $scope.getgeoloactiondata = function()
     {

@@ -47,24 +47,22 @@ angular.module('MediaVault').service('coreservices', function (ENV,ENDPOINTS, ER
      return  nplApi.post1(ENDPOINTS.listfoldercontents,querystring);
     };
 
-	core.fileupload = function(accessToken,folderId,folderName,str) 
+	core.fileupload = function(accessToken,str) 
 	{
-		var querystring = ENDPOINTS.uploadfile+'&accessToken='+accessToken+'&folderId='+folderId+'&folderName='+folderName+'&'+str;
+		var querystring = ENDPOINTS.uploadfile+'&accessToken='+accessToken+'&'+str;
         return nplApi.post(querystring,{version: ENV.version});
     };	
 	
-	core.filedownload = function (accessToken,fileld) 
+	core.filedownload = function (accessToken,webUrl) 
 	{
-		console.log('coreservice======== '+accessToken);
-		console.log('coreservice========= '+fileld);
-		var querystring = ENDPOINTS.downloadfile+'&accessToken='+accessToken+'&fileld='+fileld;
+		var querystring = ENDPOINTS.downloadfile+'&accessToken='+accessToken+'&webUrl='+webUrl;
 		//querystring = querystring+'&fileld='+fileld;
         return nplApi.post(querystring,{version: ENV.version});
     };
 
-	core.filedelete = function (accessToken,fileld) 
+	core.filedelete = function (accessToken,webUrl) 
 	{
-		var querystring = ENDPOINTS.deletefile+'&accessToken='+accessToken+'&fileld='+fileld;
+		var querystring = ENDPOINTS.deletefile+'&accessToken='+accessToken+'&webUrl='+webUrl;
 		
         return nplApi.post(querystring,{version: ENV.version});
     };	
@@ -75,6 +73,10 @@ angular.module('MediaVault').service('coreservices', function (ENV,ENDPOINTS, ER
 		
         return nplApi.post(querystring,{version: ENV.version});
     };
-	
+	core.filedetails = function (accessToken,webUrl) 
+	{
+		var querystring = ENDPOINTS.getfiledetails+'&accessToken='+accessToken+'&webUrl='+webUrl;
+        return nplApi.post(querystring,{version: ENV.version});
+    };
   return core;
 });

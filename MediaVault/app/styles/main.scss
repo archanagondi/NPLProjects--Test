@@ -129,6 +129,12 @@ section {
   white-space: -o-pre-wrap; /* Opera 7 */
   word-wrap: break-word; /* Internet Explorer 5.5+ */
 }
+.margin-bottom-20{
+	margin-bottom: 20px;
+}
+#keywordsUpload,#searchKeyword{
+height:60px;
+}
 
 .modal {
   margin-top: 30px;
@@ -182,6 +188,7 @@ section {
 
 .align-top {
   margin-top: 10px;
+  
 }
 
 .align-bottom {
@@ -205,13 +212,15 @@ section {
 
 .select-text {
   height: 60px;
-  margin-top: 26px;
+ /* margin-top: 26px;*/
+  margin-top: 10px;
   padding: 5px 30px;
   text-align: center;
 }
 
 .horizontal-line {
-  margin-top: -4px;
+ // margin-top: -4px;
+ width:100%;
 }
 
 
@@ -243,7 +252,9 @@ section {
 h3 {
   font-weight: bold;
 }
-
+.clear-all-right{
+float:right;
+}
 
 /*Tabs Styles*/
 #maintabs {

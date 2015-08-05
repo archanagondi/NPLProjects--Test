@@ -18,16 +18,18 @@ angular.module('MediaVault').controller('queueCtrl', function (LABELS,coreservic
 	};
 //it will call the method every 3 minutes it will check wifi if it is avaliable 
 //if data is avaliable in queue it will call upload web service if not it wont do any thing 
-$interval(calluploadService,300000);
+//$interval(calluploadService,300000);
 
 //$interval(accesstokenupdate,3000);
 $("#queue-tab").click(function(){
-$('.progress-bar-success').css('background-color', "#5cb85c");
- $('.progress-bar-success').css('width', '0%');
+	calluploadService();
+	$('.progress-bar-success').css('background-color', "#5cb85c");
+	$('.progress-bar-success').css('width', '0%');
 });
 function calluploadService() 
 {		
-	    var networkState = navigator.network.connection.type;
+//alert(dateTime);
+	   /*  var networkState = navigator.network.connection.type;
         var states = {};
         states[Connection.UNKNOWN] = 'Unknown connection';
         states[Connection.ETHERNET] = 'Ethernet connection';
@@ -48,13 +50,13 @@ function calluploadService()
   angular.forEach($rootScope.queuelist, function(value,key)
         {
   if(value.status == "pending"){
-  
+  var dateTime=new Date().getTime();
   
    var error='';
    
    //var str = "fileName=test&filePath=/images/1.jpg&areaName="+value.area+"&city="+value.city+"&phase="+value.phase+"&job="+value.job+"&description="+value.note+"&workdate="+value.date+"&zip="+value.zip+"&keywords="+value.keyword+"&redirectUrl=http://localhost/api-v3/MediaVault";
     //var str = "fileName=test&filePath=/images/1.jpg&areaName="+value.area+"&city=ghfgh&phase=fgh&job=fgh&description=fghfg&workDate="+value.date+"&zip=45676&keywords=side walk&redirectUrl=http://localhost/api-v3/MediaVault";
-   var str = "fileName="+value.imagepath+"&areaName="+value.area+"&city="+value.city+"&phase="+value.phase+"&job="+value.job+"&description="+value.note+"&workDate="+value.date+"&zip="+value.zip+"&keywords="+value.keyword+"&folderName="+$scope.folderName +"&fileExt=jpeg&base64Data="+value.imagepath;
+   var str = "fileName="+dateTime+"&areaName="+value.area+"&city="+value.city+"&phase="+value.phase+"&job="+value.job+"&description="+value.note+"&workDate="+value.date+"&zip="+value.zip+"&keywords="+value.keyword+"&folderName="+$scope.folderName +"&fileExt=jpeg&base64Data="+value.imagepath;
    coreservices.fileupload($rootScope.accesstoken,str).then(function(downloadresponse)
    {
     $scope.download=angular.toJson(downloadresponse);
@@ -90,7 +92,61 @@ function calluploadService()
   }
   
   }); 
-}         
+} */
+$rootScope.accesstoken=angular.fromJson(localRecord.get('accesstokendata').accesstokendataCode);
+  $rootScope.folderdetails = angular.fromJson(localRecord.get('folderdata').folderdataCode);
+  console.log($rootScope.folderdetails);
+ 
+  $scope.folderld = $rootScope.folderdetails.data.folderId;
+  $scope.folderName = $rootScope.folderdetails.data.folderName;  
+alert($scope.folderName);
+  angular.forEach($rootScope.queuelist, function(value,key)
+        {
+  if(value.status == "pending"){
+  var dateTime=new Date().getTime();
+  alert(dateTime);
+   var error='';
+   
+   //var str = "fileName=test&filePath=/images/1.jpg&areaName="+value.area+"&city="+value.city+"&phase="+value.phase+"&job="+value.job+"&description="+value.note+"&workdate="+value.date+"&zip="+value.zip+"&keywords="+value.keyword+"&redirectUrl=http://localhost/api-v3/MediaVault";
+    //var str = "fileName=test&filePath=/images/1.jpg&areaName="+value.area+"&city=ghfgh&phase=fgh&job=fgh&description=fghfg&workDate="+value.date+"&zip=45676&keywords=side walk&redirectUrl=http://localhost/api-v3/MediaVault";
+   var str = "fileName="+dateTime+"&areaName="+value.area+"&city="+value.city+"&phase="+value.phase+"&job="+value.job+"&description="+value.note+"&workDate="+value.date+"&zip="+value.zip+"&keywords="+value.keyword+"&folderName="+$scope.folderName +"&fileExt=jpeg&base64Data=dfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffg"+value.imagepath;
+   coreservices.fileupload($rootScope.accesstoken,str).then(function(downloadresponse)
+   {
+    $scope.download=angular.toJson(downloadresponse);
+    
+    console.log($scope.download);
+    console.log('file is uploaded');
+	 progress = 100;
+     $('#'+key+' .progress-bar-success').css('width',progress+"%");
+     $rootScope.queuelist[key]['status'] = "completed";
+     console.log( $rootScope.queuelist);
+     localRecord.save('uploaddata',angular.toJson($rootScope.queuelist)); 
+   }).catch(function(response){
+    
+     error='false'; 
+    
+    //window.clearInterval(interval);
+    $('#'+key+' .progress-bar-success').css('background-color', "#BD4343");
+   });  
+   var progress = 0;
+   var interval = setInterval(
+   function(){
+   
+    if (progress == 95 || error == "false"){
+    window.clearInterval(interval);
+    }else{
+     setProgress(++progress,key);
+    }
+   }, 400);
+   //localRecord.save('uploaddata',angular.toJson($rootScope.queuelist)); 
+   console.log("updated Queue list"); 
+   console.log($rootScope.queuelist); 
+   console.log(localRecord.get('uploaddata').uploaddataCode); 
+  }else{
+  setProgress(100,key);
+  }
+  
+  });         
 	}
 	
 
