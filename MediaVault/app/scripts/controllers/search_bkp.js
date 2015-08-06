@@ -63,6 +63,9 @@ $('#search-tab').click(function()
     //search page buttons
     $scope.searchbutton = function () 
 	{
+        $scope.searchpage = false;
+        $scope.searchpageresults = true;	
+		
 	$scope.searchformdata=[];
 	$scope.searchformdata.push($scope.searchVaultId);
 	$scope.searchformdata.push($scope.searchAreaSelect);
@@ -76,32 +79,15 @@ $('#search-tab').click(function()
 	$scope.searchformdata.push($scope.searchCity);
 	$scope.searchformdata.push($scope.searchNotes);
 	$scope.searchformdata.push($rootScope.searchKeyword);
-	//search service 
-	$scope.formdata=$scope.searchVaultId+','+$scope.searchAreaSelect+','+$scope.searchJob+','+$scope.searchPhase+','+$scope.searchDate+','+$scope.searchExtNo+','+$scope.searchStreetName+','+$scope.searchZipCode+','+$scope.searchCity+','+$scope.searchNotes+','+$rootScope.searchKeyword;
-	$scope.enhancedstring=$scope.formdata.replace(/^,|,$/g,'');
-	console.log($scope.formdata);
-	alert($scope.formdata);
-	alert($scope.enhancedstring);
-	if($scope.searchVaultId=='' && $scope.searchAreaSelect==''&&$scope.searchJob==''&&$scope.searchDate==''&&$scope.searchExtNo==''&&$scope.searchStreetName==''&&$scope.searchZipCode==''&&$scope.searchCity==''&&$scope.searchNotes==''&&$rootScope.searchKeyword=='')
-	{
-		alert('Please select atleast one value for continue search ');
-	}else
-	{
-		$scope.searchpage = false;
-        $scope.searchpageresults = true;	
-	} 
-	$scope.querytext=$scope.enhancedstring; //sending selected keywords
-	//$scope.foldername='sathish';
-	$rootScope.accesstoken=angular.fromJson(localRecord.get('accesstokendata').accesstokendataCode);
-	console.log($rootScope.accesstoken);
-	$rootScope.folderdetails = angular.fromJson(localRecord.get('folderdata').folderdataCode);
-	console.log($rootScope.folderdetails);
-	$scope.folderld = $rootScope.folderdetails.data.folderId;
-	$scope.folderName = $rootScope.folderdetails.data.folderName;
 	
-	//$scope.folderId='017LDWEEF3GUWOANB2PVB2RGVU2UMQMDBK';
-	coreservices.filesearch($rootScope.accesstoken,$scope.querytext,$scope.folderld).then(function(searchfileresponse)
-	{	$rootScope.searchresponse=angular.fromJson(searchfileresponse.data);
+	//search service 
+			$scope.querytext='side'; //sending selected keywords
+			$scope.foldername='sathish';
+			$rootScope.accesstoken=angular.fromJson(localRecord.get('accesstokendata').accesstokendataCode);
+			console.log($rootScope.accesstoken);
+			coreservices.filesearch($rootScope.accesstoken,$scope.querytext,$scope.foldername).then(function(searchfileresponse)
+			{
+				$rootScope.searchresponse=angular.fromJson(searchfileresponse.data);
 				//localRecord.save('searchresults',$scope.searchresponse);
 				//$rootScope.searchresultdata = angular.fromJson(localRecord.get('searchresults').searchresultsCode);
 				console.log($rootScope.searchresponse);
@@ -110,8 +96,8 @@ $('#search-tab').click(function()
 			{
 					
 			}); 	
+		
     };
-
     $scope.searchback = function () {
 		$rootScope.type='search';
 		//alert("This is search type------------>"+$rootScope.type);
@@ -120,15 +106,15 @@ $('#search-tab').click(function()
         $scope.searchpage = true;
         $scope.searchpageresults = false;
     };
-    $scope.elementclick = function (webUrl){
+    $scope.elementclick = function (webUrl) {
 			$rootScope.url=webUrl;
-			$scope.url='https://centuri.sharepoint.com/Shared%20Documents/10014727/1438882338545.jpeg';
 			alert($scope.url);
-			coreservices.filedetails($rootScope.accesstoken,$scope.url).then(function(filedetailsresponse)
+			coreservices.filedetails($rootScope.accesstoken,$rootScope.url).then(function(filedetailsresponse)
 			{	alert('file details services '+ filedetailsresponse);
 			}).catch(function(response)
 			{		
 			}); 
+
 		$rootScope.type='searchDetails';
 		//alert("This is search details type "+$rootScope.type);
 		$scope.selection = [];		
@@ -136,9 +122,11 @@ $('#search-tab').click(function()
         $scope.searchpageresults = false;
         $scope.searchdetails = true;
     };
+	
     $scope.searchdetailsimage = function () {
         $scope.searchmediaimg = true;
         $scope.searchmediadetails = false;
+
     };
     $scope.searchdetailsinformation = function () {
         $scope.searchmediaimg = false;

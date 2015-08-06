@@ -17,8 +17,8 @@
         <div class="row align-bottom">
             <div class="col-lg-12 col-sm-12 col-xs-12" >
                 <div class="image-area" >
-                    <div ng-show="hidedata">Image display here </div>
-                    <img ng-src="{{uploadimage}}" id="uploaded-image" class="upload-img" ng-show="hideimage" >
+                    <div ng-show="{{hidedata}}">Image display here </div>
+                    <img ng-src="{{uploadimage}}" id="uploaded-image" class="upload-img" ng-show="{{hideimage}}" >
 					<!-- <video  id="myVideo"   class="upload-img"  controls >
 					<source ng-src='{{videoimagepath}}' type="video/mp4" >
 					</video>  -->
@@ -31,7 +31,7 @@
                         class="fa fa-times"></i> Clear
                 </button>
             </div>
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-right">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-right" >
                 <button type="button" ng-disabled="{{isDisabled}}" id="continue-btn" ng-click="continuee()" class="btn btn-success button-width">Continue <i
                         class="fa fa-arrow-right"></i></button>
             </div>
@@ -39,12 +39,18 @@
     </div>
     <div id="upload-dtl" ng-show="uploaddtl" class="rows">
         <div class="row align-bottom">
-            <div class="col-lg-2 col-md-3">
+            <div class="col-lg-2 col-md-3" ng-show="hidedata">
+			 
+                <img src="" class="thumbnail upload-imgsmall" alt="thumbnail image"/>
+            </div> 
+			
+			<div class="col-lg-2 col-md-3" ng-show="hideimage">
+			 
                 <img ng-src="{{uploadimage}}" class="thumbnail upload-imgsmall" alt="thumbnail image"/>
             </div>
             <div class="col-lg-4 mt-25 col-md-4">
-                Date:12/06/2015<br/>
-                Size:19 MB
+                Date:<br/>
+                Size:
             </div>
         </div>
 		 <div class="form-group clear-all-right">

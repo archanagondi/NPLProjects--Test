@@ -28,7 +28,8 @@ angular.module('constants', [])
 		uploadfile : 'MediaVault/api.php?endpoint=uploadFile',
 		downloadfile: 'MediaVault/api.php?endpoint=downloadFile',
 		deletefile: 'MediaVault/api.php?endpoint=deleteFile',
-		searchfile: 'MediaVault/api.php?endpoint=searchFile'
+		searchfile: 'MediaVault/api.php?endpoint=searchFile',
+		getfiledetails: 'MediaVault/api.php?endpoint=getFileDetails'		
     })
 
 //String Display Messages

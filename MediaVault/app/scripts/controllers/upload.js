@@ -187,13 +187,16 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
 
         function onGalSuccess(imageData) 
 		{
+		
             var image = document.getElementById('uploaded-image');
             image.src ="data:image/jpeg;base64,"+imageData;
             $rootScope.uploadimage ="data:image/jpeg;base64,"+imageData;
 			$scope.hidedata=false;
 			$scope.hideimage=true;
+			
 			//alert($scope.isDisabled);
 			$("#continue-btn").removeAttr('disabled');
+			 $("#uploaded-image").load();
 			//alert($scope.isDisabled);
         }
         function onGalFail(message)
@@ -225,8 +228,8 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
 		$scope.hideimage=false;	
 		$scope.responsestatus = {};
 		$scope.isDisabled = false;
-		$("#continue-btn").attr('disabled','disabled');
-	//$("#continue-btn").removeAttr('disabled');
+		//$("#continue-btn").attr('disabled','disabled');
+		$("#continue-btn").removeAttr('disabled');
     };
     $scope.continuee = function() 
 	{
@@ -296,9 +299,12 @@ $scope.back = function()
         $rootScope.keywordsUpload = '';
 		$scope.hidedata=true;
 		$scope.hideimage=false;	
-		$rootScope.uploadimage="";
-		$(".upload-imgsmall,.upload-img").attr("src","");
+		$rootScope.uploadimage="//:0";
+		
+		$(".upload-imgsmall").attr("src","");
+		$(".upload-img").attr("src","");
         $scope.ziptext = false;
+		$("#continue-btn").attr('disabled','disabled');
     };
     $scope.jobsFilter = function() {
         $scope.job = [];

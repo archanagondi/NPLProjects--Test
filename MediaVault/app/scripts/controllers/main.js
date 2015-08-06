@@ -138,14 +138,18 @@ $('#search-tab').click(function()
 	$scope.deletesearchfile = function()
 	{
 		alert($rootScope.url);
-			$scope.fileld='DWEEDE474HUBEJ4JC2WNQVJ2TOY6UH';
+	/* 	$rootScope.folderdetails = angular.fromJson(localRecord.get('folderdata').folderdataCode);
+
+	$scope.folderld = $rootScope.folderdetails.data.folderId;
+	$scope.folderName = $rootScope.folderdetails.data.folderName;
+			$scope.fileld='DWEEDE474HUBEJ4JC2WNQVJ2TOY6UH'; */
 			coreservices.filedelete($rootScope.accesstoken,$rootScope.url).then(function(deletedresponse)
 			{
-			$scope.download=angular.toJson(deleteresponse);
-			console.log($scope.download+'hello this is download ');
+				$scope.download=angular.toJson(deleteresponse);
+				console.log($scope.download+'hello this is download ');
 			}).catch(function(response)
 			{
-		
+				alert("this file is already deleted");
 			});
 	};
 	 

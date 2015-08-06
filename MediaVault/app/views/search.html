@@ -111,7 +111,7 @@
         <div class="clearfix"></div>
         <div id="individual-row" >		
            <div class="search-result-list">
-            <div class="row list"  ng-click="elementclick(n.webUrl)"   ng-repeat="n in searchresponse">
+            <div class="row list"  ng-click="elementclick(n.webUrl)"   ng-repeat="n in searchresponse track by $index">
 		
                 <div class="col-lg-3 col-md-3"><img src="{{n.webUrl}}" class="thumbnail"/></div>
                 <div class="col-lg-9 col-md-9"><p>Date: {{n.dateTimeCreated}} </p> 
