@@ -7,7 +7,7 @@
     <div class="queuelist container">
 		<div class="row list" ng-repeat="n in queuelist"  id="{{n.id}}" ng-if="n.status=='pending'">
 			
-            <div class="col-lg-3 col-md-3" ><img src="images/thumbnail.gif" class="thumbnail" alt="thumbnail image"/></div>
+            <div class="col-lg-3 col-md-3" ><img ng-src="{{n.imagepath}}" class="thumbnail" alt="thumbnail image"/></div>
             <div class="col-lg-6 col-md-6 col-xs-8">
                 <p>Date:{{ n.date }}</p>
                 <div class="progress">

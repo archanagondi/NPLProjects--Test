@@ -113,10 +113,13 @@
            <div class="search-result-list">
             <div class="row list"  ng-click="elementclick(n.webUrl)"   ng-repeat="n in searchresponse track by $index">
 		
-                <div class="col-lg-3 col-md-3"><img src="{{n.webUrl}}" class="thumbnail"/></div>
+                <div class="col-lg-3 col-md-3">
+				<!-- <img src="{{n.webUrl}}" class="thumbnail"/>-->
+				<img src="images/photos.png" class="thumbnail"/> 
+				</div>
                 <div class="col-lg-9 col-md-9"><p>Date: {{n.dateTimeCreated}} </p> 
                     <p>Size: <strong>{{n.size}}</strong></p>
-                    <p>Submitted<span> </span></p>
+                    <p>Submitted<span></span></p>
                 </div>
             </div>
 

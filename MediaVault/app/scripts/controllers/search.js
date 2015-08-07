@@ -8,7 +8,7 @@
  * Controller to handle the feedback form
  */
 
-angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window, $scope, $state,$filter, localRecord, access, $rootScope, loadAppData,coreservices){
+angular.module('MediaVault').controller('searchCtrl', function (LABELS, $window, $scope, $state,$filter, $http,localRecord, access, $rootScope, loadAppData,coreservices){
 	$scope.searcharea= false;
     $scope.searchpage = true;
     $scope.searchpageresults = false;
@@ -80,8 +80,7 @@ $('#search-tab').click(function()
 	$scope.formdata=$scope.searchVaultId+','+$scope.searchAreaSelect+','+$scope.searchJob+','+$scope.searchPhase+','+$scope.searchDate+','+$scope.searchExtNo+','+$scope.searchStreetName+','+$scope.searchZipCode+','+$scope.searchCity+','+$scope.searchNotes+','+$rootScope.searchKeyword;
 	$scope.enhancedstring=$scope.formdata.replace(/^,|,$/g,'');
 	console.log($scope.formdata);
-	alert($scope.formdata);
-	alert($scope.enhancedstring);
+	
 	if($scope.searchVaultId=='' && $scope.searchAreaSelect==''&&$scope.searchJob==''&&$scope.searchDate==''&&$scope.searchExtNo==''&&$scope.searchStreetName==''&&$scope.searchZipCode==''&&$scope.searchCity==''&&$scope.searchNotes==''&&$rootScope.searchKeyword=='')
 	{
 		alert('Please select atleast one value for continue search ');
@@ -122,9 +121,9 @@ $('#search-tab').click(function()
     };
     $scope.elementclick = function (webUrl){
 			$rootScope.url=webUrl;
-			$scope.url='https://centuri.sharepoint.com/Shared%20Documents/10014727/1438882338545.jpeg';
-			alert($scope.url);
-			coreservices.filedetails($rootScope.accesstoken,$scope.url).then(function(filedetailsresponse)
+			//$scope.url='https://centuri.sharepoint.com/Shared%20Documents/10014727/1438882338545.jpeg';
+			alert($rootScope.url);
+			coreservices.filedetails($rootScope.accesstoken,$rootScope.url).then(function(filedetailsresponse)
 			{	alert('file details services '+ filedetailsresponse);
 			}).catch(function(response)
 			{		
@@ -280,9 +279,23 @@ $('#search-tab').click(function()
 		alert($rootScope.url);
 		coreservices.filedownload($rootScope.accesstoken,$rootScope.url).then(function(downloadresponse)
 		{
-		$scope.download=angular.toJson(downloadresponse);
-		console.log($scope.download+'==========hello this is download ');
-		alert("file downloaded service is called ");
+		$scope.download=angular.fromJson(downloadresponse);
+		console.log($scope.download.data.contentUrl);
+			$http({
+				method: 'GET',
+				url: $scope.download.data.contentUrl,
+
+				headers: {'Authorization': 'Bearer '+$rootScope.accesstoken}
+				}).success(function(data){
+					alert("file downloaded service is called ");
+					//alert(data);
+				}).error(function(){
+					alert("error");
+				
+					
+			});
+		
+		
 		}).catch(function(response){
 			if(response.status == 401){
 				//alert("token expired");
