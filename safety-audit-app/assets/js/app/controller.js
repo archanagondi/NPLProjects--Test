@@ -16,8 +16,9 @@ angular.module('npl')
  * Provides access to application after checking validity of credentials.
  */
 
-.controller('loginController', ['$scope','$location', 'AuthService','$route', function($scope, $location, AuthService,$route){
+.controller('loginController', ['$rootScope','$scope','$location', 'AuthService','config','$route', function($rootScope,$scope, $location, AuthService,config,$route){
 	$scope.loginLoader = '';
+	$rootScope.version = config.version; // to display version in left menu 
 	if (AuthService.isAuthenticated() == false) {
 		$scope.credentials = {username: localStorage.getItem('lastUsername'),password: ''};
 		$scope.login = function (credentials) {
@@ -28,7 +29,7 @@ angular.module('npl')
 					AuthService.login(credentials.username,credentials.password).then(function (data) {
 						window.scrollTo(document.body.scrollLeft, document.body.scrollTop);
 						$scope.loginLoader = '';
-
+						
 						$location.path("/");
 					}, function (err) {
 
@@ -47,10 +48,11 @@ angular.module('npl')
 			}else{
 				$scope.loginLoader = '';
 				$scope.login_message = "No Internet Connection";
-			}
+				}
 
 		};
 	}else{
+	
 		$location.path("/");
 	}
 }])
@@ -62,19 +64,17 @@ angular.module('npl')
  * Provides a list of all audits created by lodded in Auditor. Application offline synchronization intiates here.
  */
 .controller('mainController', ['$rootScope','$scope','$location','serviceAudit','serviceData','Session','globalVarFactory','$q', function($rootScope,$scope, $location,serviceAudit,serviceData,Session,globalVarFactory,$q) {
-
+$scope.version = globalVarFactory.version;
 	if (Session.group === 'SafetyManagers')
 		$location.path('/manage_audit');
-
-
 	$scope.lastRefresh = localStorage.getItem('lastRefresh');
-
 	globalVarFactory.inProgressAuditID = 0;
 	var allAuditList;
 	//check synchronization status 
 	var synchronizationStatus = localStorage.getItem('synchronizationStatus');
 	var now = false;
-	if (globalVarFactory.refresh == 1) {
+	if (globalVarFactory.refresh == 1) 
+	{
 		now = true;
 	}
 	if (globalVarFactory.filterOption != '') {
@@ -97,7 +97,6 @@ angular.module('npl')
 			$rootScope.global_process = '';
 		}
 	},function(err){
-
 		if (err.data != undefined && err.data != '' && angular.isArray(err.data)) {
 			$scope.audit_list = err.data;
 			allAuditList = err.data;
@@ -107,9 +106,8 @@ angular.module('npl')
 		globalVarFactory.refresh = 0;
 		if(synchronizationStatus == 1)
 		{
-			$rootScope.global_process = '';
+		 $rootScope.global_process = '';
 		}
-
 	});
 
 	//Filter audit list 
@@ -198,7 +196,32 @@ angular.module('npl')
  */
 
 .controller('addAuditController', ['serviceAudit','serviceData', '$scope','config','$location','globalVarFactory','Session','$q', function(serviceAudit,serviceData,$scope,config,$location, globalVarFactory, Session, $q) {
-
+	$scope.zipCodeData = [
+    {
+        "State": "Iowa",
+        "Abbrev": "IA",
+        "StateCode": "95",
+        "Zip": "50002",
+        "PrimaryCity": "Adair"
+    },
+	
+    {
+        "State": "Iowa",
+        "Abbrev": "IA",
+        "StateCode": "95",
+        "Zip": "50003",
+        "PrimaryCity": "Adel"
+    }, {
+        "State": "Iowa1",
+        "Abbrev": "IA",
+        "StateCode": "95",
+        "Zip": "50004",
+        "PrimaryCity": "Adair"
+    }
+   
+];
+console.log($scope.zipCodeData);
+	$scope.version = globalVarFactory.version;
 	$scope.lastRefresh = localStorage.getItem('lastRefresh');
 	$scope.dt = new Date();
 
@@ -214,10 +237,16 @@ angular.module('npl')
 	$scope.phase_numbers = globalVarFactory.phase_numbers;
 	$scope.supervisors = globalVarFactory.supervisors;
 	$scope.foremans = globalVarFactory.foremans;
+	$scope.foremanData = globalVarFactory.foremanData;
+	
 	$scope.customers = globalVarFactory.Customers;
 	$scope.safetyManagers = globalVarFactory.safetyManagers
 	$scope.assigned_employee = globalVarFactory.assigned_employee != "" ? globalVarFactory.assigned_employee : [];
-
+	$scope.final_audit_review=globalVarFactory.final_audit_review;
+	
+	$scope.goAudit = function(){
+		$location.path("/summary");
+	};
 	var catData =JSON.parse(globalVarFactory.getQuestionData());
 	$scope.totaljobSitePhotos = (globalVarFactory.jobsitePhotos.length + catData.defPhotoCount);
 
@@ -337,6 +366,7 @@ angular.module('npl')
 
 			if ($scope.phase_numbers.indexOf(this.audit_data.phase_number) != -1) {
 				var JobNum = finalResult[4];
+				
 				if (JobNum.length > 0 && JobNum[this.audit_data.area_master] != undefined && JobNum[this.audit_data.area_master][parseInt(this.audit_data.phase_number)] != undefined) {
 					$scope.job_numbers = globalVarFactory.job_numbers = JobNum[this.audit_data.area_master][parseInt(this.audit_data.phase_number)];
 				}
@@ -429,9 +459,14 @@ angular.module('npl')
 					}
 					if(areaForeman.length > 0){
 						$scope.foremans = globalVarFactory.foremans = areaForeman;
+						
 					}
 					if (areaForeman.length == 1) {
 						$scope.audit_data.foreman = areaForeman[0];
+						
+						//$scope.foremanCount =1;
+						$scope.foremanData =areaForeman;
+						
 					}
 
 					if(areaCustomer.length > 0){
@@ -445,6 +480,8 @@ angular.module('npl')
 			}else if($scope.job_numbers != '' && angular.isArray($scope.job_numbers) && $scope.job_numbers.length > 0){
 				this.audit_data.job_number = '';
 			}
+			
+			
 		}
 
 		if($scope.audit_data.area_master != ''){$scope.onAreaUpdate();}
@@ -588,7 +625,8 @@ angular.module('npl')
 
 			if ($scope.foremans.length == 1) {
 				$scope.audit_data.foreman = $scope.foremans[0];
-			} 	
+			}
+		
 		}
 
 		$scope.filterForeman = function(){
@@ -651,6 +689,7 @@ angular.module('npl')
 		$scope.triggerAside = function(backParam,trigger){
 
 			if(trigger == 'triggerEmployeeAside' && backParam != 'back'){
+			
 				$scope.employeeButtonText = 'Loading..';
 			}
 			$scope.global_process = 'Loading...';
@@ -765,13 +804,14 @@ angular.module('npl')
 
 				$scope.assigned_employee = move_to;
 				$scope.available_employee = move_from;
-
+//console.log($scope.assigned_employee);
 
 			}
 		}
 
 		//Change job title in employee picker
 		$scope.modifyJobTitle = function(){
+		
 			this.employee.jobTitle = this.employee.selectedJobTitile.name;
 			this.employee.JobTitleId = this.employee.selectedJobTitile.JobTitleId;
 
@@ -786,8 +826,11 @@ angular.module('npl')
 		//Foreman Picker
 		$scope.SelectForeman = function(){
 			$scope.audit_data.foreman = this.foremanObj;
+			$scope.foremanCount=1;
 			var employeeTrigger = document.getElementById('triggerForemanAside');
 			angular.element(employeeTrigger).triggerHandler('click');
+			alert("foreman");
+			
 		}
 
 		//Take Photo Options
@@ -823,10 +866,21 @@ angular.module('npl')
 		}
 
 		$scope.checkZip = function(){
-			var reg = /^[0-9]{5}$/;
+		
+			var reg = /^[0-9]{2,5}$/;
 			if (!reg.test(this.audit_data.zip)) {
 				$scope.audit_data.zip = '';
+				$scope.audit_data.state = ''
+				$scope.audit_data.city = '';
 			}
+			// auto populate city and state based on the zipcode
+			angular.forEach($scope.zipCodeData,function(val,key){
+				if($scope.audit_data.zip == val.Zip){
+					$scope.audit_data.city = val.PrimaryCity;
+					$scope.selectedData ='{"StateId":'+val.StateCode+',"StateName":"'+val.State+'"}';
+					$scope.audit_data.state = angular.fromJson($scope.selectedData);
+				}
+			});
 		}
 
 		//Lock added data and Move to next step
@@ -841,7 +895,8 @@ angular.module('npl')
 			if(!angular.isObject($scope.audit_data.customer) || Object.keys($scope.audit_data.customer).length == 0 || $scope.audit_data.customer.value == undefined ||  $scope.audit_data.customer.value == ''){$scope.audit_data.customer = ''; error = 1;};
 			if(!angular.isObject($scope.audit_data.foreman) || Object.keys($scope.audit_data.foreman).length == 0){$scope.audit_data.foreman = ''; error = 1;};
 
-			if($scope.assigned_employee == "") {
+			if($scope.assigned_employee == "" && $scope.audit_data.foreman == "") {
+			console.log($scope.assigned_employee);
 				$scope.global_error = "Please select employees"; error = 1;
 			};
 
@@ -850,8 +905,22 @@ angular.module('npl')
 				globalVarFactory.audit_form_data = $scope.audit_data;
 				globalVarFactory.assigned_employee = $scope.assigned_employee;
 				globalVarFactory.available_employee = $scope.available_employee;
-				$location.path('/new_audit/categories');
+				 
+				 globalVarFactory.foremanData =$scope.foremanData;
+				
+				if(globalVarFactory.final_audit_review=='false')
+				{
+					$location.path('/new_audit/categories');
+				}else
+				{
+					//alert(globalVarFactory.inProgressAuditID);
+					$scope.saveProgress();
+					//globalVarFactory.audit_form_data = $scope.audit_data;
+					$location.path('/summary');
+				}
+					
 			}
+			
 		}
 
 		//Save audit progress in local storage for future editing
@@ -911,6 +980,8 @@ angular.module('npl')
  */
 
 .controller('photoController', ['$scope','globalVarFactory','$location','Session','$route', function($scope,globalVarFactory,$location,Session,$route){
+	
+	$scope.version = globalVarFactory.version;
 	$scope.lastRefresh = localStorage.getItem('lastRefresh');
 	$scope.showEnlargePhoto = '';
 	$scope.isManager = 0;
@@ -1035,6 +1106,7 @@ angular.module('npl')
  */
 
 .controller('deficiencyPhotoController', ['$scope','globalVarFactory','$location','Session','$route','$routeParams', function($scope,globalVarFactory,$location,Session,$route,$routeParams){
+	$scope.version = globalVarFactory.version;
 	$scope.lastRefresh = localStorage.getItem('lastRefresh');
 
 	$scope.showEnlargePhoto = '';
@@ -1172,6 +1244,8 @@ angular.module('npl')
  */
 
 .controller('categoryController', ['$scope','$location', 'config','globalVarFactory','checkCategoryIndex','serviceData','Session', function($scope, $location,config,globalVarFactory, checkCategoryIndex,serviceData,Session){
+	
+	$scope.version = globalVarFactory.version;
 	$scope.lastRefresh = localStorage.getItem('lastRefresh');
 
 	//Check wheter previous step is completed or not
@@ -1329,6 +1403,7 @@ angular.module('npl')
  */
 
 .controller('subCategoryController', ['$scope', '$http', '$location', 'checkCategoryIndex','$modal','$sce', 'globalVarFactory','serviceData','$q','serviceAudit','Session', function($scope, $http, $location,checkCategoryIndex, $modal,$sce,globalVarFactory,serviceData,$q,serviceAudit,Session){
+	$scope.version = globalVarFactory.version;
 	$scope.lastRefresh = localStorage.getItem('lastRefresh');
 
 	if (globalVarFactory.audit_selected_category == "" ) {
@@ -1992,6 +2067,7 @@ angular.module('npl')
  */
 
 .controller('reviewController',['$http', '$scope', 'serviceData','serviceAudit','globalVarFactory','Session','$location','$sce', function($http, $scope, serviceData,serviceAudit,globalVarFactory, Session,$location,$sce) {
+	$scope.version = globalVarFactory.version;
 	$scope.lastRefresh = localStorage.getItem('lastRefresh');
 
 	var processing = 0;
@@ -2037,7 +2113,6 @@ angular.module('npl')
 			globalVarFactory.latLongPermission = 'set';
 		}
 	});
-
 
 	$scope.hideMessage = function(messageVar){
 		messageVar == 'global_success' ? $scope.global_success = '' : $scope.global_error = '';
@@ -2353,7 +2428,14 @@ angular.module('npl')
 
 	//Submit audit
 	$scope.submitAudit = function(){
-		if (processing == 0) {
+		alert($scope.jobLocation);
+		if($scope.jobLocation == ""){
+			//globalVarFactory.final_audit_review
+			globalVarFactory.final_audit_review='true';
+			alert("Please fill the job location to proceed");
+			$location.path("/new_audit");
+		}else if (processing == 0) 
+		{
 			processing = 1;
 			$scope.logData('Submit Audit');
 
@@ -2502,6 +2584,7 @@ angular.module('npl')
 
 // Logout User Session
 .controller('logoutController',['Session', '$location','serviceData','$route', function(Session, $location,serviceData,$route){
+	
 	if (Session.employeeID) {
 		var lastUsername = localStorage.getItem('lastUsername');
 		//serviceData.dropDatabase(function(){

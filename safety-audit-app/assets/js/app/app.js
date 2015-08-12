@@ -36,7 +36,7 @@
                   // route for the photos
                   .when('/photo', { templateUrl : 'pages/auditor/photo.html', controller  : 'photoController' , label : 'Photos' , data: { authorizedRoles: [USER_ROLES.auditor,USER_ROLES.manager] }})
 		  
-		  // route for the photos
+				  // route for the photos
                   .when('/deficiency_photo/:defID/:quesID', { templateUrl : 'pages/auditor/deficiency_photo.html', controller  : 'deficiencyPhotoController' , label : 'Photos' , data: { authorizedRoles: [USER_ROLES.auditor,USER_ROLES.manager] }})
                   
                   // route for the photos
@@ -45,7 +45,7 @@
                   // route for the admin
                   .when('/manage_audit', { templateUrl : 'pages/manager/audit_management.html', controller  : 'manageAuditController' , label : 'Audit Management' , data: { authorizedRoles: [USER_ROLES.manager] }})
                  
-		 //route for edit audit Page
+				//route for edit audit Page
                   .when('/edit_audit', { templateUrl : 'pages/manager/edit_audit.html', controller  : 'editAuditController' , label : 'Job Phase' , data: { authorizedRoles: [USER_ROLES.manager] }})
 				  
                   //route for edit categories Page

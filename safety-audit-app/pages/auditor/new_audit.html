@@ -11,51 +11,68 @@
 				<h3 class="h-16x text-red" ng-if="Lat != NAN && Lat != ''" >Lat / Long ({{Lat | lat}} , {{Long | lon}})</h3>
 				<h3 class="h-16x text-red" ng-if="Lat == '' " >Geolocation not found</h3>
 			</div>	
-		</div>
-		
+		</div>		
 		<div class="row">
-			<div class="medium-2 columns"><label>Audit Date</label></div>
-			<div class="medium-4 columns">
+			<div class="medium-2 columns "><label>Audit Date</label></div>
+			<div class="medium-4 columns audit-date">
 				<input type="text" name="audit_date" id="audit_date" class="form-control" ng-model="audit_data.audit_date" placeholder="Audit Date" data-date-format="MM/dd/yyyy" bs-datepicker autoclose="true" data-max-date="today">
 			</div>
-			<div class="medium-6 columns">&nbsp;</div>
+			<div class="medium-6 columns ">
+				<div class="medium-2 columns audit-label"><label>Audit Type</label></div>
+				<div class="medium-3 columns audit-dropdown" ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.audit_type)}">
+					<select name="audit_type" id="audit_type" ng-init="audit_data.audit_type='GAS'" required  ng-model="audit_data.audit_type" class="style" ng-change="onTypeUpdate();">
+						<option value="" >Select</option>
+						<option value="CONCR/ASPHALT">Concrete / Asphalt</option>
+						<option value="ELECTRIC" >Electric</option>
+						<option value="GAS" >Gas</option>
+						<option value="TRAFFIC" >Traffic</option>
+					</select>
+				</div>
+				<div class="medium-3 columns">
+					<div class="checkbox audit-postjob">
+						<input id="post_audit" name="post_audit" ng-model="audit_data.post_audit" type="checkbox" /><label for="post_audit">Post Job Audit</label>
+					</div>
+				</div>
+			</div>
 		</div>
-
 		<div class="row">
-			<div class="medium-2 columns"><label>Audit Type</label></div>
-			<div class="medium-3 columns" ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.audit_type)}">
-				<select name="audit_type" id="audit_type" ng-init="audit_data.audit_type='GAS'" required  ng-model="audit_data.audit_type" class="style" ng-change="onTypeUpdate();">
+			<div class="medium-2 columns"><label>Type of Work</label></div>
+			<div class="medium-3 columns medium-dropdown">
+				<select name="audit_type" id="audit_type" class="style">
 					<option value="" >Select</option>
-					<option value="CONCR/ASPHALT">Concrete / Asphalt</option>
-					<option value="ELECTRIC" >Electric</option>
-					<option value="GAS" >Gas</option>
-					<option value="TRAFFIC" >Traffic</option>
+					<option value="work1">work1</option>
+					<option value="work2">work2</option>
+					<option value="work3">work3</option>
+					
 				</select>
 			</div>
-			
-			<div class="medium-3 columns">
-				<div class="checkbox">
-					<input id="post_audit" name="post_audit" ng-model="audit_data.post_audit" type="checkbox" /><label for="post_audit">Post Job Audit</label>
-				</div>
+			<div class="medium-2 columns pipe-size-label"><label>Type of Pipe & Size </label></div>
+			<div class="medium-3 columns medium-dropdown">
+				<select name="audit_type" id="audit_type" class="style">
+					<option value="" >Select</option>
+					<option value="pipe/size1">pipe/size1</option>
+					<option value="pipe/size2">pipe/size2</option>
+					<option value="pipe/size3">pipe/size3</option>
+					
+					
+				</select>
 			</div>
 			<div class="medium-4 columns">&nbsp;</div>		
 		</div>
-		
 		<div class="row">
 			<div class="medium-2 columns"><label>Area</label></div>
-			<div class="medium-5 columns" ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.area_master)}" />
+			<div class="medium-10 columns" ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.area_master)}" />
 				<!--<select name = "area_master" ng-model="audit_data.area_master" ng-options="master.name for master in areaMaster track by master.id" required>-->
 				<select class="style" name = "area_master"  ng-change="onAreaUpdate()"  ng-model="audit_data.area_master" ng-options="master.AreaNum as master.AreaNum for master in areaMaster" required>
 					<option value="">Area</option>
 				</select>
 				
 			</div>
-			
 			<div class="medium-4 columns">&nbsp;</div>		
 		</div>	
 		<div class="row">
 			<div class="medium-2 columns"><label>Phase Number</label></div>
-			<div class="medium-5 columns" ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.phase_number)}">
+			<div class="medium-10 columns" ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.phase_number)}">
 				<!--ng-change="updatejobNumber();"-->
 				<input type="text" name="phase_number" ng-blur="updatejobNumber();" id="phase_number" class="form-control" ng-model="audit_data.phase_number" ng-options="phase_number for phase_number in phase_numbers" placeholder="Enter Phase Number" bs-typeahead autocomplete="off"  maxlength="12" ng-disabled="audit_data.area_master == ''" pattern="\d*" data-limit="11" required>
 			</div>
@@ -63,25 +80,22 @@
 		</div>
 		<div class="row">
 			<div class="medium-2 columns"><label>Job Number</label></div>
-			<div class="medium-5 columns" ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.job_number)}">
+			<div class="medium-10 columns" ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.job_number)}">
 				<!--<autocomplete name="job_number" id="job_number" ng-model="audit_data.job_number" data="job_number"  required></autocomplete>-->
-				<input type="text" name="job_number" id="job_number" class="form-control" ng-blur="onUpdateJobnumber();" ng-model="audit_data.job_number" ng-options="job_number as job_number for job_number in job_numbers" placeholder="Enter job Number" bs-typeahead autocomplete="off" maxlength="12" ng-disabled="audit_data.phase_number == ''" pattern="\d*" data-limit="7" required>
-				
+				<input type="text" name="job_number" id="job_number" class="form-control" ng-blur="onUpdateJobnumber();" ng-model="audit_data.job_number" ng-options="job_number as job_number for job_number in job_numbers" placeholder="Enter job Number" bs-typeahead autocomplete="off" maxlength="12" ng-disabled="audit_data.phase_number == ''" pattern="\d*" data-limit="7" required>	
 			</div>
 			<div class="medium-4 columns">&nbsp;</div>		
 		</div>
 		
 		<div class="row">
 			<div class="medium-2 columns"><label>Safety Manager</label></div>
-			<div class="medium-5 columns" ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.safetyManagers)}">
+			<div class="medium-10 columns" ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.safetyManagers)}">
 				<select class="style" name = "safetyManagers" id="safetyManagers"  ng-model="audit_data.safetyManagers" ng-options="employee.name for employee in safetyManagers track by employee.EmpNum" ng-disabled="audit_data.area_master == ''" required>
 					<option value="">Select SafetyManager</option>
 				</select>
-				
 			</div>
 			<div class="medium-4 columns">&nbsp;</div>		
-		</div>
-		
+		</div>		
 		<hr class="m-t0" />
 		
 		<div class="row">
@@ -96,7 +110,7 @@
 				<span ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.foreman)}">
 					<input type="text" name="foreman" id="foreman" class="form-control" ng-model="audit_data.foreman" data-min-length="0" data-html="1" ng-options="foreman as foreman.label for foreman in foremans" placeholder="Foreman/Leadman" bs-typeahead="typeahead" required autocomplete="off" ng-disabled="audit_data.area_master == ''" readonly="readonly">					
 				</span>
-				<label class="m-t0 m-b0 employees-selected">{{ assigned_employee.length }} Employees</label>
+				<label class="m-t0 m-b0 employees-selected">{{ assigned_employee.length + foremanData.length }} Employees</label>
 			</div>
 			<div class="medium-1 column"><span class="vline"></span></div>
 			<div class="medium-4 columns">
@@ -125,13 +139,20 @@
 				<input type="text" name="customer" id="customer" class="form-control" ng-model="audit_data.customer" data-min-length="0" data-html="1" ng-options="customer as customer.label for customer in customers" placeholder="Enter Customer" bs-typeahead="typeahead" required autocomplete="off" maxlength="12" ng-disabled="audit_data.area_master == ''">
 			</div>
 		</div>
-		 
-		<div class="row">
+		<div class="row" ng-if="final_audit_review=='false'">
 			<div class="medium-2 columns"><label>Job Location</label></div>
-			<div class="medium-10 columns" ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.job_location)}">
-				<input type="text" name="job_location" id="job_location" ng-model="audit_data.job_location" placeholder = "Location (alphabetical)" maxlength="150">
+			<div class="medium-10 columns" ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.job_location)}" >
+				<input type="text" name="job_location" id="job_location" ng-model="audit_data.job_location"   placeholder = "Location (alphabetical)" maxlength="150" >
 			</div>
-		</div>	
+		</div>
+		
+		<div class="row" ng-if="final_audit_review=='true'">
+			<div class="medium-2 columns"><label>Job Location</label></div>
+			 <div class="medium-10 columns" ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.job_location1)}" >
+				<input type="text" name="job_location1" id="job_location1" ng-model="audit_data.job_location" required  placeholder = "Location (alphabetical)" maxlength="150" >
+			</div>
+		</div>
+		
 		<div class="row">
 			<div class="medium-2 columns"><label>City</label></div>
 			<div class="medium-3 columns" ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.city)}">
@@ -147,7 +168,7 @@
 					</div>
 					<div class="medium-2 columns"><label>Zip</label></div>
 					<div class="medium-4 columns" ng-class="{'has-error': rc.auditForm.needsAttention(auditForm.zip)}">
-						<input type="text" name="zip" id="zip" ng-model="audit_data.zip" placeholder = "Zip (numeric)" maxlength="5" pattern="\d*" ng-blur="checkZip();">
+						<input type="text" name="zip" id="zip" ng-model="audit_data.zip" placeholder = "Zip (numeric)" ng-options="zipCodeData.Zip as zipCodeData.Zip for zipCodeData in zipCodeData" bs-typeahead autocomplete="off" maxlength="5" pattern="\d*" ng-blur="checkZip();">
 					</div>
 				</div>
 			</div>
@@ -166,7 +187,6 @@
 			<div class="medium-6 columns">&nbsp;</div>
 		</div>
 	</div>
-
 	<footer id="footer">
 		<div class="row">
 			<div class="medium-2 columns">
@@ -175,10 +195,10 @@
 				
 			</div>
 			<div class="medium-7 columns">&nbsp;</div>
-			<div class="medium-3 columns">
+			<div class="medium-3 columns" >
 				<input type="submit" name="submit_audit" id="submit_audit" value="next" class="button medium" />
-				
 			</div>
+		
 		</div>	
 	</footer>
 	

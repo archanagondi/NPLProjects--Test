@@ -1,7 +1,10 @@
    <div id="header" ng-class="isIOS7 == 1 ? 'ios7' : '';" ng-include="src='pages/auditor/breadcrumbs.html'" ></div>
     <div class="title">
       <h1>Safety Audit Control</h1>
-      
+     
+              <div class="medium-4 columns new-audit-button">
+                      <button ng-click="addAudit();" class="button blue">New Audit</button>
+              </div>
       <div class="row">
               <div class="medium-4 columns">
                       <select class="style m-t15" ng-model="filter_options"  ng-change="filter_audit_list()">
@@ -12,10 +15,13 @@
                               <option value="Completed" >Completed</option>
                       </select>
               </div>
-              <div class="medium-4 columns">&nbsp;</div>
-              <div class="medium-4 columns">
-                      <button ng-click="addAudit();" class="button blue">New Audit</button>
+			   <div class="medium-4 columns">
+                      <select class="style m-t15">
+                              <option value="" >select Foreman</option>
+                             
+                      </select>
               </div>
+             
       </div>
       
     </div>
@@ -27,6 +33,7 @@
                     <div class="medium-2 columns"><span>{{ audit.AuditDateTime | date:'MM/dd/yyyy' }}</span></div>
                     <div class="medium-3 columns"><span>{{ audit.WorkLocation }}</span></div>
                     <div class="medium-3 columns"><span ng-if="audit.DefCount != null"> {{ audit.DefCount }} Deficiency </span><span ng-if="audit.DefCount == null"> 0 Deficiency </span></div>
+				
             </div>
     </div>
 

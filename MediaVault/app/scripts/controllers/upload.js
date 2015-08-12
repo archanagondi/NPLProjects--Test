@@ -10,6 +10,7 @@
 
 angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservices,Uploaddata, $window, $filter, $scope, $state, localRecord, access, $rootScope, loadAppData, $http, $q) {
     
+	$scope.hidevideo=false;
 	$rootScope.showorhide=false;
 	$scope.hidedata=true;
 	$rootScope.videoimagepath='';
@@ -96,7 +97,11 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
     {
         if(type == 'video') 
 		{
-            navigator.device.capture.captureVideo(captureVideoSuccess, captureVideoError, {duration: 30});
+			navigator.device.capture.captureVideo(captureVideoSuccess, captureVideoError, {duration: 30});
+			$scope.hidedata = false;
+			$scope.hideimage = false;
+			$scope.hidevideo = '';
+			$scope.hidevideo=true;
         } else 
 		{
             navigator.camera.getPicture(onSuccess, onFail,
@@ -104,9 +109,10 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
 			destinationType: Camera.DestinationType.DATA_URL,
 			saveToPhotoAlbum:true
 			});
-			$scope.hidedata=false;
-			$scope.hideimage='';
-			$scope.hideimage=true;
+			$scope.hidevideo=false;
+			$scope.hidedata = false;
+            $scope.hideimage = '';
+            $scope.hideimage = true;
         }
         /* Image capture success */
         function onSuccess(imageData) 
@@ -133,6 +139,7 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
 			{
                 saveVideoFile(mediaFiles[i]);
             }
+			
         }
         /* save video file */
         function saveVideoFile(mediaFile) 
@@ -140,8 +147,9 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
             $window.alert(mediaFile.fullPath);
             save_video_locally(mediaFile.fullPath);
         }
-        function save_video_locally(video_file) 
-		{
+        
+		 function save_video_locally(video_file)
+        {
             //$window.alert('inside save video filel' + video_file)
             var stamp = new Date().getTime();
             var folder = imagesfoldername;
@@ -151,16 +159,29 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
                 //$window.alert('new...' + fs.root.toURL() + folder + '/' + currentImageUrl)
                 var fileTransfer = new FileTransfer();
                 var vppath = 'file://' + video_file;
-               //$window.alert('old path' + vppath);
+                //$window.alert('old path' + vppath);
                 fileTransfer.download(vppath, imagePath, function(entry) {
-                   //$window.alert('::: success' + entry.fullPath); 
-				  $rootScope.videoimagepath=entry.fullPath;
-				//alert($rootScope.videoimagepath);
-                },function(error) {
-				//$window.alert('error' + error.code);
+                    
+                    //$window.alert('::: success' + entry.fullPath); 
+                    $rootScope.videoimagepath = entry.fullPath;
+					$("#continue-btn").removeAttr('disabled');
+                    //alert($rootScope.videoimagepath);
+                    $scope.video = document.getElementById('myVideo');
+                    if (vppath.substring(0, 21) === 'content://com.android')
+                    {
+                        var photo_split = vppath.split("%3A");
+                        vppath = 'content://media/external/video/media/' + photo_split[1];
+                    }
+                    $scope.VideoURI = vppath;
+                    $scope.video.src = $scope.VideoURI;
+                    $scope.apply();
+                    
+                }, function(error) {
+                    //$window.alert('error' + error.code);
                 });
             });
         }
+		
         /* error when video capture */
         function captureVideoError(error) 
 		{
@@ -172,17 +193,26 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
     /* Gallery */
     $scope.gallery = function(type)
     {
+		
         if (type == 'video') 
 		{
             navigator.camera.getPicture(galVideoSuccess, galVideoFail, {
                 sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
                 mediaType: Camera.MediaType.VIDEO
             });
+			$scope.hidedata = false;
+            $scope.hideimage = false;
+		   
+		   $scope.hidevideo=true;
         } else {
             navigator.camera.getPicture(onGalSuccess, onGalFail, {quality: 5,
                 destinationType: Camera.DestinationType.DATA_URL,
                 sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
             });
+			$scope.hidedata = false;
+            $scope.hideimage = true;
+		   
+		   $scope.hidevideo=false;
         }
 
         function onGalSuccess(imageData) 
@@ -191,9 +221,12 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
             var image = document.getElementById('uploaded-image');
             image.src ="data:image/jpeg;base64,"+imageData;
             $rootScope.uploadimage ="data:image/jpeg;base64,"+imageData;
-			$scope.hidedata=false;
-			$scope.hideimage=true;
-			
+			/* $scope.hidedata=false;
+			$scope.hideimage=true; */
+			$scope.hidedata = false;
+            $scope.hideimage = true;
+		   $scope.hidevideo = '';
+		   $scope.hidevideo=false;
 			//alert($scope.isDisabled);
 			$("#continue-btn").removeAttr('disabled');
 			 $("#uploaded-image").load();
@@ -205,15 +238,22 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
         }
         function galVideoSuccess(VideoURI) 
 		{
+			$("#continue-btn").removeAttr('disabled');
             $scope.video = document.getElementById('myVideo');
             if (VideoURI.substring(0, 21) === 'content://com.android') 
 			{
                 var photo_split = VideoURI.split("%3A");
                 VideoURI = 'content://media/external/video/media/' + photo_split[1];
             }
+				
+				$scope.hidedata = false;
+			   $scope.hidevideo=true;
+			 //  $scope.hidevideo = '';
+				$scope.hideimage = false
             $scope.VideoURI = VideoURI;
             $scope.video.src = $scope.VideoURI;
             $scope.apply();
+			
         }
         function galVideoFail() 
 		{
@@ -226,10 +266,11 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
 		$(".upload-imgsmall,.upload-img").attr("src","");
 		$scope.hidedata=true;
 		$scope.hideimage=false;	
+		$scope.hidevideo=false;
 		$scope.responsestatus = {};
 		$scope.isDisabled = false;
-		//$("#continue-btn").attr('disabled','disabled');
-		$("#continue-btn").removeAttr('disabled');
+		$("#continue-btn").attr('disabled','disabled');
+		//$("#continue-btn").removeAttr('disabled');
     };
     $scope.continuee = function() 
 	{
@@ -276,8 +317,7 @@ angular.module('MediaVault').controller('uploadCtrl', function(LABELS,coreservic
 		{
             //alert("failure" + error.code);
         }  
-		
-$scope.back = function()
+	$scope.back = function()
 	{
         $scope.uploadpage = true;
         $scope.uploaddtl = false;
@@ -300,7 +340,7 @@ $scope.back = function()
 		$scope.hidedata=true;
 		$scope.hideimage=false;	
 		$rootScope.uploadimage="//:0";
-		
+		$rootScope.videoimagepath="";
 		$(".upload-imgsmall").attr("src","");
 		$(".upload-img").attr("src","");
         $scope.ziptext = false;
@@ -361,11 +401,10 @@ $scope.back = function()
 		else{
 		$scope.uploadformFulldata=[];
 		}
-		 //window.resolveLocalFileSystemURI($rootScope.uploadimage, resolveOnSuccess, resOnError);
-		
+		//window.resolveLocalFileSystemURI($rootScope.uploadimage, resolveOnSuccess, resOnError);
 		//alert($rootScope.uploadimage);
 		console.log($scope.uploadformFulldata+"hai");
-		uploaddata = new Uploaddata($scope.uploadformFulldata.length,$scope.areaSelect,$scope.jobUpload,$scope.phaseUpload,$scope.dateUpload,$scope.dprUpload,$scope.streetUpload,$scope.cityUpload,$scope.zipcodeUpload,$scope.NotesUpload,$rootScope.keywordsUpload,$rootScope.imgname,$rootScope.uploadimage,'pending');
+		uploaddata = new Uploaddata($scope.uploadformFulldata.length,$scope.areaSelect,$scope.jobUpload,$scope.phaseUpload,$scope.dateUpload,$scope.dprUpload,$scope.streetUpload,$scope.cityUpload,$scope.zipcodeUpload,$scope.NotesUpload,$rootScope.keywordsUpload,$rootScope.imgname,$rootScope.uploadimage,'pending',$rootScope.structures,$rootScope.conditions,$rootScope.entities);
 		$scope.uploadformFulldata.push(uploaddata);		
 		localRecord.save('uploaddata',angular.toJson($scope.uploadformFulldata));
 		$rootScope.queuelist = angular.fromJson(localRecord.get('uploaddata').uploaddataCode);
@@ -379,8 +418,7 @@ $scope.back = function()
     $scope.getgeoloactiondata = function()
     {
         $scope.geocity = [];
-
-        angular.forEach($scope.localcitydata, function(value) {
+		angular.forEach($scope.localcitydata, function(value) {
             if (value.Zip === $scope.zipcodeUpload) 
 			{
                 $scope.geo = [];

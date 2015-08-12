@@ -27,6 +27,7 @@ ul,li{list-style:none; padding:0px; margin:0px;}
 .minus-ml-50{ margin-left:-50px}
 .fl{ float-left}
 .fr{ float-right}
+.new-audit-button{float:right;} /*place new audit button at top right */
 /************* Header/Breadcrumbs *****************/
 #header{position:fixed; width:100%; z-index:9999; top:0;}
 .breadcrumbs{background:#343434; display:block; padding:1rem; color:#ffffff; height:50px; width:100%;z-index:99999; }
@@ -93,7 +94,7 @@ input[type=radio]:checked + label:before{content:"\2022";}
 .aside.left a{display:block; padding:20px 0px;}
 .aside.left .aside-header{padding:19px 20px 20px !important; background:none !important; border-bottom:0px !important;}
 .aside.left .button{margin-top:20px;}
-
+.aside.left .aside-version{margin-top:60%;text-align:center;}
 /************* Login *****************/
 #loginForm{width:80%; margin:100px auto 0px auto;}
 .fieldgroup{background:#fafafa; border-radius:7px; border:2px solid #b0b0b0; margin:0 auto;}

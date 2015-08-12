@@ -20,7 +20,6 @@ angular.module('npl')
     AuditJobData = {},
     areaData = [];
     
-    
   /**
     * @ngdoc
     * @name npl.service:serviceAudit#haveConnection
@@ -31,7 +30,8 @@ angular.module('npl')
     *
     */
   
-  function haveConnection() {
+  function haveConnection() 
+  {
     return !navigator.connection || navigator.connection.type !== Connection.NONE;
   }  
     

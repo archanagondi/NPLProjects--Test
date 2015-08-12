@@ -63,20 +63,46 @@ $('#search-tab').click(function()
 
     // selected fruits
     $scope.selection = [];
+    $rootScope.structures = [];
+    $rootScope.conditions = [];
+    $rootScope.entities = [];
     $rootScope.selectedKeywords = [];
 
     // toggle selection for a given fruit by name
-    $scope.toggleSelection = function toggleSelection(keyword) 
+    $scope.toggleSelection = function toggleSelection(keyword,categoryId) 
 	{
+		//var tableId = $(this).closest("table").find(".keyword-modal").attr(id);
+		//alert(categoryId);
+		
+		
         var idx = $scope.selection.indexOf(keyword);
-
+        var idx_structure = $rootScope.structures.indexOf(keyword);
+        var idx_conditions = $rootScope.conditions.indexOf(keyword);
+        var idx_entities = $rootScope.entities.indexOf(keyword);
+		
         // is currently selected
-        if (idx > -1) {
+        if (idx > -1) {	
             $scope.selection.splice(idx, 1);
+			if(categoryId == "Structures"){
+			$rootScope.structures.splice(idx_structure,1);
+		}else if(categoryId == "Condition"){
+			$rootScope.conditions.splice(idx_conditions,1);
+		}else if(categoryId == "Entities"){
+			$rootScope.entities.splice(idx_entities,1);
+		
+		}
         }
         // is newly selected
         else {
             $scope.selection.push(keyword);
+		if(categoryId == "Structures"){
+			$rootScope.structures.push(keyword);
+		}else if(categoryId == "Condition"){
+			$rootScope.conditions.push(keyword);
+		}else if(categoryId == "Entities"){
+			$rootScope.entities.push(keyword);
+		
+		}
         }
         $rootScope.selectedKeywords = $scope.selection;
     };
@@ -104,6 +130,8 @@ $('#search-tab').click(function()
 	  //alert('this is the upload keyword part ');
 	  
 	} 
+
+	
 	};
     //date
     $scope.model = {};
@@ -140,13 +168,13 @@ $('#search-tab').click(function()
 		alert($rootScope.url);
 	/* 	$rootScope.folderdetails = angular.fromJson(localRecord.get('folderdata').folderdataCode);
 
-	$scope.folderld = $rootScope.folderdetails.data.folderId;
-	$scope.folderName = $rootScope.folderdetails.data.folderName;
+			$scope.folderld = $rootScope.folderdetails.data.folderId;
+			$scope.folderName = $rootScope.folderdetails.data.folderName;
 			$scope.fileld='DWEEDE474HUBEJ4JC2WNQVJ2TOY6UH'; */
 			coreservices.filedelete($rootScope.accesstoken,$rootScope.url).then(function(deletedresponse)
 			{
-				$scope.download=angular.toJson(deleteresponse);
-				console.log($scope.download+'hello this is download ');
+				$scope.deletedfile=angular.toJson(deletedresponse);
+				console.log($scope.deletedfile+'hello this is download ');
 			}).catch(function(response)
 			{
 				alert("this file is already deleted");

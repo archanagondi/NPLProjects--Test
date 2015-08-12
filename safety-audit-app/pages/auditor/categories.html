@@ -6,14 +6,12 @@
 		<h1>Categories</h1>
 	</div>
 	<hr class="m-b0" />
-	
 	<div class="list-category">
 		<ul>
 			<!--<li ng-repeat="category in categories" id="{{category.PKAuditCategoryID}}" ng-class="getCategoryIndex(category) != -1 ? 'active' : 'inactive';"  ng-click="select_category();">-->
 			<li ng-repeat="category in categories" id="{{category.PKAuditCategoryID}}" ng-class="getCategoryIndex(category);"  ng-click="select_category();">
 				<i ng-if="getCategoryIndex(category) != 'inComplete'" ng-class="getCategoryIndex(category) == 'active' ? 'fa fa-check-circle' : (getCategoryIndex(category) == 'inactive' ? 'fa fa-minus-circle' : 'fa fa-ban')"></i> {{category.Description}}
 			</li>
-			
 		</ul>
 	</div>
 	<footer id="footer">
