@@ -1,0 +1,95 @@
+
+    <div class="row">
+    		<div class="large-12 medium-12 columns">
+		<div class="title">
+		<h1>Gas Audit</h1>
+		<span class="h-26x">|</span>
+		<h3 class="font-light">Deficiencies</h3>
+</div>
+</div>
+</div>
+<hr />
+	
+<div class="pad-rl40">
+	<h3 class="h-20x text-red">5' Shoring/Sloping</h3>
+	
+	<div class="row">
+		<div class="medium-3 columns">
+			<label>Reference Number</label>
+		</div>
+		<div class="medium-5 columns">
+			<input type="text" />
+		</div>
+		<div class="medium-4 columns">&nbsp;</div>
+	</div>
+	
+	
+	<div class="list-row">
+		<div class="title">Name</div>
+		<ul>
+			<li ng-repeat="employee in assignedEmployees " >{{employee.name}}<a href="javascript:void(0);" ng-click="move(employee, assigned_employee, available_employee)"><i class="fa fa-pencil"></i></a></li>
+			
+		</ul>
+	</div>
+	
+	
+	
+	<div class="row">
+		<div class="medium-6 columns">
+			<div class="checkbox">
+				<input type="checkbox" id="job-site" />
+				<label for="job-site">Job Site Correction</label>
+			</div>
+		</div>
+		<div class="medium-3 columns">&nbsp;</div>
+		<div class="medium-3 columns"><a href="#" class="button medium gray"><i class="fa fa-times"></i> Take Photo</a></div>
+	</div>	
+	
+	
+	
+	<div class="row">
+		<div class="medium-5 columns">
+			<label class="m-b0">NPL Employee</label>
+			<select name ="area_master"  ng-model="nplEmployee" ng-options="employee.name for employee in nplEmployees track by employee.id">
+					<option value="">Area Employee</option>
+		        </select>
+		</div>
+		<div class="medium-2 columns"><span class="vline"></span></div>
+		<div class="medium-5 columns">
+			<label class="m-b0">Vendor</label>
+			<input type="text" name="vendor" id="vendor" class="form-control" ng-model="vendor" data-min-length="0" data-html="1" data-animation="am-flip-x" ng-options="vendor as vendor.VendorName for vendor in vendors" placeholder="Enter Vendor" bs-typeahead="typeahead" required>
+			<label class="m-b0">Vendor Employee</label>
+			<input type="text" />			
+		</div>
+	</div>
+	
+	
+	
+	
+	<hr class="m-t0" />
+	
+	<div class="row">
+		<div class="medium-3 columns"><a href="#/photo" class="button medium blue"><i class="fa fa-picture-o"></i> View Photos (1)</a></div>
+		<div class="medium-3 columns"><a href="#" class="button medium blue"><i class="fa fa-camera"></i> Take Photo</a></div>
+		<div class="medium-6 columns">&nbsp;</div>
+	</div>	
+	<div class="row">
+		<div class="medium-12 columns">
+			<label class="m-b0">Notes</label>
+			<textarea></textarea>
+		</div>
+	</div>
+
+</div>
+
+<footer>
+	<div class="row">
+		<div class="medium-2 columns">
+			<a href="javascript:void(0);"  ng-click="$hide();" class="button medium gray">Back</a>
+		</div>
+		<div class="medium-7 columns">&nbsp;</div>
+		<div class="medium-3 columns">
+			<a href="javascript:void(0);"  ng-click="$hide();" class="button medium">Done</a>
+		</div>
+	</div>	
+</footer>

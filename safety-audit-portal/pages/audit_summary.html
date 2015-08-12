@@ -1,0 +1,308 @@
+    <div ng-include="src='pages/breadcrumbs.html'"></div>
+<div class="audit-summary">	
+    <div class="row">
+    	<div class="large-6 medium-9 columns">
+			<div class="title">
+				<h1>Audit Review Portal</h1>
+				<span class="h-26x">|</span>
+				<h3 class="font-light" ng-if="isAuditSummaryTab==1">Audit Information</h3>
+				<h3 class="font-light" ng-if="isDeficienciesTab==1">Deficiencies</h3>
+				<h3 class="font-light" ng-if="isCorrectiveActionTab==1">Corrective Action</h3>
+			</div>
+		</div>
+		
+		<div class="large-6 medium-3 columns" ng-if="isAuditSummaryTab==1">
+		    <div class="text-right m-t10" ng-if="audit_detail.auditData.FKAuditStatusID != '4'">
+			<a ng-if="enableCompleteButton" ng-click="setAuditCompleteStatus(audit_detail.auditData.PKAuditID)" class="button inline blue">COMPLETE AUDIT</a>
+		    </div>
+		</div>
+		<div class="large-6 medium-3 columns" ng-if="isDeficienciesTab==1">
+			<div class="deficiencies-nav">
+				<a href="javascript:void(0)" ng-click="preDeficiency(currentDeficiency)" ng-if="currentDeficiency > 1"><i class="icon-chevron-left"></i></a> 
+					{{ currentDeficiency }} of {{audit_detail.deficiencyData.length}}
+				<a href="javascript:void(0)" ng-click="nextDeficiency(currentDeficiency, audit_detail.deficiencyData.length)" ng-if="currentDeficiency < audit_detail.deficiencyData.length"><i class="icon-chevron-right"></i></a>
+			</div>
+		</div>
+	</div>
+	
+	
+
+<!-- Start audit summary -->
+<div ng-if="isAuditSummaryTab==1">
+<section>
+	<div class="pad-rl40">
+		<div class="audit-summary">
+		<div id="content-small">
+			<div class="row">
+				<div class="medium-6 columns"><h3 class="h-16x">Audit Date: {{ audit_detail.auditData.AuditDateTime  | date:'MM/dd/yyyy'}}</h3></div>
+				<div class="medium-6 columns"><h3 class="h-16x">Status: <span class="text-red">{{audit_detail.auditData.AuditStatus}}</span></h3> </div>
+			</div>
+			<div class="row">
+				<div class="medium-6 columns"><h3 class="h-16x">Post Job Audit : <span>{{ postAudit}}</span></h3></div>
+				<div class="medium-6 columns"><h3 class="h-16x">Safety Manager: <span>{{safetyManagerName}}</span></h3> </div>
+			</div>
+			<div class="row">
+				<div class="medium-6 columns"><h3 class="h-16x">Area: <span>{{audit_detail.auditData.FKAreaID}} - {{audit_detail.auditData.City}}</span></h3></div>
+				<div class="medium-6 columns"><h3 class="h-16x">Auditor: <span>{{auditorName}}</span></h3> </div>
+			</div>
+			<div class="row">
+				<div class="medium-6 columns"><h3 class="h-16x">Job Number: <span> {{audit_detail.auditData.JobNumber}}</span></h3></div>
+				<div class="medium-6 columns"><h3 class="h-16x">Supervisor: <span>{{supervisorName}}</span></h3></div>
+			</div>
+			<div class="row">
+			    <div class="medium-6 columns"><h3 class="h-16x">Foreman: <span>{{formanName}} </span></h3></div>
+			    <div class="medium-6 columns"><h3 class="h-16x">One-call Ticket #: <span>{{one_call_ticket}}</span></h3></div>
+			</div>
+			<div class="row">
+				<div class="medium-6 columns"><h3 class="h-16x">Customer: <span>{{customerName}}</span></h3></div>
+				<div class="medium-6 columns"><h3 class="h-16x">Location: <span>{{audit_detail.auditData.WorkLocation}} {{audit_detail.auditData.City}}, {{stateName}} &nbsp;{{audit_detail.auditData.Zipcode}}</span></h3></div>
+				
+			</div>
+			<div class="row">
+				<div class="medium-6 columns"><h3 class="h-16x">Number of Employees: <span>{{audit_detail.employeeData.length}}</span></h3></div>
+				<div class="medium-6 columns"><h3 class="h-16x">Number of Photos: <span>{{totalPhotosCount}}</span></h3></div>
+			</div>
+		</div>
+	</div>
+	</div>
+</section>			
+			
+		<div class="row">
+			<div class="large-12 medium-12 columns">
+			<h3 class="h-22x m-b0 text-red deficiency-button" ng-click="showDeficiencies(audit_detail.deficiencyData.length)">{{audit_detail.deficiencyData.length}} Deficiencies &gt;</h3>
+		    <div id="tabs">
+			    <ul>
+				    <li ng-repeat="tab in tabs" ng-class="{active:isActiveTab(tab.url)}" ng-click="onClickTab(tab)">{{tab.title}}</li>
+			    </ul>
+			    <div id="mainView">
+					<div ng-include="currentTab"></div>
+			    </div>
+		    </div>
+			    <script type="text/ng-template" id="one.tpl.html">
+					<div id="viewOne"><p>{{audit_detail.auditData.Comments}}</p></div>
+			    </script>
+			    <script type="text/ng-template" id="two.tpl.html">
+					<div id="viewTwo"><p ng-repeat="employeeList in empDataWithName"><span>{{employeeList.empName}} &nbsp; {{employeeList.JobTitle}}</span></p></div>
+			    </script>
+			    <script type="text/ng-template" id="three.tpl.html">
+					<div id="viewThree">{{Photos}}
+						<div class="carousel-outer" ng-if="groupedSlides.length>0">
+							<div ng-controller="CarouselController" set-ng-animate="false">
+							  <carousel interval="myInterval" disable-animation="true">
+								<slide ng-repeat="slideCollection in groupedSlides" active="slide.active">
+								  <div>
+									<img ng-click="showLargeImage(image.image);" ng-repeat="image in slideCollection" ng-src="{{image.image}}" style="margin:auto;">   
+								  </div>
+								</slide>
+							  </carousel>
+							</div>
+						</div>					
+					</div>
+			    </script>
+		</div>
+		</div>
+	</div>
+	</div>
+</div>
+
+	<!-- Start footer -->
+	<footer ng-if="isAuditSummaryTab==1">
+		<div class="row">
+			<div class="medium-2 columns">
+				<a href="{{back_page}}" class="button medium gray">Back</a>
+			</div>
+			<div class="medium-7 columns">&nbsp;</div>
+		</div>	
+	</footer>
+	<!-- End footer -->
+	
+	<!-- End audit summary -->
+	
+	<!-- Start audit deficiency -->
+	<div ng-show="isDeficienciesTab==1" ng-repeat="deficiencyList in audit_detail.deficiencyData">
+		<div class="audit-deficiency" ng-if="currentDeficiency==$index+1">
+<section>	
+			<div class="row">
+				<div class="large-10 medium-9 columns">
+				  <div class="row">
+					<div class="large-2 medium-3 column">
+					  <h3 class="h-16x">Ref #:</h3>
+					</div>
+					<div class="large-10 medium-9 columns">
+					  <h3 class="h-16x"><span>{{ deficiencyList.RefNumber }}</span></h3>
+					</div>
+				  </div>
+				  <div class="row">
+					<div class="large-2 medium-3 column">
+					  <h3 class="h-16x">Category:</h3>
+					</div>
+					<div class="large-10 medium-9 columns">
+					  <h3 class="h-16x"><span>{{deficiencyList.Category}}</span></h3>
+					</div>
+				  </div>
+				  <div class="row">
+					<div class="large-2 medium-3 column">
+					  <h3 class="h-16x">Sub Category:</h3>
+					</div>
+					<div class="large-10 medium-9 columns">
+					  <h3 class="h-16x"><span>{{ deficiencyList.SubCategory }}</span></h3>
+					</div>
+				  </div>
+				  <div class="row">
+					<div class="large-2 medium-3 columns">
+					  <h3 class="h-16x">Sub sub Category:</h3>
+					</div>
+					<div class="large-10 medium-9 columns">
+					  <h3 class="h-16x"><span>{{ deficiencyList.Question }}</span></h3>
+					</div>
+				  </div>
+				</div>
+				<div class="large-2 medium-3 columns">
+					<div class="text-center">
+						<h3 class="h-20x text-underline"><strong>Corrective Action</strong></h3>
+						<h3 class="h-16x text-red"><span ng-repeat="correctiveList in audit_detail.correctiveActionData | filter:{deficiency_id:deficiencyList.PKAuditReqCategoryDeficientID}">{{correctiveList.corrective_action}}<br>  </span></h3>
+						<span ng-if="!(audit_detail.correctiveActionData | filter:{deficiency_id:deficiencyList.PKAuditReqCategoryDeficientID}).length">
+							    <span class="text-red">Not Set</span>
+							    <a href="javascript:void(0)" ng-if="auditStatusId==3" class="button blue m-t10" ng-click="showCorrectiveAction(deficiencyList.PKAuditReqCategoryDeficientID)">SET ACTION</a>
+						</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="large-10 medium-9 columns">
+				  <div class="row">
+					<div class="large-2 medium-3 column" ng-init="getDeficiencyEmployeeName(deficiencyList.FKEmployeeID)">
+					  <h3 class="h-16x">Employee:</h3>
+					</div>
+					<div class="large-10 medium-9 columns">
+					  <h3 class="h-16x"><span ng-if="deficiencyList.FKEmployeeID != '' && deficiencyList.FKEmployeeID != null">{{deficiencyEmployeeName}}</span><span ng-if="deficiencyList.FKEmployeeID == '' || deficiencyList.FKEmployeeID == null"> {{deficiencyList.VendorEmployeeName}} ({{deficiencyList.VendorName}})</span></h3>
+					</div>
+				  </div>
+				  <div class="row">
+					<div class="large-2 medium-3 column">
+					  <h3 class="h-16x">Notes:</h3>
+					</div>
+					<div class="large-10 medium-9 columns">
+					  <h3 class="h-16x"><span>{{deficiencyList.Notes}}</span></h3>
+					</div>
+				  </div>
+				 </div>
+				 
+				<div class="large-2 medium-3 columns"></div>
+		  </div>
+		  
+		   <div class="row">
+					<div class="large-1 medium-2 column">
+					  <h3 class="h-16x">Photos:</h3>
+					</div>
+					<div class="large-11 medium-10 columns">
+					  <h3 class="h-16x"><span>{{ deficiencyList.Photos }}</span></h3>
+					  <div ng-init="defSlideCollection(deficiencyList.PKAuditReqCategoryDeficientID)">
+					  <div class="carousel-outer" ng-if="groupedDeficiencySlides.length>0"><div>
+						<div ng-controller="CarouselController" set-ng-animate="false">
+						  <carousel interval="myInterval" disable-animation="true">
+							<slide ng-repeat="slideCollection in groupedDeficiencySlides" active="slide.active">
+							  <div>
+								<img ng-click='showLargeImage(image.image);' ng-repeat="image in slideCollection" ng-src="{{image.image}}" style="margin:auto;">   
+							  </div>
+							</slide>
+						  </carousel>
+						</div>
+					</div>	  
+					</div>
+					</div>
+				  </div>
+				</div>
+		  
+</section>	
+		</div>		
+	</div>
+	
+	<!-- Start footer -->
+	<footer ng-if="isDeficienciesTab==1">
+		<div class="row">
+			<div class="medium-2 columns">
+				<a ng-click="goToBack('isAuditSummaryTab')" class="button medium gray">Back</a>
+			</div>
+			<div class="medium-7 columns">&nbsp;</div>
+		</div>	
+	</footer>
+	<!-- End footer -->
+	
+	<!-- End audit deficiency -->
+	
+	<!-- Start audit corrective actions -->
+	<div class="corrective-action" ng-if="isCorrectiveActionTab==1">
+	<section>
+		<div id="content-small">
+		<form id="correctiveActionForm" name="correctiveActionForm" method="post" rc-submit="submitCorrectiveAction(correctiveActionData)" action="" novalidate>
+			<div class="audit-corrective checkbox">
+				<div class="row">
+					<div class="medium-6 columns">
+					<input type="checkbox"  ng-class="{'has-error': rc.correctiveActionData.needsAttention(correctiveActionForm.training)}" ng-model="correctiveActionData.training" name="training" id="training" ng-true-value="1" ng-false-value="0"  />
+					<label for="training">Training</label>
+					</div>
+					<div class="medium-6 columns">
+					<input type="checkbox"  ng-class="{'has-error': rc.correctiveActionData.needsAttention(correctiveActionForm.repairEquipment)}" ng-model="correctiveActionData.repairEquipment" name="repairEquipment" id="repairEquipment" ng-true-value="2" ng-false-value="0"/>
+					<label for="repairEquipment">Repaired/Replaced Equipment</label></div>
+				</div>
+				<div class="row">
+					<div class="medium-6 columns">
+					<input type="checkbox" ng-class="{'has-error': rc.correctiveActionData.needsAttention(correctiveActionForm.verbalWarning)}" ng-model="correctiveActionData.verbalWarning" name="verbalWarning" id="verbalWarning" ng-true-value="3" ng-false-value="0"/>
+					<label for="verbalWarning">Coaching</label></div>
+					<div class="medium-6 columns">
+					<input type="checkbox"  ng-class="{'has-error': rc.correctiveActionData.needsAttention(correctiveActionForm.writtenWarning)}" ng-model="correctiveActionData.writtenWarning" name="writtenWarning" id="writtenWarning" ng-true-value="4" ng-false-value="0" />
+					<label for="writtenWarning">Personnel Action</label></div>
+				</div>
+				<div class="row">
+					<div class="medium-12 columns">
+					<input type="checkbox"  ng-class="{'has-error': rc.correctiveActionData.needsAttention(correctiveActionForm.other)}" ng-model="correctiveActionData.other" name="other" id="other" ng-true-value="5" ng-false-value="0" />
+					<label for="other">Other (note required)</label></div>
+				</div>			
+				<div class="row">
+					<div class="medium-12 columns"><h3 class="h-16x"><textarea name="note" ng-model="correctiveActionData.note" placeholder="Enter your note..."></textarea></h3></div>
+					
+					
+			<div class="text-right">
+				<a href="javascript:void(0)" class="button medium gray" ng-click="showDeficiencies(1)">CANCEL</a>
+				<input class="button medium" type="submit" ng-disabled="isClicked" value="Save" />
+			</div>
+				</div>		
+			</div>
+		</form>
+		</div>
+	</section>
+	</div>
+	<!-- End audit corrective actions -->
+
+	<!-- Start footer -->
+	<footer ng-if="isCorrectiveActionTab==1">
+		<div class="row">
+			<div class="medium-2 columns">
+				<a href="javascript:void(0)" class="button medium gray" ng-click="showDeficiencies(1)">Back</a>
+			</div>
+			<div class="medium-7 columns">&nbsp;</div>
+		</div>	
+	</footer>
+	<!-- End footer -->
+</div>
+
+<div ng-if="isDesktop" ng-show="showEnlargePhoto != ''" class="photo-thumb popup big-img" >
+       <div class="item">
+           <img pinch-zoom-desktop src="{{LargeImage}}" /> 
+	</div>
+    <div class="icons" style="float;right;">
+               <a href="javascript:void(0);" ng-click="hideLargeImage();"  title="Expand Image"><i class="fa fa-expand"></i></a>
+           </div>
+</div>       
+
+<div ng-if="!isDesktop" ng-show="showEnlargePhoto != ''" class="photo-thumb popup big-img" >
+       <div class="item">
+           <img pinch-zoom-ipad src="{{LargeImage}}" /> 
+	</div>
+    <div class="icons" style="float;right;">
+               <a href="javascript:void(0);" ng-click="hideLargeImage();"  title="Expand Image"><i class="fa fa-expand"></i></a>
+           </div>
+</div>       
+<div class="overlay" ng-show="showEnlargePhoto  != ''" ng-click="hideLargeImage();"></div>

@@ -1,0 +1,26 @@
+<div class="msg alert" ng-if="global_process != ''"><i class="fa fa-spinner fa-spin"></i>{{global_process}}</div>
+ <div class="row">
+      <div class="large-2 medium-2 columns">&nbsp;</div>
+      <div class="large-8 medium-8 columns">
+      
+          <div class="text-center m-t50">
+                  <img src="assets/images/logo.png" />
+          </div>
+          
+          <h1 class="text-center h-26x m-t50">Audit Review Portal</h1>
+          <h2 class="text-center h-20x">Version 1.1.0</h2>
+          <form id="loginForm" name="loginForm" method="post" action="" rc-submit="login(credentials)" novalidate>
+            <label class="errors" ng-if="login_message">{{ login_message }}</label>
+              <div class="fieldgroup">
+                      <label for="username" class="h-24x">Username</label>
+                      <span ng-class="{'has-error': rc.loginForm.needsAttention(loginForm.username)}"><input name="username" id="username" ng-model="credentials.username" type="text" required /></span>
+                      <hr />
+                      <label for="password" class="h-24x">Password</label>
+                      <span ng-class="{'has-error': rc.loginForm.needsAttention(loginForm.password)}"><input name="password" id="password" ng-model="credentials.password" type="password" required /></span>
+              </div>
+                  
+              <input class="button" type="submit" value="Log In" />	
+          </form>
+      </div>
+      <div class="large-2 medium-2 columns">&nbsp;</div>
+  </div>

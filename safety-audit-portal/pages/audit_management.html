@@ -1,0 +1,96 @@
+   <div ng-include="src='pages/breadcrumbs.html'"></div>
+
+<div class="audit-manager">
+    <div class="row">
+    		<div class="large-12 medium-12 columns">
+			<div class="title text-center"><h1>Audit Review Portal</h1></div>
+			<h3 class="text-red m-t0 m-b0 h-18x">Filter by</h3>
+		</div>
+	</div>
+
+<div class="head">
+    <div class="row select-box">
+			  <div class="large-2 medium-2 columns">
+				<label>Period</label>
+				<div class="selectParent">
+                <select ng-model="filter_period"  ng-change="filter_audit_list()">
+					  <option value="" >Show All</option>
+					  <option value="7" >Last 7 Days</option>
+					  <option value="15">Last 15 Days</option>
+					  <option value="30">Last 30 Days</option>
+				</select>
+                </div>
+                
+			  </div>
+
+			  <div class="large-4 medium-4 columns">
+			  	<label>Status</label>
+                <div class="selectParent">
+			  	<select ng-model="filter_status"  ng-change="filter_audit_list()">
+					  <option value="" >Show All</option>
+					  <option value="2">Awaiting Safety Manager</option>
+					  <option value="3">Awaiting Correction Action</option>
+					  <option value="4" >Completed</option>
+				</select>
+              </div>
+              </div>	
+              <div class="large-2 medium-2 columns">
+			  	<label>Type</label>
+                <div class="selectParent">
+				<select ng-model="filter_type"  ng-change="filter_audit_list()">
+					  <option value="" >Show All</option>
+					  <option value="CONCR/ASPHALT">Concrete / Asphalt</option>
+					  <option value="GAS">Gas</option>
+					  <option value="ELECTRIC" >Electric</option>
+					  <option value="TRAFFIC" >Traffic</option>
+				</select>
+                </div>
+              </div>
+              <div class="large-4 medium-4 columns">
+			  	<label>Foreman</label>
+                <div class="selectParent">
+				<!--ng-options="foreman.formanEmployeeName for foreman in forman_list track by foreman.FKForemanID" -->
+			  	<select ng-model="filter_foreman"  ng-change="filter_audit_list()">
+					  <option value="" >Show All</option>
+					  <option ng-repeat="foreman in forman_list track by foreman.FKForemanID" value="{{foreman.FKForemanID}}">{{foreman.formanEmployeeName}}</option>
+				</select>
+                </div>
+			  </div>
+              
+    </div>
+</div>
+
+    <div class="row">
+    		<div class="large-10 medium-10 columns">
+			<h2 class="h-20x text-gray text-italic">{{audit_list.length}} audits displayed <a ng-click="filter_audit_list();" title="Refresh Grid"><i ng-class="global_process != '' ? 'fa fa-refresh fa-spin' : 'fa fa-refresh' "></i></a></h2>
+		</div>
+		
+	</div>
+    <div class="row">
+	<div class="large-12 medium-12 columns">
+	
+	    <table class="tbl">
+		    <tr>
+				<th class="first"><div class="wrapper"><strong>Audit</strong><span ng-click="reverse = predicate == 'AuditNum' && !reverse; predicate = 'AuditNum'" ng-class="predicate == 'AuditNum' && reverse ?  'k-i-arrow-s' : 'k-i-arrow-n'" class="k-icon" ></span></div></th>
+				<th><div class="wrapper"><strong>Audit Date</strong><span class="k-icon" ng-click="reverse = predicate == 'AuditDateTime' && !reverse; predicate = 'AuditDateTime'" ng-class="predicate == 'AuditDateTime' && reverse ? 'k-i-arrow-s' :  'k-i-arrow-n'" ></span></div></th>
+				<th><div class="wrapper"><strong>Type</strong><span class="k-icon" ng-click="reverse = predicate == 'AuditType' && !reverse; predicate = 'AuditType'" ng-class="predicate == 'AuditType' && reverse ?  'k-i-arrow-s' : 'k-i-arrow-n'" ></span></div></th>
+				<th><div class="wrapper"><strong># Defs</strong><span class="k-icon" ng-click="reverse = predicate == 'DefCount' && !reverse; predicate = 'DefCount'" ng-class="predicate == 'DefCount' && reverse ?  'k-i-arrow-s' : 'k-i-arrow-n'" ></span></div></th>
+				<th><div class="wrapper"><strong>Foreman</strong><span class="k-icon" ng-click="reverse = predicate == 'formanEmployeeName' && !reverse; predicate = 'formanEmployeeName'" ng-class="predicate == 'formanEmployeeName' && reverse ? 'k-i-arrow-s' :  'k-i-arrow-n'" ></span></div></th>
+				<th><div class="wrapper"><strong>Customer & Location</strong><span class="k-icon" ng-click="reverse = predicate == 'customerName' && !reverse; predicate = 'customerName'" ng-class="predicate == 'customerName' && reverse ? 'k-i-arrow-s' :  'k-i-arrow-n'" ></span></div></th>
+				<th class="last"><div class="wrapper"><strong>Status</strong><span class="k-icon" ng-click="reverse = predicate == 'AuditStatus' && !reverse; predicate = 'AuditStatus'" ng-class="predicate == 'AuditStatus' && reverse ? 'k-i-arrow-s' :  'k-i-arrow-n'" ></span></div></th>
+		    </tr>
+			<tr ng-repeat="audit in audit_list | orderBy: predicate:reverse" on-finish-render>
+				<td ng-click="auditDetail(audit.PKAuditID, audit.AuditStatus)" class="first"><span>{{ audit.AuditNum }}</span></td>
+				<td ng-click="auditDetail(audit.PKAuditID, audit.AuditStatus)"><span>{{ audit.AuditDateTime | date:'MM/dd/yy' }}</span></td>
+				<td ng-click="auditDetail(audit.PKAuditID, audit.AuditStatus)"><span ng-if="audit.AuditType !== 'CONCR/ASPHALT'">{{ audit.AuditType }}</span><span ng-if="audit.AuditType === 'CONCR/ASPHALT'">CONCRETE / ASPHALT</span></td>
+				<td ng-click="auditDetail(audit.PKAuditID, audit.AuditStatus)"><span>{{ audit.DefCount }}</span></td>
+				<td ng-click="auditDetail(audit.PKAuditID, audit.AuditStatus)"><span>{{ audit.formanEmployeeName }}</span></td>
+				<td ng-click="auditDetail(audit.PKAuditID, audit.AuditStatus)"><span>{{audit.customerName}} <br/> {{audit.WorkLocation}}</span></td>
+				<td ng-click="auditDetail(audit.PKAuditID, audit.AuditStatus)" class="last"><span>{{ audit.AuditStatus }}</span></td>
+			</tr>
+	    </table>
+	</div>
+    </div>
+
+    
+</div>

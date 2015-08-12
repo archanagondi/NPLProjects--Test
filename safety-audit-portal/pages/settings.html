@@ -1,0 +1,48 @@
+<div ng-include="src='pages/breadcrumbs.html'"></div>
+
+    <div class="row">
+    		<div class="large-12 medium-12 columns">
+		<div class="title">
+		<h1>Settings</h1>
+	</div>
+</div></div>
+	<hr />
+	<form id="settings" name="settings" method="POST" action="" rc-submit="update_settings(settingData)"  novalidate >
+          <div class="pad-rl40">
+                  
+                          
+    <div class="row">
+    		<div class="large-3 columns">&nbsp;</div>
+                        <div class="large-6 columns">  
+				    
+				    <div class="row">
+                          <div class="medium-2 columns"><label>Username</label></div>
+                          <div class="medium-10 columns" ng-class="{'has-error': rc.auditForm.needsAttention(settingData.username)}" >
+                                  <input type="text" id="username" name="username" ng-model="settingData.username" required >
+                          </div>
+                 		 </div>	
+                  <div class="row">
+                          <div class="medium-2 columns"><label>Password</label></div>
+                          <div class="medium-10 columns" ng-class="{'has-error': rc.auditForm.needsAttention(settingData.user_password)}">
+                                  <input type="text" name="user_password" id="user_password" ng-model="settingData.user_password" required>
+                          </div>
+                  </div>
+                  <div class="row">
+                                  <div class="medium-2 columns"></div>
+                                  <div class="medium-2 columns"><input type="submit" name="submit_settings" id="submit_settings" value="Done" class="button medium" /></div>
+                          
+                  </div>
+		</div>
+    		<div class="large-3 columns">&nbsp;</div>
+		</div>
+		</div>
+          <footer>
+                  <div class="row">
+                          <div class="medium-2 columns">
+                                  <a href="#/"  class="button medium gray">Back</a>
+                          </div>
+                          <div class="medium-7 columns">&nbsp;</div>
+                          
+                  </div>	
+          </footer>
+	</form>
