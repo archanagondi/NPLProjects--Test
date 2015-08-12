@@ -8,7 +8,7 @@ angular.module('npl')
          * Application Logging Service to give us a way of logging 
          * error / debug statements from the client to the server.
          */
-        .factory( "applicationLoggingService", ["$log","$window","$http","config",function($log, $window,$http,config){
+        .factory("applicationLoggingService", ["$log","$window","$http","config",function($log, $window,$http,config){
                 
                 return({
                     error: function(message){
@@ -106,7 +106,6 @@ angular.module('npl')
 						 //serviceData.setUser(response_data.displayName);
 					},
 					function(resp) {
-						console.log(resp);
 						if (resp && !resp.data) {
 							resp.data = 'An error has occurred, but we\'re not quite sure what\'s wrong. ' +
 							'Try checking your Internet connection and restarting Mobile Time.';
@@ -237,13 +236,16 @@ angular.module('npl')
          */
         
         .factory('globalVarFactory', function ($http, Session, config,serviceData,$q) {
-          
+       
                 return{
                       
 		      reset : function(){
+				 this.version = config.version; // to display version in left menu 
+				this.final_audit_review='false',
 		      	this.audit_date = "",
 				this.audit_form_data = "",  
 				this.assigned_employee  = [],
+				this.foremanData  = [],
 				this.latitude = '',
 				this.longitude = '',
 				this.available_employee = [],
@@ -274,6 +276,8 @@ angular.module('npl')
 				this.jobSitePhotoID = [],
 				this.edit_in_progress = 0;
 		      },
+					  final_audit_review:'false',
+					  version:config.version,
                       audit_form_data : "",  
                       assigned_employee  : [],
 		      latitude : 0.00,

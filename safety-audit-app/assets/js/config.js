@@ -25,7 +25,7 @@ angular.module('npl')
     prd: {
       text: 'Production',
       server: 'https://api2.gonpl.com',
-      dataServer : 'https://api.gonpl.com/v1'
+      dataServer : 'https://api3.gonpl.com'
     },
     dev: {
       text: 'Development',
@@ -58,7 +58,7 @@ angular.module('npl')
    * @name npl.service:Config#version
    * @description Shows the current version number of the app.
    */
-  this.version = '1.3.0' //!!version!!
+  this.version = '1.3.0' //!!version!! 
 
   /**
    * @ngdoc

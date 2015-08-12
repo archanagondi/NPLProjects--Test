@@ -4,15 +4,13 @@
 
 		<span class="last-refresh" ng-if="lastRefresh">{{lastRefresh}}</span>
 	</header>
- 
 	<div class="breadcrumbs">
 		<span ng-repeat="breadcrumb in breadcrumbs.get() track by breadcrumb.path" ng-class="{ active: $last }">
 		  <a ng-if="!$last" href="javascript:void(0);" ng-click="goToBreadcrumb(breadcrumb.path)" ng-bind="breadcrumb.label" class="margin-right-xs"></a>
 		  <i ng-if="!$last" class="fa fa-angle-right"></i>
 		  <span ng-if="$last" ng-bind="breadcrumb.label"></span>
 		</span>
-	</div>
-	
+	</div>	
 	<script type="text/ng-template" id="menu.html">
 		<div class="aside" tabindex="-1" role="dialog" style="z-index:99999">
 		   <h1>Menu</h1>
@@ -21,12 +19,14 @@
 			<li><a href="#/">Home</a></li>
 			<li ng-if= "showAccountSwitching == 1"><a href="javascript:void(0);" ng-click="switchUserAccount()">Switch to {{switchTo}} Account</a></li>
 			<li><a href="#logout">Logout</a></li>
+			<li><a href="#/">Feedback</a></li>
+			<li><a href="#/">What's New</a></li>
 		   </ul>
 		   <a href="javascript:void(0);" class="button" ng-click="$hide();">close</a>
+		   <ul class="aside-version"><li><a href="#/">Version {{version}}</a></li></ul>
 		</div>
 		</div>
 	</script>
-	
 	<br>
 	<!--<div class="errors" ng-if="global_error != ''">{{global_error}}</div>-->
 	<div class="msg alert" ng-click="hideMessage('global_error');" ng-show="global_error != '' "><i class="fa fa-warning"></i>{{global_error}}</div>
